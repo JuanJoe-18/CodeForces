@@ -1,0 +1,1 @@
+{"name":"Local: Promo","url":"/home/juanjoe18/Escritorio/CodeForces/Daily_2/Promo.cpp","tests":[{"id":1759793417192,"input":"5 3\n5 3 1 5 2\n3 2\n1 1\n5 3","output":"8\n5\n6"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/juanjoe18/Escritorio/CodeForces/Daily_2/Promo.cpp","group":"local","local":true}

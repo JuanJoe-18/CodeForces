@@ -1,0 +1,23 @@
+{
+  "fonts": [
+    {
+      "id": "dekko",
+      "family": "Dekko",
+      "subsets": [
+        "devanagari",
+        "latin",
+        "latin-ext"
+      ],
+      "styles": [
+        "normal"
+      ],
+      "weights": [
+        400
+      ],
+      "isActive": true
+    }
+  ],
+  "interfaceFonts": [],
+  "textFonts": [],
+  "monospaceFonts": []
+}

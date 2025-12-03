@@ -1,0 +1,1 @@
+{"name":"Local: Counting_divisors","url":"/home/juanjoe18/IdeaProjects/CodeForces/src/CSES/Counting/Counting_divisors.cpp","tests":[{"id":1756269106476,"input":"3\n16\n17\n18","output":"5\n2\n6"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/juanjoe18/IdeaProjects/CodeForces/src/CSES/Counting/Counting_divisors.cpp","group":"local","local":true}

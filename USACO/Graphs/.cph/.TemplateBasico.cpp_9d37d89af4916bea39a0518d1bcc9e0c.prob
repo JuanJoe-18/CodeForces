@@ -1,0 +1,1 @@
+{"name":"Local: TemplateBasico","url":"/home/juanjoe18/Escritorio/CodeForces/USACO/Graphs/TemplateBasico.cpp","tests":[{"id":1761454258928,"input":"5 5\n1 4\n1 2\n2 3\n2 5\n3 5","output":"2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/juanjoe18/Escritorio/CodeForces/USACO/Graphs/TemplateBasico.cpp","group":"local","local":true}
