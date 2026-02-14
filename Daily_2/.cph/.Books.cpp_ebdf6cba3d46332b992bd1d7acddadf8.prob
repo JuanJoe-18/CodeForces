@@ -1,1 +1,0 @@
-{"name":"Local: Books","url":"/home/juanjoe18/Escritorio/CodeForces/Daily_2/Books.cpp","tests":[{"id":1761142125893,"input":"4 5\n3 1 2 1","output":"3"},{"id":1761142309459,"input":"3 3\n2 2 3","output":"1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/juanjoe18/Escritorio/CodeForces/Daily_2/Books.cpp","group":"local","local":true}

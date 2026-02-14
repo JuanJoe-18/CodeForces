@@ -1,1 +1,0 @@
-{"name":"Local: Exponentiation_I","url":"/home/juanjoe18/IdeaProjects/CodeForces/src/CSES/Math/Exponentiation_I.cpp","tests":[{"id":1756331513824,"input":"3\n3 4\n2 8\n123 123","output":"81\n256\n921450052"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/juanjoe18/IdeaProjects/CodeForces/src/CSES/Math/Exponentiation_I.cpp","group":"local","local":true}

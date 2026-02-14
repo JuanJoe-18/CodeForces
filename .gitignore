@@ -26,5 +26,24 @@ bin/
 ### VS Code ###
 .vscode/
 
+### C++ ###
+*.exe
+*.o
+*.obj
+*.out
+*.bin
+.cph/
+
+### Java ###
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
 ### Mac OS ###
 .DS_Store
+
+### Others ###
+Books/

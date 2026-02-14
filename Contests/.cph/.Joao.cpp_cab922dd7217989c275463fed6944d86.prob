@@ -1,1 +1,0 @@
-{"name":"Local: Joao","url":"/home/juanjoe18/Escritorio/CodeForces/Contests/Joao.cpp","tests":[{"id":1760402624801,"input":"1 3 4 1 3 4 1 3 4 1","output":"1"},{"id":1760402700266,"input":"4 1 1 4 3 1 2 1 2 2","output":"0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/juanjoe18/Escritorio/CodeForces/Contests/Joao.cpp","group":"local","local":true}

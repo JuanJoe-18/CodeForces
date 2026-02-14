@@ -1,0 +1,223 @@
+{
+  "main": {
+    "id": "34280fe0ade9bc00",
+    "type": "split",
+    "children": [
+      {
+        "id": "8054a4c54e2a1801",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8c74a004db9638fd",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "CockForces/CockForces/Cses/Range Queries.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "Range Queries"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a1900865b7f14746",
+    "type": "split",
+    "children": [
+      {
+        "id": "e435c700df7f17e2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fb7af2e0be4edd57",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "e2657b0241d8cff8",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "24e8c8a94dc64e64",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "c5fd473f37a997ff",
+    "type": "split",
+    "children": [
+      {
+        "id": "55080c355eb92b8b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "95589134dc806416",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "CockForces/CockForces/Daily/Retos-Día.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Retos-Día"
+            }
+          },
+          {
+            "id": "b27903c78fccac9e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "CockForces/CockForces/Daily/Retos-Día.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Retos-Día"
+            }
+          },
+          {
+            "id": "d9adee237825c4ca",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "40370583a9fee5a2",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "c75ba79aa22c2416",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "CockForces/CockForces/Halim/Estructuras de datos.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Estructuras de datos"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-excalidraw-plugin:New drawing": false
+    }
+  },
+  "active": "59afef538ce7edb7",
+  "lastOpenFiles": [
+    "CockForces/CockForces/Cses/Range Queries.md",
+    "CockForces/CockForces/Cses",
+    "CockForces/CockForces/Daily/Retos-Día.md",
+    "CockForces/CockForces/Usaco/Bronze.md",
+    "CockForces/CockForces/Ladder 17 Progress/Dibujos.md",
+    "CockForces/CockForces/Beauty permutation.md",
+    "CockForces/CockForces/Halim/Estructuras de datos.md",
+    "CockForces/CockForces/Usaco/Gold.md",
+    "CockForces/CockForces/Genral Porpose.md",
+    "CockForces/CockForces/DP.md",
+    "CockForces/CockForces/Usaco/Silver.md",
+    "CockForces/CockForces/Usaco/Simulation",
+    "CockForces/CockForces/Math Category.md",
+    "CockForces/CockForces/Usaco",
+    "Untitled.canvas",
+    "CockForces/CockForces/Untitled.md",
+    "CockForces/CockForces/Graphs.md",
+    "CockForces/CockForces/S2.md",
+    "CockForces/CockForces/Daily/Untitled.md",
+    "CockForces/Images/Pasted Image 20250901171844_465.png",
+    "CockForces/University/Discrete Math/Drawing 2025-09-14 18.25.54.excalidraw.md",
+    "CockForces/CockForces/Sorting.md",
+    "CockForces/Images/Pasted image 20250908180041.png",
+    "CockForces/2025-10-10.md",
+    "CockForces/Operaciones.md",
+    "Books/Complejidades.png",
+    "Books/{419C6DC6-87BC-4A8B-B7B5-71807C405AC7}.png",
+    "CockForces/CockForces/Halim/Propiedades Bitwise.md",
+    "CockForces/CockForces/Halim",
+    "CockForces/Pasted Image 20251006150418_947.png",
+    "CockForces/Untitled 4.base",
+    "CockForces/Untitled 1.base",
+    "CockForces/Pasted Image 20251126231059_952.png",
+    "Books/cpp.pdf"
+  ]
+}

@@ -1,1 +1,0 @@
-{"name":"Local: CountingRooms","url":"/home/juanjoe18/Escritorio/CodeForces/CSES/Graph/CountingRooms.cpp","tests":[{"id":1761456781769,"input":"5 8\n########\n#..#...#\n####.#.#\n#..#...#\n########","output":"3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/juanjoe18/Escritorio/CodeForces/CSES/Graph/CountingRooms.cpp","group":"local","local":true}
