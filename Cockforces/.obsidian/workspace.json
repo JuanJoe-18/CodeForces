@@ -8,15 +8,29 @@
         "type": "tabs",
         "children": [
           {
-            "id": "8c74a004db9638fd",
+            "id": "82fb486bb7be55e0",
             "type": "leaf",
             "state": {
-              "type": "excalidraw",
+              "type": "split-diff-view",
               "state": {
-                "file": "CockForces/CockForces/Cses/Range Queries.md"
+                "aFile": "Cockforces/.obsidian/workspace.json",
+                "bFile": "Cockforces/.obsidian/workspace.json",
+                "aRef": ""
               },
-              "icon": "excalidraw-icon",
-              "title": "Range Queries"
+              "icon": "diff",
+              "title": "Diff: workspace.json  (Working Tree)"
+            }
+          },
+          {
+            "id": "f706b30caec0163d",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.11.7"
+              },
+              "icon": "lucide-book-up",
+              "title": "Release Notes 1.11.7"
             }
           }
         ]
@@ -162,14 +176,23 @@
               "icon": "lucide-list",
               "title": "Outline of Estructuras de datos"
             }
+          },
+          {
+            "id": "2a54c434e5c4803e",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -180,12 +203,24 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "obsidian-excalidraw-plugin:New drawing": false
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "59afef538ce7edb7",
+  "active": "2a54c434e5c4803e",
   "lastOpenFiles": [
+    "CockForces/Untitled 9.base",
+    "CockForces/Untitled 6.base",
+    "CockForces/Untitled 7.base",
+    "CockForces/Untitled 8.base",
+    "CockForces/Untitled 4.base",
+    "CockForces/Untitled 3.base",
+    "CockForces/Untitled 1.base",
     "CockForces/CockForces/Cses/Range Queries.md",
+    "Universidad/Drawing 2026-02-17 18.59.05.excalidraw.md",
+    "Nuevo Documento de texto.txt",
+    "Pasted Image 20260217203127_841.png",
+    "Universidad",
     "CockForces/CockForces/Cses",
     "CockForces/CockForces/Daily/Retos-Día.md",
     "CockForces/CockForces/Usaco/Bronze.md",
@@ -198,7 +233,6 @@
     "CockForces/CockForces/Usaco/Silver.md",
     "CockForces/CockForces/Usaco/Simulation",
     "CockForces/CockForces/Math Category.md",
-    "CockForces/CockForces/Usaco",
     "Untitled.canvas",
     "CockForces/CockForces/Untitled.md",
     "CockForces/CockForces/Graphs.md",
@@ -213,11 +247,7 @@
     "Books/Complejidades.png",
     "Books/{419C6DC6-87BC-4A8B-B7B5-71807C405AC7}.png",
     "CockForces/CockForces/Halim/Propiedades Bitwise.md",
-    "CockForces/CockForces/Halim",
     "CockForces/Pasted Image 20251006150418_947.png",
-    "CockForces/Untitled 4.base",
-    "CockForces/Untitled 1.base",
-    "CockForces/Pasted Image 20251126231059_952.png",
-    "Books/cpp.pdf"
+    "CockForces/Pasted Image 20251126231059_952.png"
   ]
 }

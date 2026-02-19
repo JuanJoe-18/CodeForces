@@ -1,0 +1,7 @@
+# Archivos de sistema y caché
+.DS_Store
+node_modules/
+
+# Configuración local de Obsidian que suele dar conflictos
+.obsidian/workspace.json
+.obsidian/graph.json
