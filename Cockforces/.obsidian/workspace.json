@@ -30,9 +30,45 @@
               "icon": "excalidraw-icon",
               "title": "Sistemas de Numeracion"
             }
+          },
+          {
+            "id": "225610e705c38215",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.12.7"
+              },
+              "icon": "lucide-book-up",
+              "title": "Registro de cambios 1.12.7"
+            }
+          },
+          {
+            "id": "51bbcda7d9ec4259",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "CockForces/CockForces/Cses/Trees.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "Trees"
+            }
+          },
+          {
+            "id": "774d7c1b6636af53",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "CockForces/CockForces/Cses/Math.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "Math"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -207,8 +243,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "d7599a3e3d8795ca",
+  "active": "774d7c1b6636af53",
   "lastOpenFiles": [
+    "CockForces/CockForces/Cses/Trees.md",
+    "CockForces/CockForces/Cses/Math.md",
+    "CockForces/CockForces/Cses/Drawing 2026-04-02 22.36.15.excalidraw.md",
+    "CockForces/CockForces/Cses/Range Queries.md",
+    "CockForces/University/S5/Arquitectura/Sistemas de Numeracion.md",
     "CockForces/Operaciones.md",
     "CockForces/CockForces/Graphs.md",
     "CockForces/CockForces/Math Category.md",
@@ -216,7 +257,6 @@
     "CockForces/CockForces/Daily/Drawing 2026-02-28 00.37.46.excalidraw.md",
     "CockForces/CockForces/Daily/Retos-Día.md",
     "CockForces/CockForces/Sin título.md",
-    "CockForces/University/S5/Arquitectura/Sistemas de Numeracion.md",
     "CockForces/CockForces/Contests/Nationals.md",
     "CockForces/University/S5/Arquitectura/Lecturas.md",
     "Pasted Image 20260219223606_423.png",
@@ -237,7 +277,6 @@
     "CockForces/University/S5",
     "CockForces/University/S4",
     "CockForces/Untitled 9.base",
-    "CockForces/CockForces/Cses/Range Queries.md",
     "Pasted Image 20260217203127_841.png",
     "CockForces/CockForces/Usaco/Bronze.md",
     "CockForces/CockForces/Ladder 17 Progress/Dibujos.md",
@@ -248,10 +287,7 @@
     "Untitled.canvas",
     "CockForces/CockForces/Untitled.md",
     "CockForces/CockForces/S2.md",
-    "CockForces/CockForces/Daily/Untitled.md",
     "CockForces/Images/Pasted Image 20250901171844_465.png",
-    "CockForces/University/S4/Discrete Math/Drawing 2025-09-14 18.25.54.excalidraw.md",
-    "CockForces/CockForces/Sorting.md",
     "CockForces/Images/Pasted image 20250908180041.png",
     "Books/Complejidades.png",
     "Books/{419C6DC6-87BC-4A8B-B7B5-71807C405AC7}.png"
