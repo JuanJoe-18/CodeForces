@@ -31,8 +31,36 @@ bin/
 *.o
 *.obj
 *.out
+*.pdb
+*.ilk
+*.dll
+*.a
+*.lib
 *.bin
+bin
+bin/
 .cph/
+
+# Ejecutables de C++
+*.exe
+*.out
+*.o
+
+# Archivos pesados/temporales de Obsidian
+.obsidian/workspace.json
+.obsidian/cache/
+.obsidian/indexed-intervals
+.obsidian/plugins/obsidian-git/data.json
+
+# Otros
+node_modules/
+.DS_Store
+
+# Libros y archivos pesados
+Books/
+*.pdf
+*.epub
+*.mobi
 
 ### Java ###
 *.class
@@ -45,6 +73,3 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-### Others ###
-Books/
-Cockforces/

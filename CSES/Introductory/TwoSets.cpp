@@ -1,14 +1,35 @@
 #include<bits/stdc++.h>
 using namespace std;
-int main(){
+int main() {
 	int n;
 	cin >> n;
-	vector<int> a(n);
-	vector<int> sum (n);
-	sum[0] = a[0]; 
-	for(int i = 1; i<=n ; i++) a.push_back(i);
+	int size = n-1;
+	vector<int> s1;
+	vector<int> s2;
+	int x = 0;
 
-	for(int i = 1; i<n ; i++) sum[i] = sum[i-1] + a[i];
-	for(int i = 0; i<n ; i++) cout << a[i] << endl;
+	int s = n*(n+1)/2;
+	if (!s%2) {
+		cout << "NO"<< endl;
+		return 0;
+	}
+
+	for (int i = 1, j = n-1; i <= n-1 && j >= 1; i++,j--) {
+		if (size == 0) break;
+		if (x % 2) {
+			s1.push_back(i);
+			s1.push_back(j);
+			x++;
+			size-=2;
+		} else {s2.push_back(i);
+			s2.push_back(j);
+			x++;
+			size-=2;
+		}
+	}
+
+
+
+
 	return 0;
 }

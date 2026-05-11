@@ -4,4 +4,6 @@ node_modules/
 
 # Configuración local de Obsidian que suele dar conflictos
 .obsidian/workspace.json
+.obsidian/cache/
 .obsidian/graph.json
+
