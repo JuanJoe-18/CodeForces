@@ -1,31 +1,32 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-int main(){
-	int t; cin >> t;
-	while(t--){
-		int n; cin >> n;
-		vector<int> a(n);
-		for (int i = 0; i<n; ++i) cin >> a[i]; 
-	
-		int l =0, r = n-1;
-		while (l != r) {
-			if (a[l] >= a[r]) swap(a[l],a[r]);	
-			l++;
-			l--;
-		}
-		
-		bool stop = false;
-	
-		for (int i = 1; i<n; ++i){
-			if (a[i] < a[i-1]) {
-				stop = true;
-			}
-		}
-		
-		cout << (stop ? "no":"yes") << endl;
-	}
 
-	
-	
-	return 0;
+int main() {
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int n;
+    cin >> n;
+    map<int, int> freq;
+    
+    for (int i = 0; i < 3 * n; ++i) {
+        int x;
+        cin >> x;
+        freq[x]++;
+    }
+
+    bool carlinhos_wins = false;
+
+    for (auto const& par : freq) {
+        if (par.second % 3 != 0) {
+            carlinhos_wins = true;
+            break;
+        }
+    }
+
+    if (carlinhos_wins) {
+        cout << "Y" << endl;;
+    } else {
+        cout << "N" << endl;
+    }
+
+    return 0;
 }

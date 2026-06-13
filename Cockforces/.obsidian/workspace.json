@@ -97,10 +97,10 @@
             "state": {
               "type": "excalidraw",
               "state": {
-                "file": "CockForces/CockForces/Cses/Math.md"
+                "file": "CockForces/CockForces/Daily/DailyD.md"
               },
               "icon": "excalidraw-icon",
-              "title": "Math"
+              "title": "DailyD"
             }
           }
         ],
@@ -279,9 +279,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c2f3a92c789baa2b",
+  "active": "fb7af2e0be4edd57",
   "lastOpenFiles": [
-    "CockForces/CockForces/Daily/Drawing 2026-02-28 00.37.46.excalidraw.md",
+    "CockForces/CockForces/Cses/Math.md",
+    "CockForces/CockForces/Daily/DailyD.md",
     "CockForces/CockForces/Daily/Retos-Día.md",
     "CockForces/University/S5/Arquitectura/Lecturas.md",
     "Pasted Image 20260514205845_688.png",
@@ -294,7 +295,6 @@
     "CockForces/CockForces/Cses/Drawing 2026-05-11 08.55.41.excalidraw.md",
     "Pasted Image 20260511091611_877.png",
     "CockForces/CockForces/Cses/Graphs.md",
-    "CockForces/CockForces/Cses/Math.md",
     "goog.jpeg",
     "CockForces/CockForces/Cses/Trees.md",
     "Pasted Image 20260504233623_139.png",
