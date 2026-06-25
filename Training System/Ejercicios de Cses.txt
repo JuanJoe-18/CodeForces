@@ -1,0 +1,824 @@
+CSES Problem Set
+Tasks Statistics Hacks
+General
+Introduction
+Create new account
+Statistics
+Introductory Problems
+Weird Algorithm
+168538 / 176180
+Missing Number
+145584 / 152285
+Repetitions
+126605 / 131457
+Increasing Array
+119253 / 123305
+Permutations
+104636 / 107696
+Number Spiral
+74137 / 80516
+Two Knights
+57086 / 58806
+Two Sets
+62074 / 66522
+Bit Strings
+70797 / 74588
+Trailing Zeros
+65671 / 69731
+Coin Piles
+58334 / 63570
+Palindrome Reorder
+54242 / 57131
+Gray Code
+36869 / 41198
+Tower of Hanoi
+34305 / 35628
+Creating Strings
+45716 / 46845
+Apple Division
+46281 / 52009
+Chessboard and Queens
+28124 / 28603
+Raab Game I
+6615 / 7472
+Mex Grid Construction
+6442 / 6768
+Knight Moves Grid
+6485 / 6633
+Grid Coloring I
+5456 / 5648
+Digit Queries
+19790 / 22778
+String Reorder
+4895 / 5625
+Grid Path Description
+11061 / 14230
+Sorting and Searching
+Distinct Numbers
+83532 / 90008
+Apartments
+62586 / 69019
+Ferris Wheel
+60137 / 64538
+Concert Tickets
+48294 / 55852
+Restaurant Customers
+49118 / 52838
+Movie Festival
+47543 / 50216
+Sum of Two Values
+55217 / 61490
+Maximum Subarray Sum
+52932 / 55175
+Stick Lengths
+47362 / 49433
+Missing Coin Sum
+36081 / 37348
+Collecting Numbers
+36938 / 39404
+Collecting Numbers II
+15966 / 20066
+Playlist
+36903 / 41903
+Towers
+36953 / 39476
+Traffic Lights
+28701 / 31974
+Distinct Values Subarrays
+8824 / 10036
+Distinct Values Subsequences
+6763 / 7415
+Josephus Problem I
+22171 / 24296
+Josephus Problem II
+12098 / 16581
+Nested Ranges Check
+13114 / 14913
+Nested Ranges Count
+8805 / 10329
+Room Allocation
+21635 / 24706
+Factory Machines
+31261 / 33861
+Tasks and Deadlines
+24970 / 25471
+Reading Books
+20224 / 21611
+Sum of Three Values
+29443 / 32436
+Sum of Four Values
+18333 / 20279
+Nearest Smaller Values
+24593 / 25403
+Subarray Sums I
+32588 / 34636
+Subarray Sums II
+29734 / 34969
+Subarray Divisibility
+26888 / 29144
+Distinct Values Subarrays II
+16380 / 17872
+Array Division
+25467 / 26738
+Movie Festival II
+13741 / 16456
+Maximum Subarray Sum II
+12796 / 15152
+Dynamic Programming
+Dice Combinations
+87258 / 92151
+Minimizing Coins
+75403 / 80788
+Coin Combinations I
+68978 / 74426
+Coin Combinations II
+58382 / 65733
+Removing Digits
+64919 / 66191
+Grid Paths I
+61088 / 62746
+Book Shop
+54819 / 60033
+Array Description
+40482 / 44761
+Counting Towers
+24931 / 26370
+Edit Distance
+40469 / 42638
+Longest Common Subsequence
+12591 / 13032
+Rectangle Cutting
+33373 / 36335
+Minimal Grid Path
+5668 / 9720
+Money Sums
+39391 / 40826
+Removal Game
+24025 / 31450
+Two Sets II
+30992 / 33240
+Mountain Range
+3949 / 6907
+Increasing Subsequence
+31608 / 35396
+Projects
+22039 / 24519
+Elevator Rides
+14257 / 17765
+Counting Tilings
+8395 / 9100
+Counting Numbers
+12228 / 13630
+Increasing Subsequence II
+5396 / 6274
+Graph Algorithms
+Counting Rooms
+60236 / 63151
+Labyrinth
+42305 / 50080
+Building Roads
+52577 / 54404
+Message Route
+45436 / 47164
+Building Teams
+42930 / 45120
+Round Trip
+33911 / 36783
+Monsters
+23762 / 27666
+Shortest Routes I
+37474 / 41062
+Shortest Routes II
+30281 / 33772
+High Score
+19042 / 26141
+Flight Discount
+24411 / 28282
+Cycle Finding
+17266 / 20871
+Flight Routes
+16775 / 18617
+Round Trip II
+18788 / 20977
+Course Schedule
+24975 / 26279
+Longest Flight Route
+18012 / 21940
+Game Routes
+19822 / 21119
+Investigation
+14798 / 15840
+Planets Queries I
+12860 / 14942
+Planets Queries II
+4705 / 5892
+Planets Cycles
+7859 / 8730
+Road Reparation
+19347 / 20129
+Road Construction
+21232 / 21897
+Flight Routes Check
+16871 / 18202
+Planets and Kingdoms
+13670 / 14266
+Giant Pizza
+5787 / 6329
+Coin Collector
+9012 / 9909
+Mail Delivery
+7292 / 7949
+De Bruijn Sequence
+3873 / 4052
+Teleporters Path
+5618 / 6363
+Hamiltonian Flights
+8507 / 9643
+Knight's Tour
+3243 / 3899
+Download Speed
+5644 / 7432
+Police Chase
+4486 / 5001
+School Dance
+4921 / 5193
+Distinct Routes
+3489 / 4511
+Range Queries
+Static Range Sum Queries
+42129 / 43995
+Static Range Minimum Queries
+29160 / 31198
+Dynamic Range Sum Queries
+30238 / 31539
+Dynamic Range Minimum Queries
+27367 / 28008
+Range Xor Queries
+28136 / 28511
+Range Update Queries
+22533 / 24101
+Forest Queries
+23107 / 23919
+Hotel Queries
+16366 / 17304
+List Removals
+13602 / 14261
+Salary Queries
+10400 / 12964
+Prefix Sum Queries
+8794 / 9469
+Pizzeria Queries
+7054 / 7308
+Visible Buildings Queries
+1972 / 2145
+Range Interval Queries
+1520 / 2029
+Subarray Sum Queries
+8193 / 8854
+Subarray Sum Queries II
+2204 / 2276
+Distinct Values Queries
+7738 / 9420
+Distinct Values Queries II
+1266 / 1438
+Increasing Array Queries
+2965 / 3384
+Movie Festival Queries
+1619 / 1785
+Forest Queries II
+4873 / 5223
+Range Updates and Sums
+6756 / 7945
+Polynomial Queries
+4980 / 5838
+Range Queries and Copies
+3540 / 3776
+Missing Coin Sum Queries
+789 / 1109
+Tree Algorithms
+Subordinates
+34546 / 36931
+Tree Matching
+19766 / 22840
+Tree Diameter
+28156 / 29779
+Tree Distances I
+21702 / 23262
+Tree Distances II
+17686 / 18479
+Company Queries I
+19768 / 20782
+Company Queries II
+18471 / 19421
+Distance Queries
+16728 / 17906
+Counting Paths
+10523 / 11120
+Subtree Queries
+12539 / 13327
+Path Queries
+10105 / 10674
+Path Queries II
+4235 / 6258
+Distinct Colors
+9730 / 10671
+Finding a Centroid
+7877 / 8197
+Fixed-Length Paths I
+3904 / 4943
+Fixed-Length Paths II
+1873 / 3318
+Mathematics
+Josephus Queries
+5482 / 6875
+Exponentiation
+27219 / 28988
+Exponentiation II
+18990 / 22601
+Counting Divisors
+24833 / 27957
+Common Divisors
+16025 / 18515
+Sum of Divisors
+9058 / 13378
+Divisor Analysis
+6238 / 8281
+Prime Multiples
+7219 / 8377
+Counting Coprime Pairs
+4780 / 5524
+Next Prime
+2360 / 2702
+Binomial Coefficients
+11573 / 12802
+Creating Strings II
+9628 / 10141
+Distributing Apples
+9177 / 9847
+Christmas Party
+7571 / 8090
+Permutation Order
+1130 / 1160
+Permutation Rounds
+1613 / 1788
+Bracket Sequences I
+5103 / 5546
+Bracket Sequences II
+2699 / 3080
+Counting Necklaces
+2480 / 2681
+Counting Grids
+2066 / 2196
+Fibonacci Numbers
+7690 / 9585
+Throwing Dice
+4043 / 4385
+Graph Paths I
+3909 / 4172
+Graph Paths II
+3268 / 3419
+System of Linear Equations
+560 / 616
+Sum of Four Squares
+845 / 985
+Triangle Number Sums
+713 / 859
+Dice Probability
+3438 / 3696
+Moving Robots
+1789 / 1888
+Candy Lottery
+1766 / 3398
+Inversion Probability
+513 / 2526
+Stick Game
+3924 / 4016
+Nim Game I
+5232 / 5423
+Nim Game II
+4130 / 4293
+Stair Game
+2805 / 3045
+Grundy's Game
+1956 / 2564
+Another Game
+2211 / 2379
+String Algorithms
+Word Combinations
+6735 / 9598
+String Matching
+12894 / 17086
+Finding Borders
+9473 / 10325
+Finding Periods
+6728 / 7596
+Minimal Rotation
+3330 / 4933
+Longest Palindrome
+4944 / 6450
+All Palindromes
+799 / 899
+Required Substring
+1910 / 2849
+Palindrome Queries
+2332 / 2702
+Finding Patterns
+2204 / 3061
+Counting Patterns
+2093 / 2565
+Pattern Positions
+1761 / 2126
+Distinct Substrings
+1987 / 2356
+Distinct Subsequences
+1262 / 1339
+Repeating Substring
+2149 / 2473
+String Functions
+1880 / 1972
+Inverse Suffix Array
+329 / 380
+String Transform
+640 / 765
+Substring Order I
+1366 / 1512
+Substring Order II
+909 / 1177
+Substring Distribution
+1266 / 1369
+Geometry
+Point Location Test
+8187 / 9100
+Line Segment Intersection
+4848 / 6052
+Polygon Area
+5587 / 5894
+Point in Polygon
+3100 / 3920
+Polygon Lattice Points
+2504 / 2689
+Minimum Euclidean Distance
+2237 / 3151
+Convex Hull
+3747 / 4459
+Maximum Manhattan Distances
+723 / 752
+All Manhattan Distances
+731 / 804
+Intersection Points
+2209 / 2382
+Line Segments Trace I
+402 / 416
+Line Segments Trace II
+332 / 351
+Lines and Queries I
+446 / 468
+Lines and Queries II
+392 / 413
+Area of Rectangles
+1279 / 1429
+Robot Path
+342 / 638
+Advanced Techniques
+Meet in the Middle
+7447 / 10191
+Hamming Distance
+3495 / 3821
+Corner Subgrid Check
+226 / 600
+Corner Subgrid Count
+2406 / 2717
+Reachable Nodes
+2488 / 2673
+Reachability Queries
+1667 / 1955
+Cut and Paste
+1700 / 1879
+Substring Reversals
+1499 / 1623
+Reversals and Sums
+1523 / 1631
+Necessary Roads
+2190 / 2248
+Necessary Cities
+2038 / 2132
+Eulerian Subgraphs
+875 / 922
+Monster Game I
+1296 / 1438
+Monster Game II
+1142 / 1221
+Subarray Squares
+1623 / 1891
+Houses and Schools
+886 / 1052
+Knuth Division
+1065 / 1197
+Apples and Bananas
+1214 / 1317
+One Bit Positions
+934 / 1019
+Signal Processing
+907 / 971
+New Roads Queries
+2470 / 2982
+Dynamic Connectivity
+1127 / 1268
+Parcel Delivery
+875 / 962
+Task Assignment
+1011 / 1089
+Distinct Routes II
+666 / 756
+Sliding Window Problems
+Sliding Window Sum
+6822 / 7055
+Sliding Window Minimum
+5100 / 5822
+Sliding Window Xor
+5043 / 5113
+Sliding Window Or
+2253 / 3779
+Sliding Window Distinct Values
+3495 / 4172
+Sliding Window Mode
+2786 / 2957
+Sliding Window Mex
+2611 / 2752
+Sliding Window Median
+14709 / 16746
+Sliding Window Cost
+9613 / 11063
+Sliding Window Inversions
+1412 / 1496
+Sliding Window Advertisement
+279 / 440
+Interactive Problems
+Hidden Integer
+2620 / 2729
+Hidden Permutation
+1156 / 1342
+K-th Highest Score
+518 / 626
+Permuted Binary Strings
+625 / 641
+Colored Chairs
+582 / 617
+Inversion Sorting
+335 / 376
+Bitwise Operations
+Counting Bits
+5696 / 7338
+Maximum Xor Subarray
+3382 / 3866
+Maximum Xor Subset
+1177 / 1286
+Number of Subset Xors
+1035 / 1057
+K Subset Xors
+533 / 628
+All Subarray Xors
+320 / 513
+Xor Pyramid Peak
+2262 / 2730
+Xor Pyramid Diagonal
+366 / 411
+Xor Pyramid Row
+317 / 373
+SOS Bit Problem
+2380 / 2527
+And Subset Count
+502 / 524
+Construction Problems
+Inverse Inversions
+1896 / 2024
+Monotone Subsequences
+1147 / 1355
+Third Permutation
+481 / 594
+Permutation Prime Sums
+493 / 532
+Chess Tournament
+1319 / 1523
+Distinct Sums Grid
+171 / 254
+Filling Trominos
+280 / 486
+Grid Path Construction
+151 / 476
+Advanced Graph Problems
+Nearest Shops
+808 / 1047
+Prüfer Code
+1634 / 1757
+Tree Traversals
+1334 / 1466
+Course Schedule II
+2136 / 3027
+Acyclic Graph Edges
+2355 / 2492
+Strongly Connected Edges
+1657 / 1943
+Even Outdegree Edges
+1480 / 1722
+Graph Girth
+3728 / 4220
+Fixed Length Walk Queries
+403 / 449
+Transfer Speeds Sum
+471 / 486
+MST Edge Check
+742 / 808
+MST Edge Set Check
+281 / 317
+MST Edge Cost
+443 / 464
+Network Breakdown
+1257 / 1369
+Tree Coin Collecting I
+402 / 436
+Tree Coin Collecting II
+226 / 261
+Tree Isomorphism I
+1167 / 1384
+Tree Isomorphism II
+959 / 1104
+Flight Route Requests
+539 / 667
+Critical Cities
+461 / 704
+Visiting Cities
+726 / 956
+Graph Coloring
+253 / 297
+Bus Companies
+300 / 310
+Split into Two Paths
+115 / 202
+Network Renovation
+993 / 1312
+Forbidden Cities
+910 / 1185
+Creating Offices
+449 / 587
+New Flight Routes
+360 / 956
+Counting Problems
+Filled Subgrid Count I
+667 / 747
+Filled Subgrid Count II
+363 / 447
+All Letter Subgrid Count I
+205 / 302
+All Letter Subgrid Count II
+155 / 200
+Border Subgrid Count I
+108 / 191
+Border Subgrid Count II
+120 / 140
+Raab Game II
+123 / 142
+Empty String
+1821 / 2205
+Permutation Inversions
+1089 / 1202
+Counting Bishops
+424 / 472
+Counting Sequences
+726 / 782
+Grid Paths II
+821 / 1029
+Counting Permutations
+950 / 1072
+Grid Completion
+241 / 306
+Counting Reorders
+278 / 390
+Tournament Graph Distribution
+124 / 134
+Collecting Numbers Distribution
+131 / 139
+Functional Graph Distribution
+259 / 320
+Additional Problems I
+Shortest Subsequence
+3154 / 4142
+Distinct Values Sum
+761 / 785
+Distinct Values Splits
+539 / 573
+Swap Game
+2161 / 2773
+Beautiful Permutation II
+645 / 977
+Multiplication Table
+7387 / 8219
+Bubble Sort Rounds I
+478 / 544
+Bubble Sort Rounds II
+320 / 358
+Nearest Campsites I
+208 / 243
+Nearest Campsites II
+202 / 217
+Advertisement
+4698 / 4974
+Special Substrings
+1040 / 1142
+Counting LCM Arrays
+315 / 345
+Square Subsets
+247 / 275
+Subarray Sum Constraints
+476 / 510
+Water Containers Moves
+200 / 212
+Water Containers Queries
+233 / 246
+Stack Weights
+624 / 748
+Maximum Average Subarrays
+191 / 212
+Subsets with Fixed Average
+233 / 255
+Two Array Average
+235 / 264
+Pyramid Array
+813 / 980
+Permutation Subsequence
+281 / 291
+Bit Inversions
+2466 / 2784
+Writing Numbers
+779 / 843
+Letter Pair Move Game
+213 / 299
+Maximum Building I
+2205 / 2299
+Sorting Methods
+812 / 868
+Cyclic Array
+1292 / 1465
+List of Sums
+517 / 672
+Additional Problems II
+Bouncing Ball Steps
+271 / 300
+Bouncing Ball Cycle
+109 / 153
+Knight Moves Queries
+136 / 164
+K Subset Sums I
+217 / 278
+K Subset Sums II
+129 / 164
+Increasing Array II
+860 / 981
+Food Division
+550 / 660
+Swap Round Sorting
+434 / 540
+Binary Subsequences
+306 / 444
+School Excursion
+1472 / 1558
+Coin Grid
+950 / 1111
+Grid Coloring II
+151 / 198
+Programmers and Artists
+536 / 751
+Removing Digits II
+228 / 496
+Coin Arrangement
+356 / 474
+Replace with Difference
+147 / 175
+Grid Puzzle I
+576 / 632
+Grid Puzzle II
+557 / 611
+Bit Substrings
+422 / 512
+Reversal Sorting
+376 / 455
+Book Shop II
+1340 / 1525
+GCD Subsets
+451 / 465
+Minimum Cost Pairs
+156 / 202
+Same Sum Subsets
+133 / 261
+Mex Grid Queries
+893 / 1045
+Maximum Building II
+469 / 579
+Stick Divisions
+4002 / 4675
+Stick Difference
+77 / 286
+Coding Company
+1588 / 2076
+Two Stacks Sorting
+190 / 604

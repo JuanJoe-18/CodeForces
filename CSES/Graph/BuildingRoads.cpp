@@ -34,15 +34,6 @@ const double EPS = 1e-9;
 ll gcd(ll a, ll b){ return b==0 ? a : gcd(b,a%b); }
 ll lcm(ll a, ll b){ return a/gcd(a,b)*b; }
 
-
-// ...existing code...
-
-// ================================
-// 🚀 Funciones matemáticas
-// ================================
-ll gcd(ll a, ll b){ return b==0 ? a : gcd(b,a%b); }
-ll lcm(ll a, ll b){ return a/gcd(a,b)*b; }
-
 // Factorización prima
 vector<int> primeFactors(int n) {
     vector<int> factors;
@@ -69,6 +60,15 @@ vector<int> uniquePrimeFactors(int n) {
     return factors;
 }
 
+//factorial normal (n)!
+ll factorial(int n) {
+    ll res = 1;
+    for (int i = 1; i <= n; ++i) {
+        res *= i;
+    }
+    return res;
+}
+
 
 
 ll modpow(ll a, ll b, ll m=MOD){
@@ -76,6 +76,17 @@ ll modpow(ll a, ll b, ll m=MOD){
     while(b>0){
         if(b&1) res=res*a % m;
         a=a*a % m;
+        b >>= 1;
+    }
+    return res;
+}
+
+ll binpow(ll a, ll b) {
+    ll res = 1;
+    while (b > 0) {
+        if (b & 1)
+            res = res * a;
+        a = a * a;
         b >>= 1;
     }
     return res;
@@ -117,6 +128,8 @@ void sieve(int n){
 vector<vi> adj;
 vi visited;
 
+vector<int> reps;
+
 // DFS
 void dfs(int u){
     visited[u]=1;
@@ -157,6 +170,8 @@ vector<ll> dijkstra(int n,int src){
     }
     return dist;
 }
+
+
 
 // Union-Find (DSU)
 struct DSU {
@@ -259,63 +274,37 @@ int query(int L, int R) { // O(1)
     return min(m[L][k], m[R-(1<<k)+1][k]);
 }
 
+
+
+
+
 int main() {
-    // 1) read input
-    int n;
-    cin >> n;
-    bin_log[1] = 0;
-    for(int i = 2; i <= n; i++) {
-        bin_log[i] = bin_log[i/2]+1;
+    fastio;
+    int n, m;
+    cin >> n >> m;
+    adj.resize(n+1);
+    visited.assign(n + 1,false);
+
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        adj.at(u).push_back(v);
+        adj.at(v).push_back(u);
     }
-    for(int i = 0; i < n; i++) {
-        cin >> a[i];
-        m[i][0] = a[i];
-    }
-    // 2) preprocessing, O(N*log(N))
-    for(int k = 1; k < LOG; k++) {
-        for(int i = 0; i + (1 << k) - 1 < n; i++) {
-            m[i][k] = min(m[i][k-1], m[i+(1<<(k-1))][k-1]);
+    int cc = 0;
+    for (int i = 1; i <= n; ++i) {
+        if (!visited[i]) {
+            cc++;
+            reps.pb(i);
+            dfs(i);
         }
     }
-    // 3) answer queries
-    int q;
-    cin >> q;
-    for(int i = 0; i < q; i++) {
-        int L, R;
-        cin >> L >> R;
-        cout << query(L, R) << "\n";
+
+    cout << cc-1 << endl;
+    for (int i = 1; i < reps.size(); i++) {
+        cout << reps[i-1] << " "<<reps[i] << "\n";
+
     }
-}
 
-
-
-
-
-
-
-
-
-
-
-// ================================
-// 🚀 MAIN
-// ================================
-int main(){
-    fastio;
-    int t=1;
-    // cin >> t; // 🔹 descomentar si hay múltiples casos
-    while(t--){
-        // ---------------------------
-        // Aquí resuelves el problema
-        // ---------------------------
-
-        int n; cin >> n;
-        vector<int> a(n);
-        for(int i=0;i<n;i++) cin >> a[i];
-
-        // ejemplo: suma
-        ll sum = accumulate(all(a),0LL);
-        cout << sum << "\n";
-    }
-    return 0;
+    cout << "\n";
 }

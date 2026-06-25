@@ -1,74 +1,70 @@
 #include <bits/stdc++.h>
-#include <string>
-#include <vector>
 using namespace std;
+int n,m;
 
-vector<vector<string>> adj;
-vector<bool> visited;
+vector<string> g(1005);
+//bool vis[1005][1005];
 
+int dx[] = {-1, 1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+
+
+bool isValid(int r, int c) {
+	return (r >= 0 && r < n && c >= 0 && c < m && g[r][c] == '.');
+}
+
+void dfsG(int r, int c) {
+	g[r][c] = '#';
+	for (size_t i = 0; i < 4; i++) {
+		int nx = r + dx[i];
+		int ny = c + dy[i];
+		if (isValid(nx,ny)) {
+			dfsG(nx,ny);
+		}
+	}
+}
 
 int main(){
-
-	int n,m; cin >> n >> m;
-	vector<string> b(n);;
+	cin >> n >> m;
 	for (int i = 0; i < n; i++) {
-		cin >> b[i];
+		cin >> g[i];
 	}
-
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			if (b[i][j] == '.') {
-				if (i+1 < n && b[i+1][j] == '.') {
-					adj[i][j] = i+""+j; 
-					adj[i][j].push_back(i+""+j) 
-
-				}else if (i-1 >= 0 && b[i-1][j] == '.') {
-
-				}else if (j+1 < m && b[i][j+1] == '.') {
-
-				}else if (j-1 >= 0 && b[i][j-1] == '.') {
-
-				}
-			
+	int ans = 0;
+	for (size_t i = 0; i < n; i++) {
+		for (size_t j = 0; j < m; j++) {
+			if (g[i][j] == '.'){
+				dfsG(i,j);
+				ans++;
 			}
-			
-		}
-		
+		}		
 	}
-	
-	
-
-
-	
-	
-
-    
-
-
-
-
-
-
-
-
-
-
-	
-	cin >> N >> E; // n Nodos y E aristas
-	vector<vector<int>> adj(N);
-	for (int i = 0; i < E; ++i) {
-		int u, v;
-		cin >> u >> v;   //Hay ida y vuelta, lo que lo hace no dirigido
-		adj.at(u).push_back(v);
-		adj.at(v).push_back(u);
-	}
-	{
-		int u = 1;
-		// print number of vertices adjacent to u
-		cout << "deg(u) = " << adj.at(u).size() << endl;
-		// print all edges with u as an endpoint
-		for (int v : adj.at(u)) cout << "{" << u << ", " << v << "}" << "\n";
-	}
-
+	cout << ans << endl;
     return 0;
 }
+
+/*
+||Tambien como plantilla base esta el armado del grafo grid||:
+int n, m;
+int grid[1005][1005];
+bool vis[1005][1005];
+
+// Direction vectors for moving Up, Down, Left, Right
+int dx[] = {-1, 1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+
+bool isValid(int r, int c) {
+	return (r >= 0 && r < n && c >= 0 && c < m && !vis[r][c]);
+}
+
+void dfs_grid(int r, int c) {
+	vis[r][c] = true;
+
+	for (int i = 0; i < 4; ++i) {
+		int nx = r + dx[i];
+		int ny = c + dy[i];
+		if (isValid(nx, ny)) {
+			dfs_grid(nx, ny);
+		}
+	}
+}
+ */

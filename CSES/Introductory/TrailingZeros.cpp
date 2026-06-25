@@ -2,19 +2,29 @@
 #include <string>
 using namespace std;
 typedef long long ll;
+ll binpow(ll a, ll b) {
+    ll res = 1;
+    while (b > 0) {
+        if (b & 1) res *=a;
+        a  *= a;
+        b >>= 1;
+    }
+    return res;
+}
+
 
 int main() {
     ll n;
     cin >> n;
-    ll fact = 1;
-    for (ll i = 2; i <= n; ++i) {
-        fact *= i;
+    ll ans = 0;
+    int i = 1;
+    while (n >= binpow(5,i)) {
+        int p = binpow(5,i);
+        ans += n/p;
+        i++;
     }
-    string s = to_string(fact);
-    int zeros = 0;
-    for (int i = s.size() - 1; i >= 0 && s[i] == '0'; --i) {
-        ++zeros;
-    }
-    cout << zeros << endl;
+    cout << ans << endl;
+    
+    
     return 0;
 }

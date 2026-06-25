@@ -21,6 +21,8 @@ int main()
         P u = {x2 - x1, y2 - y1};
         P v = {x3 - x1, y3 - y1};
 
+        
+
         ll crossP = (conj(u) * v).Y;
 
         if (crossP == 0)
