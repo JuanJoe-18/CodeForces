@@ -125,77 +125,70 @@ void sieve(int n){
 // ================================
 // 🚀 Grafos
 // ================================
-vector<vi> adj;     // lista de adyacencia (sin peso)
-vector<vector<pair<int,ll>>> adj_w; // lista de adyacencia (con peso)
+vector<vi> adj;     // lista de adyacencia
 vi visited;         // vector de visitados
 vi parent;          // padres para reconstruir caminos
+int cycle_start, cycle_end;
 
-/**
- * @brief Recorrido en profundidad (DFS) desde un nodo.
- * @param u Nodo actual desde donde se inicia/continua el recorrido.
- * @note Marca los nodos visitados en el vector global `visited`.
- */
-void dfs(int u){
-    visited[u]=1;
-    for(int v: adj[u]){
-        if(!visited[v]) dfs(v);
+
+int n, m;
+
+// dfs para find cicles
+bool dfs(int v, int par) { // passing vertex and its parent vertex
+    visited[v] = true;
+    for (int u : adj[v]) {
+        if(u == par) continue; // skipping edge to parent vertex
+        if (visited[u]) {
+            cycle_end = v;
+            cycle_start = u;
+            return true;
+        }
+        parent[u] = v;
+        if (dfs(u, parent[u]))
+            return true;
     }
+    return false;
 }
+bool flag = 0;
+
+vi find_cycle() {
+    visited.assign(n+1, false);
+    vi cycle;
+    parent.assign(n+1, -1);
+    cycle_start = -1;
+
+    for (int v = 0; v < n; v++) {
+        if (!visited[v] && dfs(v, parent[v]))
+            break;
+    }
+
+    if (cycle_start == -1) {
+        flag = 1;
+    } else {
+        cycle.push_back(cycle_start);
+        for (int v = cycle_end; v != cycle_start; v = parent[v])
+            cycle.push_back(v);
+        cycle.push_back(cycle_start);
+    }
+    return cycle;
+}
+
+
+
 
 /**
  * @brief Recorrido en anchura (BFS) desde un nodo origen.
  * @param s Nodo origen (source) donde comienza el BFS.
  * @note Marca los nodos visitados en el vector global `visited`.
  */
-void bfs(int s){
-    queue<int> q; q.push(s);
-    visited[s]=1;
-    while(!q.empty()){
-        int u=q.front(); q.pop();
-        for(int v: adj[u]){
-            if(!visited[v]){
-                visited[v]=1;
-                q.push(v);
-            }
-        }
-    }
-}
 
-/**
- * @brief BFS que reconstruye el camino mas corto entre dos nodos.
- * @param s Nodo origen (source).
- * @param t Nodo destino (target).
- * @return Vector con el camino de s a t (incluye ambos extremos).
- *         Si no hay camino, devuelve un vector vacio.
- * @note Requiere que `visited` y `parent` esten correctamente dimensionados.
- */
-vector<int> bfs(int s, int t){
-    queue<int> q; q.push(s);
-    visited[s]=1; parent[s]=-1;
-    while(!q.empty()){
-        int u=q.front(); q.pop();
-        if(u==t) break;
-        for(int v: adj[u]){
-            if(!visited[v]){
-                visited[v]=1;
-                parent[v]=u;
-                q.push(v);
-            }
-        }
-    }
-    vector<int> path;
-    if(!visited[t]) return path;
-    for(int v=t; v!=-1; v=parent[v]) path.push_back(v);
-    reverse(all(path));
-    return path;
-}
 
 /**
  * @brief Algoritmo de Dijkstra para caminos minimos.
  * @param n Cantidad de nodos del grafo (1-indexed).
  * @param src Nodo origen.
  * @return Vector de distancias minimas desde `src`. `dist[i]` es la distancia al nodo i.
- * @note Usa `adj_w` que guarda pares {destino, peso}.
+ * @note Asume pesos de arista iguales a 1. Cambiar `d+1` si el grafo tiene pesos.
  */
 vector<ll> dijkstra(int n,int src){
     vector<ll> dist(n+1,LINF);
@@ -204,116 +197,14 @@ vector<ll> dijkstra(int n,int src){
     while(!pq.empty()){
         auto [d,u]=pq.top(); pq.pop();
         if(d>dist[u]) continue;
-        for(auto edge:adj_w[u]){
-            int v = edge.first;
-            ll peso = edge.second;
-            if(dist[v]>d+peso){ 
-                dist[v]=d+peso;
+        for(auto v:adj[u]){
+            if(dist[v]>d+1){ // peso=1, cambia si hay pesos
+                dist[v]=d+1;
                 pq.push({dist[v],v});
             }
         }
     }
     return dist;
-}
-
-/**
- * @brief Algoritmo de Dijkstra para obtener el CAMINO minimo.
- * @param n Cantidad de nodos.
- * @param s Nodo origen.
- * @param t Nodo destino.
- * @return Vector con la secuencia de nodos del camino más corto. Vacío si no hay camino.
- */
-vector<int> dijkstra_path(int n, int s, int t){
-    vector<ll> dist(n+1, LINF);
-    parent.assign(n+1, -1); 
-    priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<>> pq;
-    dist[s] = 0; 
-    pq.push({0, s});
-    
-    while(!pq.empty()){
-        auto [d, u] = pq.top(); pq.pop();
-        if(d > dist[u]) continue;
-        if(u == t) break; 
-        for(auto edge : adj_w[u]){
-            int v = edge.first;
-            ll peso = edge.second;
-            if(dist[v] > d + peso){ 
-                dist[v] = d + peso;
-                parent[v] = u;
-                pq.push({dist[v], v});
-            }
-        }
-    }
-    vector<int> path;
-    if(dist[t] == LINF) return path; 
-    for(int v = t; v != -1; v = parent[v]){
-        path.push_back(v);
-    }
-    reverse(all(path));
-    return path;
-}
-
-/**
- * @brief Algoritmo de Floyd-Warshall (Caminos minimos entre TODOS los nodos).
- * @param n Cantidad de nodos.
- * @param dist Matriz de adyacencia de (n+1)x(n+1). 
- *             Debe inicializarse con LINF, y dist[i][i] = 0.
- *             Despues de ejecutarse, guardara las distancias minimas.
- */
-void floyd_warshall(int n, vector<vector<ll>>& dist) {
-    for (int k = 1; k <= n; k++) {
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (dist[i][k] != LINF && dist[k][j] != LINF) {
-                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
-                }
-            }
-        }
-    }
-}
-
-/**
- * @brief Algoritmo de Bellman-Ford para caminos minimos con pesos negativos.
- * @param n Cantidad de nodos.
- * @param src Nodo origen.
- * @param dist Referencia al vector de distancias que sera poblado.
- * @return `true` si NO hay ciclos negativos, `false` si se detecta al menos un ciclo negativo.
- * @note Usa `adj_w`. Complejidad: O(V * E).
- */
-bool bellman_ford(int n, int src, vector<ll>& dist) {
-    dist.assign(n + 1, LINF);
-    dist[src] = 0;
-    bool any_update = false;
-
-    // Relajar V - 1 veces
-    for (int i = 1; i <= n - 1; i++) {
-        any_update = false;
-        for (int u = 1; u <= n; u++) {
-            if (dist[u] == LINF) continue;
-            for (auto edge : adj_w[u]) {
-                int v = edge.first;
-                ll peso = edge.second;
-                if (dist[u] + peso < dist[v]) {
-                    dist[v] = dist[u] + peso;
-                    any_update = true;
-                }
-            }
-        }
-        if (!any_update) break; // Optimizacion: terminar temprano si ya no hay cambios
-    }
-
-    // Pasada N para detectar ciclos negativos
-    for (int u = 1; u <= n; u++) {
-        if (dist[u] == LINF) continue;
-        for (auto edge : adj_w[u]) {
-            int v = edge.first;
-            ll peso = edge.second;
-            if (dist[u] + peso < dist[v]) {
-                return false; // Ciclo negativo encontrado
-            }
-        }
-    }
-    return true;
 }
 
 /**
@@ -542,11 +433,11 @@ int binary_search(const vi &a, int x){
 }
 
 //Sparse table
-
+/*
 const int MAX_N = 200'005;
 const int LOG = 17;
 int a[MAX_N];
-int m[MAX_N][LOG]; // m[i][j] is minimum among a[i..i+2^j-1]
+//int m[MAX_N][LOG]; // m[i][j] is minimum among a[i..i+2^j-1]
 int bin_log[MAX_N];
 
 /**
@@ -555,32 +446,36 @@ int bin_log[MAX_N];
  * @param R Indice derecho del rango.
  * @return Valor minimo en el rango [L, R].
  * @note Requiere preprocesamiento previo de `bin_log` y `m`.
- */
+ *//*
 int query(int L, int R) { // O(1)
     int length = R - L + 1;
     int k = bin_log[length];
     return min(m[L][k], m[R-(1<<k)+1][k]);
 }
-
-// ================================
-// 🚀 MAIN
-// ================================
-int main(){
+*/
+int main() {
     fastio;
-    int t=1;
-    // cin >> t; // 🔹 descomentar si hay múltiples casos
-    while(t--){
-        // ---------------------------
-        // Aquí resuelves el problema
-        // ---------------------------
+    cin >> n >> m;
 
-        int n; cin >> n;
-        vector<int> a(n);
-        for(int i=0;i<n;i++) cin >> a[i];
+    adj.resize(n + 1);
 
-        // ejemplo: suma
-        ll sum = accumulate(all(a),0LL);
-        cout << sum << "\n";
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
+
+    vi ans = find_cycle();
+    if (flag == 1) {
+        cout << "IMPOSSIBLE\n";
+    } else {
+        cout << ans.size() << "\n";
+        for (int node : ans) {
+            cout << node << " ";
+        }
+        cout << "\n";
+    }
+
     return 0;
 }

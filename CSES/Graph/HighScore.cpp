@@ -207,7 +207,7 @@ vector<ll> dijkstra(int n,int src){
         for(auto edge:adj_w[u]){
             int v = edge.first;
             ll peso = edge.second;
-            if(dist[v]>d+peso){ 
+            if(dist[v]>d+peso){
                 dist[v]=d+peso;
                 pq.push({dist[v],v});
             }
@@ -225,19 +225,19 @@ vector<ll> dijkstra(int n,int src){
  */
 vector<int> dijkstra_path(int n, int s, int t){
     vector<ll> dist(n+1, LINF);
-    parent.assign(n+1, -1); 
+    parent.assign(n+1, -1);
     priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<>> pq;
-    dist[s] = 0; 
+    dist[s] = 0;
     pq.push({0, s});
-    
+
     while(!pq.empty()){
         auto [d, u] = pq.top(); pq.pop();
         if(d > dist[u]) continue;
-        if(u == t) break; 
+        if(u == t) break;
         for(auto edge : adj_w[u]){
             int v = edge.first;
             ll peso = edge.second;
-            if(dist[v] > d + peso){ 
+            if(dist[v] > d + peso){
                 dist[v] = d + peso;
                 parent[v] = u;
                 pq.push({dist[v], v});
@@ -245,7 +245,7 @@ vector<int> dijkstra_path(int n, int s, int t){
         }
     }
     vector<int> path;
-    if(dist[t] == LINF) return path; 
+    if(dist[t] == LINF) return path;
     for(int v = t; v != -1; v = parent[v]){
         path.push_back(v);
     }
@@ -256,7 +256,7 @@ vector<int> dijkstra_path(int n, int s, int t){
 /**
  * @brief Algoritmo de Floyd-Warshall (Caminos minimos entre TODOS los nodos).
  * @param n Cantidad de nodos.
- * @param dist Matriz de adyacencia de (n+1)x(n+1). 
+ * @param dist Matriz de adyacencia de (n+1)x(n+1).
  *             Debe inicializarse con LINF, y dist[i][i] = 0.
  *             Despues de ejecutarse, guardara las distancias minimas.
  */
@@ -280,14 +280,12 @@ void floyd_warshall(int n, vector<vector<ll>>& dist) {
  * @return `true` si NO hay ciclos negativos, `false` si se detecta al menos un ciclo negativo.
  * @note Usa `adj_w`. Complejidad: O(V * E).
  */
-bool bellman_ford(int n, int src, vector<ll>& dist) {
+void bellman_ford(int n, int src, vector<ll>& dist) {
     dist.assign(n + 1, LINF);
     dist[src] = 0;
-    bool any_update = false;
 
     // Relajar V - 1 veces
     for (int i = 1; i <= n - 1; i++) {
-        any_update = false;
         for (int u = 1; u <= n; u++) {
             if (dist[u] == LINF) continue;
             for (auto edge : adj_w[u]) {
@@ -295,25 +293,24 @@ bool bellman_ford(int n, int src, vector<ll>& dist) {
                 ll peso = edge.second;
                 if (dist[u] + peso < dist[v]) {
                     dist[v] = dist[u] + peso;
-                    any_update = true;
                 }
             }
         }
-        if (!any_update) break; // Optimizacion: terminar temprano si ya no hay cambios
     }
 
-    // Pasada N para detectar ciclos negativos
-    for (int u = 1; u <= n; u++) {
-        if (dist[u] == LINF) continue;
-        for (auto edge : adj_w[u]) {
-            int v = edge.first;
-            ll peso = edge.second;
-            if (dist[u] + peso < dist[v]) {
-                return false; // Ciclo negativo encontrado
+    // Propagacion de infinito negativo (N iteraciones mas)
+    for (int i = 1; i <= n; i++) {
+        for (int u = 1; u <= n; u++) {
+            if (dist[u] == LINF) continue;
+            for (auto edge : adj_w[u]) {
+                int v = edge.first;
+                ll peso = edge.second;
+                if (dist[u] == -LINF || dist[u] + peso < dist[v]) {
+                    dist[v] = -LINF;
+                }
             }
         }
     }
-    return true;
 }
 
 /**
@@ -562,25 +559,30 @@ int query(int L, int R) { // O(1)
     return min(m[L][k], m[R-(1<<k)+1][k]);
 }
 
-// ================================
-// 🚀 MAIN
-// ================================
 int main(){
     fastio;
-    int t=1;
-    // cin >> t; // 🔹 descomentar si hay múltiples casos
-    while(t--){
-        // ---------------------------
-        // Aquí resuelves el problema
-        // ---------------------------
-
-        int n; cin >> n;
-        vector<int> a(n);
-        for(int i=0;i<n;i++) cin >> a[i];
-
-        // ejemplo: suma
-        ll sum = accumulate(all(a),0LL);
-        cout << sum << "\n";
+    int n, m; 
+    cin >> n >> m;
+    
+    adj_w.assign(n + 1, vector<pair<int, ll>>());
+    
+    for (int i = 0; i < m; i++) {
+        int a, b; ll w;
+        cin >> a >> b >> w;
+        // INVERTIMOS el peso para buscar el "camino minimo"
+        adj_w[a].push_back({b, -w});
     }
+
+    vector<ll> dist;
+    // Llamamos a nuestra funcion modificada
+    bellman_ford(n, 1, dist);
+
+    // PASO 3: Imprimir el resultado
+    if (dist[n] == -LINF) {
+        cout << -1 << "\n"; // Podemos obtener puntaje infinito
+    } else {
+        cout << -dist[n] << "\n"; // Volvemos a invertir el signo para dar el maximo real
+    }
+
     return 0;
 }

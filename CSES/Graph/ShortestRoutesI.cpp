@@ -217,106 +217,6 @@ vector<ll> dijkstra(int n,int src){
 }
 
 /**
- * @brief Algoritmo de Dijkstra para obtener el CAMINO minimo.
- * @param n Cantidad de nodos.
- * @param s Nodo origen.
- * @param t Nodo destino.
- * @return Vector con la secuencia de nodos del camino más corto. Vacío si no hay camino.
- */
-vector<int> dijkstra_path(int n, int s, int t){
-    vector<ll> dist(n+1, LINF);
-    parent.assign(n+1, -1); 
-    priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<>> pq;
-    dist[s] = 0; 
-    pq.push({0, s});
-    
-    while(!pq.empty()){
-        auto [d, u] = pq.top(); pq.pop();
-        if(d > dist[u]) continue;
-        if(u == t) break; 
-        for(auto edge : adj_w[u]){
-            int v = edge.first;
-            ll peso = edge.second;
-            if(dist[v] > d + peso){ 
-                dist[v] = d + peso;
-                parent[v] = u;
-                pq.push({dist[v], v});
-            }
-        }
-    }
-    vector<int> path;
-    if(dist[t] == LINF) return path; 
-    for(int v = t; v != -1; v = parent[v]){
-        path.push_back(v);
-    }
-    reverse(all(path));
-    return path;
-}
-
-/**
- * @brief Algoritmo de Floyd-Warshall (Caminos minimos entre TODOS los nodos).
- * @param n Cantidad de nodos.
- * @param dist Matriz de adyacencia de (n+1)x(n+1). 
- *             Debe inicializarse con LINF, y dist[i][i] = 0.
- *             Despues de ejecutarse, guardara las distancias minimas.
- */
-void floyd_warshall(int n, vector<vector<ll>>& dist) {
-    for (int k = 1; k <= n; k++) {
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (dist[i][k] != LINF && dist[k][j] != LINF) {
-                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
-                }
-            }
-        }
-    }
-}
-
-/**
- * @brief Algoritmo de Bellman-Ford para caminos minimos con pesos negativos.
- * @param n Cantidad de nodos.
- * @param src Nodo origen.
- * @param dist Referencia al vector de distancias que sera poblado.
- * @return `true` si NO hay ciclos negativos, `false` si se detecta al menos un ciclo negativo.
- * @note Usa `adj_w`. Complejidad: O(V * E).
- */
-bool bellman_ford(int n, int src, vector<ll>& dist) {
-    dist.assign(n + 1, LINF);
-    dist[src] = 0;
-    bool any_update = false;
-
-    // Relajar V - 1 veces
-    for (int i = 1; i <= n - 1; i++) {
-        any_update = false;
-        for (int u = 1; u <= n; u++) {
-            if (dist[u] == LINF) continue;
-            for (auto edge : adj_w[u]) {
-                int v = edge.first;
-                ll peso = edge.second;
-                if (dist[u] + peso < dist[v]) {
-                    dist[v] = dist[u] + peso;
-                    any_update = true;
-                }
-            }
-        }
-        if (!any_update) break; // Optimizacion: terminar temprano si ya no hay cambios
-    }
-
-    // Pasada N para detectar ciclos negativos
-    for (int u = 1; u <= n; u++) {
-        if (dist[u] == LINF) continue;
-        for (auto edge : adj_w[u]) {
-            int v = edge.first;
-            ll peso = edge.second;
-            if (dist[u] + peso < dist[v]) {
-                return false; // Ciclo negativo encontrado
-            }
-        }
-    }
-    return true;
-}
-
-/**
  * @brief Estructura Union-Find (Disjoint Set Union).
  * @note Permite unir conjuntos y consultar si dos elementos estan conectados.
  */
@@ -562,25 +462,22 @@ int query(int L, int R) { // O(1)
     return min(m[L][k], m[R-(1<<k)+1][k]);
 }
 
-// ================================
-// 🚀 MAIN
-// ================================
 int main(){
     fastio;
-    int t=1;
-    // cin >> t; // 🔹 descomentar si hay múltiples casos
-    while(t--){
-        // ---------------------------
-        // Aquí resuelves el problema
-        // ---------------------------
+    int n, m; cin >>n >> m;
+    adj_w.assign(n +1, vector<pair<int,ll>>());
 
-        int n; cin >> n;
-        vector<int> a(n);
-        for(int i=0;i<n;i++) cin >> a[i];
-
-        // ejemplo: suma
-        ll sum = accumulate(all(a),0LL);
-        cout << sum << "\n";
+    while (m--) {
+        int a, b; ll c;
+        cin >> a >> b >> c;
+        adj_w[a].pb({b,c});
     }
+
+    vector<ll> dist = dijkstra(n,1);
+    for (int i = 1; i <= n; ++i) {
+        cout << dist[i] << " ";
+    }
+    cout << "\n";
+
     return 0;
 }
