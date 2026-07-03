@@ -569,19 +569,18 @@ int main(){
     for (int i = 0; i < m; i++) {
         int a, b; ll w;
         cin >> a >> b >> w;
-        // INVERTIMOS el peso para buscar el "camino minimo"
         adj_w[a].push_back({b, -w});
     }
 
     vector<ll> dist;
-    // Llamamos a nuestra funcion modificada
+    
     bellman_ford(n, 1, dist);
 
-    // PASO 3: Imprimir el resultado
+    
     if (dist[n] == -LINF) {
-        cout << -1 << "\n"; // Podemos obtener puntaje infinito
+        cout << -1 << "\n"; 
     } else {
-        cout << -dist[n] << "\n"; // Volvemos a invertir el signo para dar el maximo real
+        cout << -dist[n] << "\n"; 
     }
 
     return 0;
