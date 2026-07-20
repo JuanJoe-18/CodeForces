@@ -430,89 +430,22 @@ struct LCA {
     }
 };
 
-// ==========================================
-// 🚀 2-SAT (Satisfactibilidad Booleana)
-// ==========================================
-struct TwoSat {
-    int n;
-    Graph<ll> G;
-    vector<bool> assignment;
-
-    // n es el número de variables booleanas
-    TwoSat(int _n) : n(_n), G(2 * _n) {
-        assignment.assign(n + 1, false);
-    }
-
-    // Retorna el nodo de la variable u. Si is_true es false, retorna su negación.
-    int get_node(int u, bool is_true) {
-        return is_true ? u : u + n;
-    }
-
-    // Agrega la cláusula (u OR v)
-    // Ejemplo: Si quiero "X_2 o NO X_3", llamo add_clause(2, true, 3, false)
-    void add_clause(int u, bool is_u_true, int v, bool is_v_true) {
-        int not_u = get_node(u, !is_u_true);
-        int node_v = get_node(v, is_v_true);
-        int not_v = get_node(v, !is_v_true);
-        int node_u = get_node(u, is_u_true);
-        
-        G.add_directed_edge(not_u, node_v); // !u -> v
-        G.add_directed_edge(not_v, node_u); // !v -> u
-    }
-
-    // Forzar que una variable sea obligatoriamente Verdadera o Falsa
-    void force_value(int u, bool is_true) {
-        add_clause(u, is_true, u, is_true);
-    }
-
-    // Agregar implicación: Si U pasa, entonces V tiene que pasar obligatoriamente (U => V)
-    // Es lógicamente equivalente a (!U OR V)
-    void add_implication(int u, bool is_u_true, int v, bool is_v_true) {
-        add_clause(u, !is_u_true, v, is_v_true);
-    }
-
-    // Agregar XOR: u y v deben tener valores DISTINTOS (u != v)
-    // Equivale a (u OR v) AND (!u OR !v)
-    void add_xor(int u, bool is_u_true, int v, bool is_v_true) {
-        add_clause(u, is_u_true, v, is_v_true);
-        add_clause(u, !is_u_true, v, !is_v_true);
-    }
-
-    // Agregar XNOR / Equivalencia: u y v deben tener el MISMO valor (u == v)
-    // Equivale a (!u OR v) AND (u OR !v)
-    void add_equivalence(int u, bool is_u_true, int v, bool is_v_true) {
-        add_implication(u, is_u_true, v, is_v_true);
-        add_implication(v, is_v_true, u, is_u_true);
-    }
-
-    // Intenta resolver el 2-SAT. Retorna true si es posible.
-    // Los resultados quedan en el arreglo booleano 'assignment'
-    bool solve() {
-        vector<int> comp = G.get_scc(); // Tarjan O(V+E)
-        
-        for (int i = 1; i <= n; i++) {
-            if (comp[i] == comp[i + n]) {
-                return false; // Contradicción: u y !u están en el mismo ciclo
-            }
-            // Magia de Tarjan: Los componentes terminados primero (menor ID) son sumideros.
-            // Siempre asignamos True a los sumideros para no forzar errores hacia atrás.
-            assignment[i] = comp[i] < comp[i + n];
-        }
-        return true;
-    }
-};
-
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    
-    // Ejemplo de uso:
-    // int n, m; cin >> n >> m;
-    // Graph<ll> G(n);
-    // for(int i = 0; i < m; i++){
-    //     int u, v; ll w; cin >> u >> v >> w;
-    //     G.add_directed_edge(u, v, w);
-    // }
-    
+    int n, m; cin >> n >> m;
+    Graph<ll> G(n);
+    for(int i = 0; i < m; i++){
+      int u, v; cin >> u >> v;
+       G.add_undirected_edge(u, v, 1, i);
+    }
+
+    vector<int> circuit = G.eulerian_circuit();
+    if (circuit.empty()) {
+        cout << "IMPOSSIBLE" << "\n";
+    } else  {
+        for (int u: circuit) cout << u << " ";
+        cout << endl;
+    }    
     return 0;
 }

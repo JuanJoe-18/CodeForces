@@ -51,7 +51,7 @@ public:
 // FENWICK TREE (Binary Indexed Tree)
 // ====================================================================
 class FenwickTree {
-public:
+private:
     int n;
     vector<ll> bit;
 
@@ -107,7 +107,7 @@ private:
     const ll NEUTRAL = 0; // Cambiar a LINF para min, -LINF para max
 
     ll combine(ll a, ll b) {
-        return a ^ b; // Cambiar a min(a,b) o max(a,b)
+        return a + b; // Cambiar a min(a,b) o max(a,b)
     }
 
 public:
@@ -150,6 +150,85 @@ public:
             if (R & 1) resR = combine(st[--R], resR);
         }
         return combine(resL, resR);
+    }
+};
+
+// ====================================================================
+// RECURSIVE SEGMENT TREE (Point Update, Range Query)
+// Ideal para búsqueda binaria sobre el ST (find_first)
+// ====================================================================
+class RecursiveSegTree {
+private:
+    int n;
+    vector<ll> st;
+    const ll NEUTRAL = 0; // Cambiar según operación (0 para max, LINF para min)
+
+    ll combine(ll a, ll b) {
+        return max(a, b); // Cambiar según problema. Para Hotel Queries es max
+    }
+
+    void build(int p, int L, int R, const vector<ll>& a) {
+        if (L == R) {
+            st[p] = a[L];
+            return;
+        }
+        int mid = L + (R - L) / 2;
+        build(p << 1, L, mid, a);
+        build((p << 1) | 1, mid + 1, R, a);
+        st[p] = combine(st[p << 1], st[(p << 1) | 1]);
+    }
+
+    void update(int p, int L, int R, int pos, ll val) {
+        if (L == R) {
+            st[p] += val; // Si quieres reasignar valor, usa st[p] = val
+            return;
+        }
+        int mid = L + (R - L) / 2;
+        if (pos <= mid) update(p << 1, L, mid, pos, val);
+        else update((p << 1) | 1, mid + 1, R, pos, val);
+        st[p] = combine(st[p << 1], st[(p << 1) | 1]);
+    }
+
+    ll query(int p, int L, int R, int qL, int qR) {
+        if (qL > R || qR < L) return NEUTRAL;
+        if (qL <= L && R <= qR) return st[p];
+        int mid = L + (R - L) / 2;
+        return combine(query(p << 1, L, mid, qL, qR),
+                       query((p << 1) | 1, mid + 1, R, qL, qR));
+    }
+
+    // Retorna el índice de la primera hoja cuyo valor cumpla con la condición >= val
+    // Retorna -1 si no existe. ASUME QUE EL ÁRBOL ES DE MÁXIMOS.
+    int find_first(int p, int L, int R, ll val) {
+        if (st[p] < val) return -1; // Ningún elemento en este subárbol cumple
+        if (L == R) return L;       // ¡Encontramos la hoja!
+        
+        int mid = L + (R - L) / 2;
+        // Revisamos primero el hijo izquierdo para garantizar que sea el PRIMER índice
+        if (st[p << 1] >= val) {
+            return find_first(p << 1, L, mid, val);
+        } else {
+            return find_first((p << 1) | 1, mid + 1, R, val);
+        }
+    }
+
+public:
+    RecursiveSegTree(const vector<ll>& a) {
+        n = a.size();
+        st.assign(4 * n, NEUTRAL);
+        build(1, 0, n - 1, a);
+    }
+
+    void update(int pos, ll val) {
+        update(1, 0, n - 1, pos, val);
+    }
+
+    ll query(int L, int R) {
+        return query(1, 0, n - 1, L, R);
+    }
+
+    int find_first(ll val) {
+        return find_first(1, 0, n - 1, val);
     }
 };
 
@@ -280,17 +359,100 @@ public:
     }
 };
 
+// ====================================================================
+// DYNAMIC SEGMENT TREE (Point Update, Range Query on Large Ranges)
+// ====================================================================
+class DynamicSegTree {
+private:
+    struct Node {
+        ll sum;
+        int left, right;
+        Node() : sum(0), left(0), right(0) {}
+    };
+
+    vector<Node> st;
+    ll MAX_RANGE;
+    int root;
+
+    int new_node() {
+        st.emplace_back();
+        return st.size() - 1;
+    }
+
+    int update(int node, ll L, ll R, ll pos, ll val) {
+        if (!node) node = new_node();
+        st[node].sum += val; // O cambiar a combinación para min/max
+        if (L == R) return node;
+        
+        ll mid = L + (R - L) / 2;
+        if (pos <= mid) {
+            int left_child = update(st[node].left, L, mid, pos, val);
+            st[node].left = left_child; // Evita bugs de memoria
+        } else {
+            int right_child = update(st[node].right, mid + 1, R, pos, val);
+            st[node].right = right_child;
+        }
+        return node;
+    }
+
+    ll query(int node, ll L, ll R, ll qL, ll qR) {
+        if (!node || qL > R || qR < L) return 0; // Cambiar a NEUTRAL según la operación
+        if (qL <= L && R <= qR) return st[node].sum;
+        
+        ll mid = L + (R - L) / 2;
+        return query(st[node].left, L, mid, qL, qR) + 
+               query(st[node].right, mid + 1, R, qL, qR);
+    }
+
+public:
+    /**
+     * Inicializa el Segment Tree Dinámico.
+     * @param max_range El valor máximo que puede tomar el índice (ej. 1e9).
+     */
+    DynamicSegTree(ll max_range = 1e9) : MAX_RANGE(max_range) {
+        st.emplace_back(); // Nodo 0 es el nulo/dummy
+        root = 0;
+    }
+
+    /**
+     * Suma 'val' a la posición 'pos' (puede ser valor negativo para restar).
+     * @param pos Índice a actualizar (hasta max_range).
+     * @param val Valor a sumar.
+     */
+    void update(ll pos, ll val) {
+        root = update(root, 1, MAX_RANGE, pos, val);
+    }
+
+    /**
+     * Consulta la suma en el rango [L, R].
+     * @param L Índice izquierdo (inclusivo).
+     * @param R Índice derecho (inclusivo).
+     * @return Suma en el rango [L, R].
+     */
+    ll query(ll L, ll R) {
+        return query(root, 1, MAX_RANGE, L, R);
+    }
+};
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int n, q; cin >> n >> q;
-    vector<ll> v(n);
-    for (int i = 0; i<n; i++) cin >> v[i];
-    IterativeSegTree st(v);
-    while (q--) {
-        int a, b; cin >> a >> b;
-        cout << st.query(a-1,b-1) << "\n";
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+    int n, m; cin >> n >> m;
+    vector<ll> hotels(n);
+    
+    for (int h = 0; h < n; h++){
+        cin >> hotels[h];      
+    }
+    RecursiveSegTree rt(hotels);
+    for (int i = 0; i < m; i++){
+        ll g; cin >> g;
+
+        int idx = rt.find_first(g);
+         if (idx == -1) {
+            cout << 0 << " ";
+        } else {
+            cout << idx + 1 << " ";
+            rt.update(idx, -g);
+        }
     }
     return 0;
 }

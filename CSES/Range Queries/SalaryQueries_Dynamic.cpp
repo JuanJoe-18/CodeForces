@@ -51,7 +51,7 @@ public:
 // FENWICK TREE (Binary Indexed Tree)
 // ====================================================================
 class FenwickTree {
-public:
+private:
     int n;
     vector<ll> bit;
 
@@ -107,7 +107,7 @@ private:
     const ll NEUTRAL = 0; // Cambiar a LINF para min, -LINF para max
 
     ll combine(ll a, ll b) {
-        return a ^ b; // Cambiar a min(a,b) o max(a,b)
+        return a + b; // Cambiar a min(a,b) o max(a,b)
     }
 
 public:
@@ -280,17 +280,106 @@ public:
     }
 };
 
+// ====================================================================
+// DYNAMIC SEGMENT TREE (Point Update, Range Query on Large Ranges)
+// ====================================================================
+class DynamicSegTree {
+private:
+    struct Node {
+        ll sum;
+        int left, right;
+        Node() : sum(0), left(0), right(0) {}
+    };
+
+    vector<Node> st;
+    ll MAX_RANGE;
+    int root;
+
+    int new_node() {
+        st.emplace_back();
+        return st.size() - 1;
+    }
+
+    int update(int node, ll L, ll R, ll pos, ll val) {
+        if (!node) node = new_node();
+        st[node].sum += val; // O cambiar a combinación para min/max
+        if (L == R) return node;
+        
+        ll mid = L + (R - L) / 2;
+        if (pos <= mid) {
+            int left_child = update(st[node].left, L, mid, pos, val);
+            st[node].left = left_child; // Evita bugs de memoria
+        } else {
+            int right_child = update(st[node].right, mid + 1, R, pos, val);
+            st[node].right = right_child;
+        }
+        return node;
+    }
+
+    ll query(int node, ll L, ll R, ll qL, ll qR) {
+        if (!node || qL > R || qR < L) return 0; // Cambiar a NEUTRAL según la operación
+        if (qL <= L && R <= qR) return st[node].sum;
+        
+        ll mid = L + (R - L) / 2;
+        return query(st[node].left, L, mid, qL, qR) + 
+               query(st[node].right, mid + 1, R, qL, qR);
+    }
+
+public:
+    /**
+     * Inicializa el Segment Tree Dinámico.
+     * @param max_range El valor máximo que puede tomar el índice (ej. 1e9).
+     */
+    DynamicSegTree(ll max_range = 1e9) : MAX_RANGE(max_range) {
+        st.emplace_back(); // Nodo 0 es el nulo/dummy
+        root = 0;
+    }
+
+    /**
+     * Suma 'val' a la posición 'pos' (puede ser valor negativo para restar).
+     * @param pos Índice a actualizar (hasta max_range).
+     * @param val Valor a sumar.
+     */
+    void update(ll pos, ll val) {
+        root = update(root, 1, MAX_RANGE, pos, val);
+    }
+
+    /**
+     * Consulta la suma en el rango [L, R].
+     * @param L Índice izquierdo (inclusivo).
+     * @param R Índice derecho (inclusivo).
+     * @return Suma en el rango [L, R].
+     */
+    ll query(ll L, ll R) {
+        return query(root, 1, MAX_RANGE, L, R);
+    }
+};
+
+
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    ios_base::sync_with_stdio(0); cin.tie(0);
     int n, q; cin >> n >> q;
-    vector<ll> v(n);
-    for (int i = 0; i<n; i++) cin >> v[i];
-    IterativeSegTree st(v);
-    while (q--) {
-        int a, b; cin >> a >> b;
-        cout << st.query(a-1,b-1) << "\n";
+    vector<ll> a(n);
+    DynamicSegTree dt(1e9);
+    
+    for (int i = 0; i < n; i++) {
+        cin >> a[i]; 
+        dt.update(a[i], 1); 
     }
+    
+    while (q--) {
+        char t; cin >> t;
+        if (t == '!') {
+            int k, x; cin >> k >> x;
+            k--; 
+            dt.update(a[k], -1); 
+            dt.update(x, 1);
+            a[k] = x; 
+        } else {
+            int l, r; cin >> l >> r;
+            cout << dt.query(l, r) << "\n";
+        }
+    }    
     return 0;
 }

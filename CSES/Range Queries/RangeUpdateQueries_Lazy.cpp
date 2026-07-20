@@ -51,7 +51,7 @@ public:
 // FENWICK TREE (Binary Indexed Tree)
 // ====================================================================
 class FenwickTree {
-public:
+private:
     int n;
     vector<ll> bit;
 
@@ -107,7 +107,7 @@ private:
     const ll NEUTRAL = 0; // Cambiar a LINF para min, -LINF para max
 
     ll combine(ll a, ll b) {
-        return a ^ b; // Cambiar a min(a,b) o max(a,b)
+        return a + b; // Cambiar a min(a,b) o max(a,b)
     }
 
 public:
@@ -280,17 +280,27 @@ public:
     }
 };
 
-
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     int n, q; cin >> n >> q;
-    vector<ll> v(n);
-    for (int i = 0; i<n; i++) cin >> v[i];
-    IterativeSegTree st(v);
-    while (q--) {
-        int a, b; cin >> a >> b;
-        cout << st.query(a-1,b-1) << "\n";
+    vector<ll> a(n);
+    for (size_t i = 0; i < n; i++) {
+        cin >> a[i]; 
     }
+    
+    LazySegTree lst(a);
+    while (q--)
+    {
+        int t; cin >> t;
+        if (t == 1 ) {
+            int l, r, u; cin >> l >> r >> u;
+            lst.add_range(l - 1,r - 1, u);
+        } else if (t == 2) {
+            int k;
+            cin >> k;            
+            cout << lst.query(k - 1, k - 1) << "\n";
+        }
+    }    
     return 0;
 }

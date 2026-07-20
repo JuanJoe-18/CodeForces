@@ -1,28 +1,24 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-const int INF = INT_MAX;
 
-int solve(int x, vector<int>& coins) {
-    vector<int> value(x + 1, INF);
-    value[0] = 0;
-    for (int i = 1; i <= x; i++) {
-        for (auto c : coins) {
-            if (i - c >= 0 && value[i - c] != INF) {
-                value[i] = min(value[i], value[i - c] + 1);
-            }
-        }
-    }
-    return value[x] == INF ? -1 : value[x];
-}
-
+const int INF = 1e9+7;
 int main() {
-    int n, x;
-    cin >> n >> x;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-    }
-    int res = solve(x, a);
-    cout << res << endl;
-    return 0;
+	int n, k; cin >> n >> k;
+	vector<int> a(n);
+	for (int i = 0; i<n; i++) cin >> a[i];
+	
+	vector<int> value(k + 1, INF);
+	value[0] = 0;
+	for (int x = 1; x <= k; x++) {
+		for (auto c : a) {
+			if (x - c >= 0) {
+				value[x] = min(value[x], value[x-c] + 1);
+			}
+		}
+	}
+	
+	cout << ((value[k]!=INF)? value[k] : -1);
+	
+
+	return 0;	
 }

@@ -291,75 +291,45 @@ struct Graph {
         
         return {mst_weight, mst_edges};
     }
-
-    // 8. Circuito Euleriano (Hierholzer's Algorithm) O(V + E)
-    // IMPORTANTE: Para grafos no dirigidos, debes pasar un 'id' unico (0, 1, 2...) en add_undirected_edge.
-    // Retorna vector vacio si no existe circuito.
-    vector<int> eulerian_circuit(int start_node = 1, bool undirected = true) {
-        vector<int> in_deg(n + 1, 0), out_deg(n + 1, 0);
-        int max_id = -1;
-        for (auto& e : edges) {
-            out_deg[e.from]++;
-            in_deg[e.to]++;
-            max_id = max(max_id, e.id);
-        }
-        
-        // 1. Verificación de grados (Condición de Euler)
-        for (int i = 1; i <= n; i++) {
-            if (undirected) {
-                if (out_deg[i] % 2 != 0) return {};
-            } else {
-                if (in_deg[i] != out_deg[i]) return {};
-            }
-        }
-
-        vector<bool> used_edge(max_id + 1, false);
-        vector<int> circuit;
-        vector<int> head(n + 1, 0); // Puntero O(E) para iterar adj
-        
-        auto dfs = [&](auto& self, int u) -> void {
-            while (head[u] < adj[u].size()) {
-                int edge_idx = adj[u][head[u]++];
-                auto& e = edges[edge_idx];
-                
-                if (e.id != -1) {
-                    if (!used_edge[e.id]) {
-                        used_edge[e.id] = true;
-                        self(self, e.to);
-                    }
-                } else {
-                    // Si es dirigido y no pasaron ID, el puntero head es suficiente
-                    self(self, e.to);
-                }
-            }
-            circuit.push_back(u);
-        };
-        
-        dfs(dfs, start_node);
-        reverse(circuit.begin(), circuit.end());
-        
-        // 2. Verificación de conectividad (deben haberse usado todas las aristas)
-        // Para grafos no dirigidos, circuit.size() debe ser igual a M + 1 (donde M = edges.size() / 2)
-        int required_size = undirected ? (edges.size() / 2 + 1) : (edges.size() + 1);
-        if (circuit.size() != required_size && edges.size() > 0) return {};
-        
-        return circuit;
-    }
 };
 
 // ==========================================
-// 🚀 BINARY LIFTING (Grafos Funcionales)
+// 🚀 FUNCTIONAL GRAPH (Template Universal ICPC)
 // ==========================================
 struct FunctionalGraph {
     int n, log_k;
+    vector<int> succ;
+
+    // --- Módulo 1: Binary Lifting ---
     vector<vector<int>> up;
 
-    FunctionalGraph(int _n, int max_k_bits = 60) : n(_n), log_k(max_k_bits) {
+    // --- Módulo 2: Topología y Ciclos ---
+    vector<int> state;      // 0 = Blanco, 1 = Gris, 2 = Negro
+    vector<int> ans;        // Distancia total hasta repetir un nodo
+    vector<int> cycle_id;   // ID del ciclo al que pertenece o "cae"
+    vector<int> depth;      // Distancia hacia el ciclo (0 si está en la rotonda)
+    vector<int> cycle_size; // cycle_size[id] = tamaño de ese ciclo
+    int num_cycles;
+
+    FunctionalGraph(int _n, int max_k_bits = 30) : n(_n), log_k(max_k_bits) {
+        succ.assign(n + 1, 0);
         up.assign(n + 1, vector<int>(log_k, 0));
+        
+        state.assign(n + 1, 0);
+        ans.assign(n + 1, 0);
+        cycle_id.assign(n + 1, 0);
+        depth.assign(n + 1, 0);
+        cycle_size.assign(1, 0); // Índice 0 no se usa
+        num_cycles = 0;
     }
 
-    // succ[i] es el sucesor a 1 paso del nodo i
-    void build(const vector<int>& succ) {
+    // 0. Cargar el mapa
+    void set_edges(const vector<int>& _succ) {
+        for (int i = 1; i <= n; i++) succ[i] = _succ[i];
+    }
+
+    // 1. Activar Motor de Saltos O(N log K) (Ej: Planets Queries I y II)
+    void build_lifting() {
         for (int i = 1; i <= n; i++) up[i][0] = succ[i];
         for (int j = 1; j < log_k; j++) {
             for (int i = 1; i <= n; i++) {
@@ -368,11 +338,63 @@ struct FunctionalGraph {
         }
     }
 
-    int get_kth_successor(int u, ll k) {
-        for (int j = 0; j < log_k; j++) {
-            if (k & (1LL << j)) {
-                u = up[u][j];
+    // 2. Activar Escáner Topológico O(N) (Ej: Planets Cycles y PQ2)
+    void build_cycles() {
+        for (int i = 1; i <= n; i++) {
+            if (state[i] == 0) {
+                vector<int> path;
+                int curr = i;
+                
+                // Caminar mientras sea Blanco
+                while (state[curr] == 0) {
+                    state[curr] = 1; // Gris
+                    path.push_back(curr);
+                    curr = succ[curr];
+                }
+
+                // Choque Alfa: Descubrimos un ciclo nuevo
+                if (state[curr] == 1) {
+                    num_cycles++;
+                    int start_idx = 0;
+                    while (path[start_idx] != curr) start_idx++;
+                    
+                    int sz = path.size() - start_idx;
+                    cycle_size.push_back(sz);
+
+                    // Procesar la rotonda
+                    for (int j = start_idx; j < path.size(); j++) {
+                        int u = path[j];
+                        ans[u] = sz;
+                        cycle_id[u] = num_cycles;
+                        depth[u] = 0;
+                        state[u] = 2; // Negro
+                    }
+                    path.resize(start_idx); // Cortar la rotonda del hilo
+                }
+
+                // Choque Bravo / Retroceso: Procesar el afluente
+                int curr_ans = ans[curr];
+                int curr_depth = depth[curr];
+                int root_cycle = cycle_id[curr]; 
+                
+                for (int j = (int)path.size() - 1; j >= 0; j--) {
+                    int u = path[j];
+                    curr_ans++;
+                    curr_depth++;
+                    
+                    ans[u] = curr_ans;
+                    depth[u] = curr_depth;
+                    cycle_id[u] = root_cycle; // Hereda el ID del ciclo al que cae
+                    state[u] = 2; // Negro
+                }
             }
+        }
+    }
+
+    // 3. Saltos ultra rápidos O(log K)
+    int get_kth_successor(int u, long long k) {
+        for (int j = 0; j < log_k; j++) {
+            if (k & (1LL << j)) u = up[u][j];
         }
         return u;
     }
@@ -430,89 +452,25 @@ struct LCA {
     }
 };
 
-// ==========================================
-// 🚀 2-SAT (Satisfactibilidad Booleana)
-// ==========================================
-struct TwoSat {
-    int n;
-    Graph<ll> G;
-    vector<bool> assignment;
-
-    // n es el número de variables booleanas
-    TwoSat(int _n) : n(_n), G(2 * _n) {
-        assignment.assign(n + 1, false);
-    }
-
-    // Retorna el nodo de la variable u. Si is_true es false, retorna su negación.
-    int get_node(int u, bool is_true) {
-        return is_true ? u : u + n;
-    }
-
-    // Agrega la cláusula (u OR v)
-    // Ejemplo: Si quiero "X_2 o NO X_3", llamo add_clause(2, true, 3, false)
-    void add_clause(int u, bool is_u_true, int v, bool is_v_true) {
-        int not_u = get_node(u, !is_u_true);
-        int node_v = get_node(v, is_v_true);
-        int not_v = get_node(v, !is_v_true);
-        int node_u = get_node(u, is_u_true);
-        
-        G.add_directed_edge(not_u, node_v); // !u -> v
-        G.add_directed_edge(not_v, node_u); // !v -> u
-    }
-
-    // Forzar que una variable sea obligatoriamente Verdadera o Falsa
-    void force_value(int u, bool is_true) {
-        add_clause(u, is_true, u, is_true);
-    }
-
-    // Agregar implicación: Si U pasa, entonces V tiene que pasar obligatoriamente (U => V)
-    // Es lógicamente equivalente a (!U OR V)
-    void add_implication(int u, bool is_u_true, int v, bool is_v_true) {
-        add_clause(u, !is_u_true, v, is_v_true);
-    }
-
-    // Agregar XOR: u y v deben tener valores DISTINTOS (u != v)
-    // Equivale a (u OR v) AND (!u OR !v)
-    void add_xor(int u, bool is_u_true, int v, bool is_v_true) {
-        add_clause(u, is_u_true, v, is_v_true);
-        add_clause(u, !is_u_true, v, !is_v_true);
-    }
-
-    // Agregar XNOR / Equivalencia: u y v deben tener el MISMO valor (u == v)
-    // Equivale a (!u OR v) AND (u OR !v)
-    void add_equivalence(int u, bool is_u_true, int v, bool is_v_true) {
-        add_implication(u, is_u_true, v, is_v_true);
-        add_implication(v, is_v_true, u, is_u_true);
-    }
-
-    // Intenta resolver el 2-SAT. Retorna true si es posible.
-    // Los resultados quedan en el arreglo booleano 'assignment'
-    bool solve() {
-        vector<int> comp = G.get_scc(); // Tarjan O(V+E)
-        
-        for (int i = 1; i <= n; i++) {
-            if (comp[i] == comp[i + n]) {
-                return false; // Contradicción: u y !u están en el mismo ciclo
-            }
-            // Magia de Tarjan: Los componentes terminados primero (menor ID) son sumideros.
-            // Siempre asignamos True a los sumideros para no forzar errores hacia atrás.
-            assignment[i] = comp[i] < comp[i + n];
-        }
-        return true;
-    }
-};
-
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     
-    // Ejemplo de uso:
-    // int n, m; cin >> n >> m;
-    // Graph<ll> G(n);
-    // for(int i = 0; i < m; i++){
-    //     int u, v; ll w; cin >> u >> v >> w;
-    //     G.add_directed_edge(u, v, w);
-    // }
+    int n; cin >> n ;
+    vector<int> succ(n + 1);
+    for (int i = 1; i <= n; i++) {
+        cin >> succ[i];
+    }
+
+    FunctionalGraph fg(n);
+    fg.set_edges(succ);
+    fg.build_cycles();
+    for (int i = 1; i <= n; i++) {
+        cout << fg.ans[i] << " ";
+    }
+    cout << "\n";
+     
     
+
     return 0;
 }

@@ -51,7 +51,7 @@ public:
 // FENWICK TREE (Binary Indexed Tree)
 // ====================================================================
 class FenwickTree {
-public:
+private:
     int n;
     vector<ll> bit;
 
@@ -104,10 +104,10 @@ class IterativeSegTree {
 private:
     int n;
     vector<ll> st;
-    const ll NEUTRAL = 0; // Cambiar a LINF para min, -LINF para max
+    const ll NEUTRAL = -LINF; // Cambiar a LINF para min, -LINF para max
 
     ll combine(ll a, ll b) {
-        return a ^ b; // Cambiar a min(a,b) o max(a,b)
+        return max(a, b); // Cambiar a min(a,b) o max(a,b)
     }
 
 public:
@@ -281,16 +281,52 @@ public:
 };
 
 
+void solve() {
+    int n;
+    cin >> n;
+    vector<ll> a(n + 1);
+    for (int i = 1; i <= n; i++) {
+        cin >> a[i];
+    }
+    
+    vector<ll> init_st(n + 1, 0);
+    IterativeSegTree st(init_st);
+    
+    vector<ll> dp(n + 1, 0);
+    ll max_global = 0;
+    
+    vector<vector<int>> e(n + 1);
+    
+    for (int i = 1; i <= n; i++) {
+        for (int j : e[i]) {
+            st.update(j, dp[j]);
+        }
+        int lim = i - a[i] - 1;
+        ll mxp = 0;
+        if (lim >= 1) {
+            mxp = st.query(1, min(lim, n));
+        }
+        
+        dp[i] = a[i] + mxp;
+        max_global = max(max_global, dp[i]);
+        
+        ll u_day = i + a[i] + 1;
+        if (u_day <= n) {
+            e[u_day].push_back(i);
+        }
+    }
+    
+    cout << max_global << "\n";
+}
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n, q; cin >> n >> q;
-    vector<ll> v(n);
-    for (int i = 0; i<n; i++) cin >> v[i];
-    IterativeSegTree st(v);
-    while (q--) {
-        int a, b; cin >> a >> b;
-        cout << st.query(a-1,b-1) << "\n";
+    
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
     }
     return 0;
 }

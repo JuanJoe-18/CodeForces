@@ -503,16 +503,29 @@ struct TwoSat {
 };
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int n, m; cin >> n >> m;
     
-    // Ejemplo de uso:
-    // int n, m; cin >> n >> m;
-    // Graph<ll> G(n);
-    // for(int i = 0; i < m; i++){
-    //     int u, v; ll w; cin >> u >> v >> w;
-    //     G.add_directed_edge(u, v, w);
-    // }
+    TwoSat solver(m);
+    
+    for (int i = 0; i < n; i++) {
+        char c1, c2;
+        int u, v;
+        cin >> c1 >> u >> c2 >> v;
+        bool is_u_true = (c1 == '+');
+        bool is_v_true = (c2 == '+');
+        solver.add_clause(u, is_u_true, v, is_v_true);
+    }
+    
+    if (!solver.solve()) {
+        cout << "IMPOSSIBLE\n";
+    } else {
+        for (int i = 1; i <= m; i++) {
+            if (solver.assignment[i]) cout << "+ ";
+            else cout << "- ";
+        }
+        cout << "\n";
+    }
     
     return 0;
 }
