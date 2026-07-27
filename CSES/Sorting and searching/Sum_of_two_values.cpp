@@ -1,14 +1,9 @@
 #include<bits/stdc++.h>
 using namespace std;
+multimap<int,int> a;
 typedef long long ll;
-int main () {
-    int n, x; cin >> n >> x;
-    multimap<int,int> a;
-    for (int i = 0; i < n; i++) {
-        int v; cin >> v;
-        a.insert({v, i + 1});
-    }
 
+void sotv(int x) {
     auto l = a.begin();
     auto r = prev(a.end());
     bool found = false;
@@ -27,5 +22,15 @@ int main () {
     }
 
     if (!found) cout << "IMPOSSIBLE\n";
+}
+
+int main () {
+    int n, x; cin >> n >> x;
+    for (int i = 0; i < n; i++) {
+        int v; cin >> v;
+        a.insert({v, i + 1});
+    }
+
+    sotv(x);
     return 0;
 }
