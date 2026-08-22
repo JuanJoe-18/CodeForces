@@ -4,7 +4,7 @@ typedef long long ll;
 const ll LINF = 1e18;
 
 // ==========================================
-// 🚀 ESTRUCTURA MAESTRA DE GRAFOS (ICPC)
+// ESTRUCTURA MAESTRA DE GRAFOS (ICPC)
 // ==========================================
 template <typename T = ll>
 struct Edge {
@@ -14,36 +14,21 @@ struct Edge {
 };
 
 // ==========================================
-// 🚀 DISJOINT SET UNION (DSU)
+// DISJOINT SET UNION (DSU)
 // ==========================================
 struct DSU {
     vector<int> p, sz;
     
-    /**
-     * @brief Inicializa el DSU con n elementos.
-     * @param n Cantidad de elementos (0-indexed o 1-indexed, usar tamaño n+1 si es 1-indexed).
-     */
     DSU(int n) {
         p.resize(n);
         sz.assign(n, 1);
         iota(p.begin(), p.end(), 0);
     }
     
-    /**
-     * @brief Encuentra el representante del conjunto al que pertenece x.
-     * @param x Elemento a consultar.
-     * @return Representante del conjunto.
-     */
     int find(int x) {
         return p[x] == x ? x : p[x] = find(p[x]);
     }
     
-    /**
-     * @brief Une los conjuntos a los que pertenecen a y b.
-     * @param a Primer elemento.
-     * @param b Segundo elemento.
-     * @return true si estaban en distintos conjuntos y se unieron, false si ya estaban unidos.
-     */
     bool unite(int a, int b) {
         a = find(a);
         b = find(b);
@@ -78,7 +63,7 @@ struct Graph {
     }
 
     // ---------------------------------------------------------
-    // 🧠 ALGORITMOS INTEGRADOS
+    // ALGORITMOS INTEGRADOS
     // ---------------------------------------------------------
     
     // 1. Dijkstra O(E log V)
@@ -185,10 +170,10 @@ struct Graph {
         return {ok, dist, p, cycle};
     }
 
-    // 5. Encontrar Ciclo Dirigido (Round Trip II)
-    // Retorna: vector vacio si no hay ciclo. Si hay, retorna los nodos del ciclo en orden.
+    // 5. Encontrar Ciclo Dirigido (Round Trip II) - Blindado contra RE
+    // Retorna: vector vacio si no hay ciclo. Si hay, retorna los nodos del ciclo en orden [c1, c2, ..., ck, c1].
     vector<int> find_directed_cycle() {
-        vector<int> state(n + 1, 0);
+        vector<int> state(n + 1, 0); // 0: Blanco (no visitado), 1: Gris (en pila), 2: Negro (terminado)
         vector<int> parent(n + 1, -1);
         vector<int> cycle;
         
@@ -199,10 +184,10 @@ struct Graph {
                 if (state[v] == 0) {
                     parent[v] = u;
                     if (self(self, v)) return true;
-                } else if (state[v] == 1) { // Ciclo encontrado
+                } else if (state[v] == 1) { // Ciclo dirigido encontrado
                     cycle.push_back(v);
                     int curr = u;
-                    while (curr != v) {
+                    while (curr != -1 && curr != v) { // Blindado contra parent[-1]
                         cycle.push_back(curr);
                         curr = parent[curr];
                     }
@@ -223,38 +208,41 @@ struct Graph {
         return cycle;
     }
 
-    // 6. Encontrar Ciclo No Dirigido (Round Trip I)
-    // Retorna: vector vacio si no hay ciclo. Si hay, retorna los nodos del ciclo en orden.
+    // 6. Encontrar Ciclo No Dirigido (Round Trip I) - Blindado contra multi-aristas y RE
+    // Retorna: vector vacio si no hay ciclo. Si hay, retorna los nodos del ciclo en orden [c1, c2, ..., ck, c1].
     vector<int> find_undirected_cycle() {
-        vector<bool> visited(n + 1, false);
-        vector<int> parent(n + 1, -1);
+        vector<int> state(n + 1, 0); // 0: Blanco, 1: Gris (en pila), 2: Negro
+        vector<int> parent_node(n + 1, -1);
         vector<int> cycle;
         
-        auto dfs = [&](auto& self, int u, int p) -> bool {
-            visited[u] = true;
+        auto dfs = [&](auto& self, int u, int p_edge_idx) -> bool {
+            state[u] = 1;
             for (int id : adj[u]) {
+                // Si la arista es la inversa de la que usamos para llegar a u, la ignoramos
+                if ((id ^ 1) == p_edge_idx) continue;
                 int v = edges[id].to;
-                if (v == p) continue; // Ignorar la arista por la que vinimos
-                if (!visited[v]) {
-                    parent[v] = u;
-                    if (self(self, v, u)) return true;
-                } else { // Ciclo encontrado
+
+                if (state[v] == 0) {
+                    parent_node[v] = u;
+                    if (self(self, v, id)) return true;
+                } else if (state[v] == 1) { // Ciclo encontrado (back-edge hacia un ancestro)
                     cycle.push_back(v);
                     int curr = u;
-                    while (curr != v) {
+                    while (curr != -1 && curr != v) { // Blindado contra desbordamiento
                         cycle.push_back(curr);
-                        curr = parent[curr];
+                        curr = parent_node[curr];
                     }
                     cycle.push_back(v);
                     reverse(cycle.begin(), cycle.end());
                     return true;
                 }
             }
+            state[u] = 2;
             return false;
         };
 
         for (int i = 1; i <= n; i++) {
-            if (!visited[i]) {
+            if (state[i] == 0) {
                 if (dfs(dfs, i, -1)) return cycle;
             }
         }
@@ -262,16 +250,10 @@ struct Graph {
     }
 
     // 7. Algoritmo de Kruskal para Minimum Spanning Tree (MST)
-    /**
-     * @brief Calcula el Árbol de Expansión Mínima (MST).
-     * @return Un par donde el primer elemento es el peso total del MST,
-     *         y el segundo elemento es un vector con los índices de las aristas del MST.
-     */
     pair<T, vector<int>> kruskal() {
         vector<int> edge_indices(edges.size());
         iota(edge_indices.begin(), edge_indices.end(), 0);
         
-        // Ordenar índices de las aristas por peso
         sort(edge_indices.begin(), edge_indices.end(), [&](int a, int b) {
             return edges[a].weight < edges[b].weight;
         });
@@ -291,41 +273,185 @@ struct Graph {
         
         return {mst_weight, mst_edges};
     }
-};
 
+    // 8. Circuito Euleriano (Hierholzer's Algorithm) O(V + E)
+    vector<int> eulerian_circuit(int start_node = 1, bool undirected = true) {
+        vector<int> in_deg(n + 1, 0), out_deg(n + 1, 0);
+        int max_id = -1;
+        for (auto& e : edges) {
+            out_deg[e.from]++;
+            in_deg[e.to]++;
+            max_id = max(max_id, e.id);
+        }
+        
+        for (int i = 1; i <= n; i++) {
+            if (undirected) {
+                if (out_deg[i] % 2 != 0) return {};
+            } else {
+                if (in_deg[i] != out_deg[i]) return {};
+            }
+        }
+
+        vector<bool> used_edge(max_id + 1, false);
+        vector<int> circuit;
+        vector<int> head(n + 1, 0);
+        
+        auto dfs = [&](auto& self, int u) -> void {
+            while (head[u] < adj[u].size()) {
+                int edge_idx = adj[u][head[u]++];
+                auto& e = edges[edge_idx];
+                
+                if (e.id != -1) {
+                    if (!used_edge[e.id]) {
+                        used_edge[e.id] = true;
+                        self(self, e.to);
+                    }
+                } else {
+                    self(self, e.to);
+                }
+            }
+            circuit.push_back(u);
+        };
+        
+        dfs(dfs, start_node);
+        reverse(circuit.begin(), circuit.end());
+        
+        int required_size = undirected ? (edges.size() / 2 + 1) : (edges.size() + 1);
+        if (circuit.size() != required_size && edges.size() > 0) return {};
+        
+        return circuit;
+    }
+};
 // ==========================================
-// 🚀 BINARY LIFTING (Grafos Funcionales)
+// GRAFOS FUNCIONALES (Successor Graphs)
 // ==========================================
+// Cada nodo u tiene un único sucesor succ[u] (out-degree = 1).
+// Incluye:
+// - Descomposición de TODOS los ciclos en O(N) sin recursión profunda.
+// - Binary Lifting para saltar K pasos en O(log K).
+// - Identificación de nodos en ciclo, distancias a ciclo y tamaños de ciclo.
 struct FunctionalGraph {
     int n, log_k;
     vector<vector<int>> up;
+    vector<int> succ;
+    
+    // Información de ciclos
+    vector<vector<int>> cycles;    // Lista con todos los ciclos [ [c1, c2, c3], ... ]
+    vector<int> in_cycle;          // 1 si el nodo u pertenece a un ciclo, 0 si no
+    vector<int> cycle_id;          // ID del ciclo al que pertenece o al que llega
+    vector<int> cycle_pos;         // Posición (0-indexed) del nodo dentro de su ciclo
+    vector<int> cycle_size;        // Tamaño del ciclo al que pertenece o al que llega
+    vector<int> dist_to_cycle;     // Distancia en pasos desde u hasta entrar a su ciclo
 
     FunctionalGraph(int _n, int max_k_bits = 60) : n(_n), log_k(max_k_bits) {
         up.assign(n + 1, vector<int>(log_k, 0));
+        succ.assign(n + 1, 0);
+        in_cycle.assign(n + 1, 0);
+        cycle_id.assign(n + 1, -1);
+        cycle_pos.assign(n + 1, -1);
+        cycle_size.assign(n + 1, 0);
+        dist_to_cycle.assign(n + 1, 0);
     }
 
-    // succ[i] es el sucesor a 1 paso del nodo i
-    void build(const vector<int>& succ) {
-        for (int i = 1; i <= n; i++) up[i][0] = succ[i];
-        for (int j = 1; j < log_k; j++) {
-            for (int i = 1; i <= n; i++) {
-                up[i][j] = up[up[i][j - 1]][j - 1];
+    // 1. Descomposición completa de ciclos en O(N) lineal e iterativo (cero riesgo de Stack Overflow)
+    void decompose_cycles(const vector<int>& _succ) {
+        succ = _succ;
+        vector<int> state(n + 1, 0); // 0: No visitado, 1: En camino actual, 2: Terminado
+        cycles.clear();
+
+        for (int i = 1; i <= n; i++) {
+            if (state[i] != 0) continue;
+            
+            int curr = i;
+            vector<int> path;
+            while (curr >= 1 && curr <= n && state[curr] == 0) {
+                state[curr] = 1;
+                path.push_back(curr);
+                curr = succ[curr];
+            }
+
+            // Si chocamos con un nodo en la ruta actual, encontramos un ciclo nuevo
+            if (curr >= 1 && curr <= n && state[curr] == 1) {
+                vector<int> cyc;
+                bool found_start = false;
+                for (int u : path) {
+                    if (u == curr) found_start = true;
+                    if (found_start) cyc.push_back(u);
+                }
+                
+                int cid = cycles.size();
+                int c_sz = cyc.size();
+                for (int pos = 0; pos < c_sz; pos++) {
+                    int u = cyc[pos];
+                    in_cycle[u] = 1;
+                    cycle_id[u] = cid;
+                    cycle_pos[u] = pos;
+                    cycle_size[u] = c_sz;
+                    dist_to_cycle[u] = 0;
+                }
+                cycles.push_back(cyc);
+            }
+
+            for (int u : path) state[u] = 2;
+        }
+
+        // Calcular distancias y ciclo destino para los nodos que no están en ciclo
+        for (int i = 1; i <= n; i++) {
+            if (in_cycle[i]) continue;
+            int curr = i;
+            vector<int> path;
+            while (curr >= 1 && curr <= n && !in_cycle[curr] && cycle_id[curr] == -1) {
+                path.push_back(curr);
+                curr = succ[curr];
+            }
+            int target_cid = (curr >= 1 && curr <= n) ? cycle_id[curr] : -1;
+            int target_csz = (curr >= 1 && curr <= n) ? cycle_size[curr] : 0;
+            int d = (curr >= 1 && curr <= n) ? dist_to_cycle[curr] : 0;
+
+            for (int j = (int)path.size() - 1; j >= 0; j--) {
+                d++;
+                int u = path[j];
+                cycle_id[u] = target_cid;
+                cycle_size[u] = target_csz;
+                dist_to_cycle[u] = d;
             }
         }
     }
 
+    // 2. Binary Lifting para consultas de saltos en O(log K)
+    void build_binary_lifting(const vector<int>& _succ) {
+        succ = _succ;
+        for (int i = 1; i <= n; i++) up[i][0] = succ[i];
+        for (int j = 1; j < log_k; j++) {
+            for (int i = 1; i <= n; i++) {
+                int p = up[i][j - 1];
+                up[i][j] = (p >= 1 && p <= n) ? up[p][j - 1] : 0;
+            }
+        }
+    }
+
+    // Salto de K pasos en O(log K)
     int get_kth_successor(int u, ll k) {
         for (int j = 0; j < log_k; j++) {
             if (k & (1LL << j)) {
                 u = up[u][j];
+                if (u < 1 || u > n) return 0;
             }
         }
         return u;
     }
+
+    // Verifica si existe al menos un ciclo de longitud exacta K en O(Número de Ciclos) <= O(N)
+    bool has_cycle_of_length(int target_len) {
+        for (auto& cyc : cycles) {
+            if ((int)cyc.size() == target_len) return true;
+        }
+        return false;
+    }
 };
 
 // ==========================================
-// 🚀 LOWEST COMMON ANCESTOR (Árboles)
+// LOWEST COMMON ANCESTOR (Árboles)
 // ==========================================
 struct LCA {
     int n, log_n;
@@ -337,7 +463,6 @@ struct LCA {
         depth.assign(n + 1, 0);
     }
 
-    // adj = lista de adyacencia bidireccional del árbol
     void dfs(int u, int p, const vector<vector<int>>& adj) {
         up[u][0] = p;
         for (int j = 1; j < log_n; j++) {
@@ -376,25 +501,75 @@ struct LCA {
     }
 };
 
+// ==========================================
+// 2-SAT (Satisfactibilidad Booleana)
+// ================================================================
+struct TwoSat {
+    int n;
+    Graph<ll> G;
+    vector<bool> assignment;
+
+    TwoSat(int _n) : n(_n), G(2 * _n) {
+        assignment.assign(n + 1, false);
+    }
+
+    int get_node(int u, bool is_true) {
+        return is_true ? u : u + n;
+    }
+
+    void add_clause(int u, bool is_u_true, int v, bool is_v_true) {
+        int not_u = get_node(u, !is_u_true);
+        int node_v = get_node(v, is_v_true);
+        int not_v = get_node(v, !is_v_true);
+        int node_u = get_node(u, is_u_true);
+        
+        G.add_directed_edge(not_u, node_v);
+        G.add_directed_edge(not_v, node_u);
+    }
+
+    void force_value(int u, bool is_true) {
+        add_clause(u, is_true, u, is_true);
+    }
+
+    void add_implication(int u, bool is_u_true, int v, bool is_v_true) {
+        add_clause(u, !is_u_true, v, is_v_true);
+    }
+
+    void add_xor(int u, bool is_u_true, int v, bool is_v_true) {
+        add_clause(u, is_u_true, v, is_v_true);
+        add_clause(u, !is_u_true, v, !is_v_true);
+    }
+
+    void add_equivalence(int u, bool is_u_true, int v, bool is_v_true) {
+        add_implication(u, is_u_true, v, is_v_true);
+        add_implication(v, is_v_true, u, is_u_true);
+    }
+
+    bool solve() {
+        vector<int> comp = G.get_scc();
+        for (int i = 1; i <= n; i++) {
+            if (comp[i] == comp[i + n]) return false;
+            assignment[i] = comp[i] < comp[i + n];
+        }
+        return true;
+    }
+};
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n; 
-    Graph<ll> G(n);
-    for (int u = 1; u <= n; u++) {
-        int v; cin >> v;
-        G.add_directed_edge(u,v,1);
+    int n; cin >> n;
+    vector<int> f(n + 1);
+    for (int i = 1; i <= n; i++) cin >> f[i];
+
+
+    FunctionalGraph fg(n);
+    fg.decompose_cycles(f);
+
+    if (fg.has_cycle_of_length(3)) {
+        cout << "YES\n";
+    } else {
+        cout << "NO\n";
     }
-
-    vector<int> cycle = G.find_directed_cycle();
-
-    for (int x: cycle) cout << x << " " ;
-    
-    
     return 0;
 }
-
-/*
-5
-2 4 5 1 3
-*/

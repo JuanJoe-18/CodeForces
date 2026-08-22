@@ -3,7 +3,7 @@ using namespace std;
 typedef long long ll;
 
 // ==========================================
-// 🚀 ESTRUCTURA MAESTRA DE STRINGS (ICPC)
+// ESTRUCTURA MAESTRA DE STRINGS (ICPC)
 // ==========================================
 
 namespace StringAlgo {

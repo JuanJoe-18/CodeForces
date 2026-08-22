@@ -5,7 +5,7 @@ typedef long long ll;
 const ll LINF = 1e18;
 
 // ====================================================================
-// 🚀 SWEEP LINE 1D (Intervalos, Horarios, Coberturas)
+// SWEEP LINE 1D (Intervalos, Horarios, Coberturas)
 // ====================================================================
 struct Event1D {
     ll x;       // Coordenada (tiempo, posición, etc.)
@@ -51,7 +51,7 @@ int max_concurrent_intervals(vector<pair<ll, ll>>& intervals) {
 
 
 // ====================================================================
-// 🚀 SWEEP LINE 2D (Geometría, Unión de Rectángulos)
+// SWEEP LINE 2D (Geometría, Unión de Rectángulos)
 // ====================================================================
 struct Event2D {
     ll x;          // Coordenada donde ocurre el evento (eje de barrido X)

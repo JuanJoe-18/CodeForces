@@ -2,12 +2,12 @@
 using namespace std;
 
 // ================================
-// 🚀 Entrada/Salida rápida
+// Entrada/Salida rapida
 // ================================
 #define fastio ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
 
 // ================================
-// 🚀 Atajos
+// Atajos
 // ================================
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
@@ -21,7 +21,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 
 // ================================
-// 🚀 Constantes globales
+// Constantes globales
 // ================================
 const int INF = 1e9;
 const ll LINF = 1e18;
@@ -29,7 +29,7 @@ const int MOD = 1e9+7;  // cambiar según el problema
 const double EPS = 1e-9;
 
 // ================================
-// 🚀 Funciones matemáticas
+// Funciones matematicas
 // ================================
 ll gcd(ll a, ll b){ return b==0 ? a : gcd(b,a%b); }
 ll lcm(ll a, ll b){ return a/gcd(a,b)*b; }
@@ -123,7 +123,7 @@ void sieve(int n){
 }
 
 // ================================
-// 🚀 Grafos
+// Grafos
 // ================================
 vector<vi> adj;     // lista de adyacencia (sin peso)
 vector<vector<pair<int,ll>>> adj_w; // lista de adyacencia (con peso)
@@ -207,7 +207,7 @@ vector<ll> dijkstra(int n,int src){
         for(auto edge:adj_w[u]){
             int v = edge.first;
             ll peso = edge.second;
-            if(dist[v]>d+peso){ 
+            if(dist[v]>d+peso){
                 dist[v]=d+peso;
                 pq.push({dist[v],v});
             }
@@ -225,19 +225,19 @@ vector<ll> dijkstra(int n,int src){
  */
 vector<int> dijkstra_path(int n, int s, int t){
     vector<ll> dist(n+1, LINF);
-    parent.assign(n+1, -1); 
+    parent.assign(n+1, -1);
     priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<>> pq;
-    dist[s] = 0; 
+    dist[s] = 0;
     pq.push({0, s});
-    
+
     while(!pq.empty()){
         auto [d, u] = pq.top(); pq.pop();
         if(d > dist[u]) continue;
-        if(u == t) break; 
+        if(u == t) break;
         for(auto edge : adj_w[u]){
             int v = edge.first;
             ll peso = edge.second;
-            if(dist[v] > d + peso){ 
+            if(dist[v] > d + peso){
                 dist[v] = d + peso;
                 parent[v] = u;
                 pq.push({dist[v], v});
@@ -245,7 +245,7 @@ vector<int> dijkstra_path(int n, int s, int t){
         }
     }
     vector<int> path;
-    if(dist[t] == LINF) return path; 
+    if(dist[t] == LINF) return path;
     for(int v = t; v != -1; v = parent[v]){
         path.push_back(v);
     }
@@ -256,7 +256,7 @@ vector<int> dijkstra_path(int n, int s, int t){
 /**
  * @brief Algoritmo de Floyd-Warshall (Caminos minimos entre TODOS los nodos).
  * @param n Cantidad de nodos.
- * @param dist Matriz de adyacencia de (n+1)x(n+1). 
+ * @param dist Matriz de adyacencia de (n+1)x(n+1).
  *             Debe inicializarse con LINF, y dist[i][i] = 0.
  *             Despues de ejecutarse, guardara las distancias minimas.
  */
@@ -349,7 +349,7 @@ struct DSU {
 };
 
 // ================================
-// 🚀 Grafos en grilla (Grid)
+// Grafos en grilla (Grid)
 // ================================
 int nGrid, mGrid;           // dimensiones de la grilla
 vector<string> grid;        // grilla leida como cadenas
@@ -415,7 +415,7 @@ void bfsGrid(int sr, int sc){
 // visGrid.assign(nGrid, vi(mGrid, 0));
 
 // ================================
-// 🚀 Estructuras de rango
+// Estructuras de rango
 // ================================
 
 // Fenwick Tree (Binary Indexed Tree)
@@ -488,7 +488,7 @@ struct SegTree {
 };
 
 // ================================
-// 🚀 Strings
+// Strings
 // ================================
 
 /**
@@ -563,12 +563,12 @@ int query(int L, int R) { // O(1)
 }
 
 // ================================
-// 🚀 MAIN
+// MAIN
 // ================================
 int main(){
     fastio;
     int t=1;
-    // cin >> t; // 🔹 descomentar si hay múltiples casos
+    // cin >> t; // descomentar si hay multiples casos
     while(t--){
         // ---------------------------
         // Aquí resuelves el problema
