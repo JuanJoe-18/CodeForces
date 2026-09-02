@@ -2,12 +2,12 @@
 using namespace std;
 
 // ================================
-// 🚀 Entrada/Salida rápida
+//  Entrada/Salida rápida
 // ================================
 #define fastio ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
 
 // ================================
-// 🚀 Atajos
+//  Atajos
 // ================================
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
@@ -21,7 +21,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 
 // ================================
-// 🚀 Constantes globales
+//  Constantes globales
 // ================================
 const int INF = 1e9;
 const ll LINF = 1e18;
@@ -29,7 +29,7 @@ const int MOD = 1e9+7;  // cambiar según el problema
 const double EPS = 1e-9;
 
 // ================================
-// 🚀 Funciones matemáticas
+//  Funciones matemáticas
 // ================================
 ll gcd(ll a, ll b){ return b==0 ? a : gcd(b,a%b); }
 ll lcm(ll a, ll b){ return a/gcd(a,b)*b; }
@@ -123,7 +123,7 @@ void sieve(int n){
 }
 
 // ================================
-// 🚀 Grafos
+//  Grafos
 // ================================
 vector<vi> adj;     // lista de adyacencia
 vi visited;         // vector de visitados
@@ -250,7 +250,7 @@ struct DSU {
 };
 
 // ================================
-// 🚀 Grafos en grilla (Grid)
+//  Grafos en grilla (Grid)
 // ================================
 int nGrid, mGrid;           // dimensiones de la grilla
 vector<string> grid;        // grilla leida como cadenas
@@ -316,7 +316,7 @@ void bfsGrid(int sr, int sc){
 // visGrid.assign(nGrid, vi(mGrid, 0));
 
 // ================================
-// 🚀 Estructuras de rango
+//  Estructuras de rango
 // ================================
 
 // Fenwick Tree (Binary Indexed Tree)
@@ -389,7 +389,7 @@ struct SegTree {
 };
 
 // ================================
-// 🚀 Strings
+//  Strings
 // ================================
 
 /**

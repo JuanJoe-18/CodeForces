@@ -1,3 +1,17 @@
+/**
+ * @file RQTemplate.cpp
+ * @brief Plantilla compacta para Fenwick Tree y consultas de rango.
+ * @details Permite actualizaciones puntuales y sumas de prefijos o intervalos.
+ * @note El arreglo interno usa indices desde 1.
+ */
+//   ____ ___  ____  _____   ____  _   _
+//  / ___/ _ \|  _ \| ____| / ___|| | | |
+// | |  | | | | | | |  _|   \___ \| | | |
+// | |__| |_| | |_| | |___   ___) | |_| |
+//  \____\___/|____/|_____| |____/ \___/
+//
+//                RANGE QUERIES TEMPLATE
+
 // ====================================================================
 // FENWICK TREE (BIT) - Point Update, Range Sum
 // Complejidad: O(log N) | Espacio: O(N) | Arreglo 1-indexed

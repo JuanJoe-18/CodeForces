@@ -1,10 +1,24 @@
+/**
+ * @file GraphTemplateICPC.cpp
+ * @brief Plantilla de algoritmos y estructuras para grafos.
+ * @details Incluye DSU, caminos minimos, SCC, ciclos, Euler, LCA y 2-SAT.
+ * @note Ajusta la indexacion y elimina las estructuras que no uses.
+ */
+//   ____ ___  ____  _____   ____  _   _
+//  / ___/ _ \|  _ \| ____| / ___|| | | |
+// | |  | | | | | | |  _|   \___ \| | | |
+// | |__| |_| | |_| | |___   ___) | |_| |
+//  \____\___/|____/|_____| |____/ \___/
+//
+//                    GRAPH TEMPLATE
+
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
 const ll LINF = 1e18;
 
 // ==========================================
-// 🚀 ESTRUCTURA MAESTRA DE GRAFOS (ICPC)
+// ESTRUCTURA MAESTRA DE GRAFOS (ICPC)
 // ==========================================
 template <typename T = ll>
 struct Edge {
@@ -14,21 +28,24 @@ struct Edge {
 };
 
 // ==========================================
-// 🚀 DISJOINT SET UNION (DSU)
+// DISJOINT SET UNION (DSU)
 // ==========================================
 struct DSU {
     vector<int> p, sz;
-    
+    vector<vector<int>> members;
+    int num_components;
+
     /**
      * @brief Inicializa el DSU con n elementos.
      * @param n Cantidad de elementos (0-indexed o 1-indexed, usar tamaño n+1 si es 1-indexed).
      */
-    DSU(int n) {
-        p.resize(n);
-        sz.assign(n, 1);
+    DSU(int n) : p(n), sz(n, 1), members(n), num_components(n) {
         iota(p.begin(), p.end(), 0);
+        for (int i = 0; i < n; i++) {
+            members[i].push_back(i);
+        }
     }
-    
+
     /**
      * @brief Encuentra el representante del conjunto al que pertenece x.
      * @param x Elemento a consultar.
@@ -51,9 +68,64 @@ struct DSU {
         if (sz[a] < sz[b]) swap(a, b);
         p[b] = a;
         sz[a] += sz[b];
+        members[a].reserve(members[a].size() + members[b].size());
+        members[a].insert(members[a].end(), members[b].begin(), members[b].end());
+        vector<int>().swap(members[b]);
+        num_components--;
         return true;
     }
+
+    /**
+     * @brief Devuelve los nodos que pertenecen a la componente de x.
+     * @param x Nodo cuya componente se quiere consultar.
+     * @return Referencia constante al vector de nodos de la componente.
+     */
+    const vector<int>& get_component_nodes(int x) {
+        return members[find(x)];
+    }
+
+    /**
+     * @brief Devuelve todas las componentes conexas actuales.
+     * @param first_node Primer indice que se debe considerar. Usa 1 con DSU(n+1)
+     *        cuando el nodo 0 se deja como dummy.
+     * @return Vector con los nodos agrupados por componente.
+     */
+    vector<vector<int>> get_components(int first_node = 0) const {
+        vector<vector<int>> result;
+        for (int root = first_node; root < (int)p.size(); root++) {
+            if (p[root] == root && !members[root].empty()) {
+                result.push_back(members[root]);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @brief Devuelve el tamaño de la componente de x.
+     */
+    int component_size(int x) {
+        return sz[find(x)];
+    }
+
+    /**
+     * @brief Devuelve la cantidad de componentes.
+     * @param first_node Usa 1 para ignorar el nodo 0 dummy en DSU(n+1).
+     */
+    int component_count(int first_node = 0) const {
+        if (first_node == 0) return num_components;
+        int count = 0;
+        for (int root = first_node; root < (int)p.size(); root++) {
+            if (p[root] == root && !members[root].empty()) count++;
+        }
+        return count;
+    }
 };
+
+// Ejemplo:
+// DSU dsu(n + 1); // vertices 1..n; el indice 0 queda sin usar
+// dsu.unite(1, 4);
+// for (int node : dsu.get_component_nodes(4)) cout << node << ' ';
+// for (const auto& component : dsu.get_components(1)) { /* usar component */ }
 
 template <typename T = ll>
 struct Graph {
@@ -78,7 +150,7 @@ struct Graph {
     }
 
     // ---------------------------------------------------------
-    // 🧠 ALGORITMOS INTEGRADOS
+    // ALGORITMOS INTEGRADOS
     // ---------------------------------------------------------
     
     // 1. Dijkstra O(E log V)
@@ -348,7 +420,7 @@ struct Graph {
 };
 
 // ==========================================
-// 🚀 BINARY LIFTING (Grafos Funcionales)
+// BINARY LIFTING (Grafos Funcionales)
 // ==========================================
 struct FunctionalGraph {
     int n, log_k;
@@ -379,7 +451,7 @@ struct FunctionalGraph {
 };
 
 // ==========================================
-// 🚀 LOWEST COMMON ANCESTOR (Árboles)
+// LOWEST COMMON ANCESTOR (Arboles)
 // ==========================================
 struct LCA {
     int n, log_n;
@@ -431,7 +503,7 @@ struct LCA {
 };
 
 // ==========================================
-// 🚀 2-SAT (Satisfactibilidad Booleana)
+// 2-SAT (Satisfactibilidad Booleana)
 // ==========================================
 struct TwoSat {
     int n;

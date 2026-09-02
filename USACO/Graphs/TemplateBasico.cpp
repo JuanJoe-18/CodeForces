@@ -1,3 +1,17 @@
+/**
+ * @file TemplateBasico.cpp
+ * @brief Plantilla basica para recorrer un grafo con DFS.
+ * @details Construye una lista de adyacencia y marca nodos visitados.
+ * @note Ajusta el nodo inicial y la indexacion segun el enunciado.
+ */
+//   ____ ___  ____  _____   ____  _   _
+//  / ___/ _ \|  _ \| ____| / ___|| | | |
+// | |  | | | | | | |  _|   \___ \| | | |
+// | |__| |_| | |_| | |___   ___) | |_| |
+//  \____\___/|____/|_____| |____/ \___/
+//
+//                 BASIC DFS TEMPLATE
+
 #include<bits/stdc++.h>
 using namespace std;
 

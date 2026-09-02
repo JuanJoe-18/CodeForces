@@ -4,7 +4,7 @@ typedef long long ll;
 const ll LINF = 1e18;
 
 // ==========================================
-// 🚀 ESTRUCTURA MAESTRA DE GRAFOS (ICPC)
+//  ESTRUCTURA MAESTRA DE GRAFOS (ICPC)
 // ==========================================
 template <typename T = ll>
 struct Edge {
@@ -36,7 +36,7 @@ struct Graph {
     }
 
     // ---------------------------------------------------------
-    // 🧠 ALGORITMOS INTEGRADOS
+    //  ALGORITMOS INTEGRADOS
     // ---------------------------------------------------------
     
     // 1. Dijkstra O(E log V)
@@ -221,7 +221,7 @@ struct Graph {
 };
 
 // ==========================================
-// 🚀 BINARY LIFTING (Grafos Funcionales)
+//  BINARY LIFTING (Grafos Funcionales)
 // ==========================================
 struct FunctionalGraph {
     int n, log_k;
@@ -252,7 +252,7 @@ struct FunctionalGraph {
 };
 
 // ==========================================
-// 🚀 LOWEST COMMON ANCESTOR (Árboles)
+//  LOWEST COMMON ANCESTOR (Árboles)
 // ==========================================
 struct LCA {
     int n, log_n;

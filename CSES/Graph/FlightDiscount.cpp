@@ -2,7 +2,7 @@
 using namespace std;
 
 // ================================
-// 🚀 Entrada/Salida rápida
+//  Entrada/Salida rápida
 // ================================
 #define fastio ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
 
@@ -23,7 +23,7 @@ const int MOD = 1e9+7;
 const double EPS = 1e-9;
 
 // ================================
-// 🚀 Grafos
+//  Grafos
 // ================================
 vector<vi> adj;     // lista de adyacencia (sin peso)
 vector<vector<pair<int,ll>>> adj_w; // lista de adyacencia (con peso)

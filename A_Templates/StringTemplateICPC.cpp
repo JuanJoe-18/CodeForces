@@ -1,9 +1,23 @@
+/**
+ * @file StringTemplateICPC.cpp
+ * @brief Plantilla de algoritmos para cadenas y patrones.
+ * @details Incluye KMP, Z-function, hashing doble y Trie.
+ * @note Verifica el alfabeto y la base del hash segun las restricciones.
+ */
+//   ____ ___  ____  _____   ____  _   _
+//  / ___/ _ \|  _ \| ____| / ___|| | | |
+// | |  | | | | | | |  _|   \___ \| | | |
+// | |__| |_| | |_| | |___   ___) | |_| |
+//  \____\___/|____/|_____| |____/ \___/
+//
+//                    STRING TEMPLATE
+
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
 
 // ==========================================
-// 🚀 ESTRUCTURA MAESTRA DE STRINGS (ICPC)
+// ESTRUCTURA MAESTRA DE STRINGS (ICPC)
 // ==========================================
 
 namespace StringAlgo {

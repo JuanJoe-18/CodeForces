@@ -1,13 +1,27 @@
+/**
+ * @file PlantillaGoat.cpp
+ * @brief Plantilla general para problemas de programacion competitiva.
+ * @details Utilidades de E/S, matematicas, grafos, rangos y strings.
+ * @note Elimina las secciones que no necesites antes de enviar la solucion.
+ */
+//   ____ ___  ____  _____   ____  _   _
+//  / ___/ _ \|  _ \| ____| / ___|| | | |
+// | |  | | | | | | |  _|   \___ \| | | |
+// | |__| |_| | |_| | |___   ___) | |_| |
+//  \____\___/|____/|_____| |____/ \___/
+//
+//              COMPETITIVE PROGRAMMING TEMPLATE
+
 #include <bits/stdc++.h>
 using namespace std;
 
 // ================================
-// 🚀 Entrada/Salida rápida
+// Entrada/Salida rapida
 // ================================
 #define fastio ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
 
 // ================================
-// 🚀 Atajos
+// Atajos
 // ================================
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
@@ -21,7 +35,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 
 // ================================
-// 🚀 Constantes globales
+// Constantes globales
 // ================================
 const int INF = 1e9;
 const ll LINF = 1e18;
@@ -29,7 +43,7 @@ const int MOD = 1e9+7;  // cambiar según el problema
 const double EPS = 1e-9;
 
 // ================================
-// 🚀 Funciones matemáticas
+// Funciones matematicas
 // ================================
 ll gcd(ll a, ll b){ return b==0 ? a : gcd(b,a%b); }
 ll lcm(ll a, ll b){ return a/gcd(a,b)*b; }
@@ -123,7 +137,7 @@ void sieve(int n){
 }
 
 // ================================
-// 🚀 Grafos
+// Grafos
 // ================================
 vector<vi> adj;     // lista de adyacencia (sin peso)
 vector<vector<pair<int,ll>>> adj_w; // lista de adyacencia (con peso)
@@ -318,15 +332,22 @@ bool bellman_ford(int n, int src, vector<ll>& dist) {
 
 /**
  * @brief Estructura Union-Find (Disjoint Set Union).
- * @note Permite unir conjuntos y consultar si dos elementos estan conectados.
+ * @note Permite unir conjuntos, consultar conectividad y recuperar sus nodos.
  */
 struct DSU {
     vi p,sz;
+    vector<vi> members;
+    int num_components;
+
     /**
      * @brief Constructor.
      * @param n Cantidad de elementos (0-indexed).
      */
-    DSU(int n){ p.resize(n); sz.assign(n,1); iota(all(p),0); }
+    DSU(int n) : p(n), sz(n, 1), members(n), num_components(n) {
+        iota(all(p), 0);
+        for (int i = 0; i < n; i++) members[i].push_back(i);
+    }
+
     /**
      * @brief Encuentra el representante del conjunto de x.
      * @param x Elemento a consultar.
@@ -344,12 +365,56 @@ struct DSU {
         if(a==b) return false;
         if(sz[a]<sz[b]) swap(a,b);
         p[b]=a; sz[a]+=sz[b];
+        members[a].reserve(members[a].size() + members[b].size());
+        members[a].insert(members[a].end(), members[b].begin(), members[b].end());
+        vi().swap(members[b]);
+        num_components--;
         return true;
+    }
+
+    /**
+     * @brief Devuelve los nodos de la componente que contiene a x.
+     * @param x Nodo cuya componente se quiere consultar.
+     * @return Referencia constante al vector de nodos de la componente.
+     */
+    const vi& get_component_nodes(int x){ return members[find(x)]; }
+
+    /**
+     * @brief Devuelve todas las componentes conexas actuales.
+     * @param first_node Usa 1 para ignorar el nodo 0 dummy en DSU(n+1).
+     * @return Vector con los nodos agrupados por componente.
+     */
+    vector<vi> get_components(int first_node = 0) const {
+        vector<vi> result;
+        for (int root = first_node; root < (int)p.size(); root++) {
+            if (p[root] == root && !members[root].empty()) {
+                result.push_back(members[root]);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @brief Devuelve el tamaño de la componente que contiene a x.
+     */
+    int component_size(int x){ return sz[find(x)]; }
+
+    /**
+     * @brief Devuelve la cantidad de componentes actuales.
+     * @param first_node Usa 1 para ignorar el nodo 0 dummy en DSU(n+1).
+     */
+    int component_count(int first_node = 0) const {
+        if (first_node == 0) return num_components;
+        int count = 0;
+        for (int root = first_node; root < (int)p.size(); root++) {
+            if (p[root] == root && !members[root].empty()) count++;
+        }
+        return count;
     }
 };
 
 // ================================
-// 🚀 Grafos en grilla (Grid)
+// Grafos en grilla (Grid)
 // ================================
 int nGrid, mGrid;           // dimensiones de la grilla
 vector<string> grid;        // grilla leida como cadenas
@@ -415,7 +480,7 @@ void bfsGrid(int sr, int sc){
 // visGrid.assign(nGrid, vi(mGrid, 0));
 
 // ================================
-// 🚀 Estructuras de rango
+// Estructuras de rango
 // ================================
 
 // Fenwick Tree (Binary Indexed Tree)
@@ -488,7 +553,7 @@ struct SegTree {
 };
 
 // ================================
-// 🚀 Strings
+// Strings
 // ================================
 
 /**
@@ -563,12 +628,12 @@ int query(int L, int R) { // O(1)
 }
 
 // ================================
-// 🚀 MAIN
+// MAIN
 // ================================
 int main(){
     fastio;
     int t=1;
-    // cin >> t; // 🔹 descomentar si hay múltiples casos
+    // cin >> t; // descomentar si hay multiples casos
     while(t--){
         // ---------------------------
         // Aquí resuelves el problema

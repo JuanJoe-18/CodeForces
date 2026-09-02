@@ -1,3 +1,17 @@
+/**
+ * @file Plantilla Strings.cpp
+ * @brief Utilidades orientadas a la manipulacion de cadenas.
+ * @details Incluye conversiones, busqueda, reemplazo, split y validaciones.
+ * @note Conserva solo los metodos necesarios para cada problema.
+ */
+//   ____ ___  ____  _____   ____  _   _
+//  / ___/ _ \|  _ \| ____| / ___|| | | |
+// | |  | | | | | | |  _|   \___ \| | | |
+// | |__| |_| | |_| | |___   ___) | |_| |
+//  \____\___/|____/|_____| |____/ \___/
+//
+//                STRING UTILITIES TEMPLATE
+
 #include<bits/stdc++.h>
 using namespace std;
 

@@ -1,3 +1,17 @@
+/**
+ * @file GeometryTemplateICPC.cpp
+ * @brief Plantilla de tecnicas geometricas y sweep line.
+ * @details Incluye eventos 1D y el esqueleto para union de rectangulos 2D.
+ * @note Completa el Segment Tree antes de usar la version 2D.
+ */
+//   ____ ___  ____  _____   ____  _   _
+//  / ___/ _ \|  _ \| ____| / ___|| | | |
+// | |  | | | | | | |  _|   \___ \| | | |
+// | |__| |_| | |_| | |___   ___) | |_| |
+//  \____\___/|____/|_____| |____/ \___/
+//
+//                  GEOMETRY TEMPLATE
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -5,7 +19,7 @@ typedef long long ll;
 const ll LINF = 1e18;
 
 // ====================================================================
-// 🚀 SWEEP LINE 1D (Intervalos, Horarios, Coberturas)
+// SWEEP LINE 1D (Intervalos, Horarios, Coberturas)
 // ====================================================================
 struct Event1D {
     ll x;       // Coordenada (tiempo, posición, etc.)
@@ -51,7 +65,7 @@ int max_concurrent_intervals(vector<pair<ll, ll>>& intervals) {
 
 
 // ====================================================================
-// 🚀 SWEEP LINE 2D (Geometría, Unión de Rectángulos)
+// SWEEP LINE 2D (Geometria, Union de Rectangulos)
 // ====================================================================
 struct Event2D {
     ll x;          // Coordenada donde ocurre el evento (eje de barrido X)
