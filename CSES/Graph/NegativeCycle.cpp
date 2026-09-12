@@ -33,7 +33,7 @@ struct Graph {
     }
 
     // ---------------------------------------------------------
-    // 🧠 ALGORITMOS INTEGRADOS
+    //  ALGORITMOS INTEGRADOS
     // ---------------------------------------------------------
     
     // 1. Dijkstra O(E log V)

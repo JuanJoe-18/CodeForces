@@ -1,17 +1,3 @@
-/**
- * @file RQTemplateICPC.cpp
- * @brief Plantilla de estructuras para consultas y actualizaciones en rangos.
- * @details Incluye Sparse Table, Fenwick Tree y varias variantes de Segment Tree.
- * @note Cambia la operacion de combinacion y el valor neutro segun el problema.
- */
-//   ____ ___  ____  _____   ____  _   _
-//  / ___/ _ \|  _ \| ____| / ___|| | | |
-// | |  | | | | | | |  _|   \___ \| | | |
-// | |__| |_| | |_| | |___   ___) | |_| |
-//  \____\___/|____/|_____| |____/ \___/
-//
-//                RANGE QUERIES TEMPLATE
-
 #include <bits/stdc++.h>
 using namespace std;
 

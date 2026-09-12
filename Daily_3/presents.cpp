@@ -1,0 +1,727 @@
+/**
+ * @file PlantillaGoat.cpp
+ * @brief Plantilla general para problemas de programacion competitiva.
+ * @details Utilidades de E/S, matematicas, grafos, rangos y strings.
+ * @note Elimina las secciones que no necesites antes de enviar la solucion.
+ */
+//   ____ ___  ____  _____   ____  _   _
+//  / ___/ _ \|  _ \| ____| / ___|| | | |
+// | |  | | | | | | |  _|   \___ \| | | |
+// | |__| |_| | |_| | |___   ___) | |_| |
+//  \____\___/|____/|_____| |____/ \___/
+//
+//              COMPETITIVE PROGRAMMING TEMPLATE
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// ================================
+// Entrada/Salida rapida
+// ================================
+#define fastio                                                                 \
+  ios::sync_with_stdio(false);                                                 \
+  cin.tie(0);                                                                  \
+  cout.tie(0)
+
+// ================================
+// Atajos
+// ================================
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define pb push_back
+#define fi first
+#define se second
+
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+
+// ================================
+// Constantes globales
+// ================================
+const int INF = 1e9;
+const ll LINF = 1e18;
+const int MOD = 1e9 + 7; // cambiar según el problema
+const double EPS = 1e-9;
+
+// ================================
+// Funciones matematicas
+// ================================
+ll gcd(ll a, ll b) { return b == 0 ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
+
+// Factorización prima
+vector<int> primeFactors(int n) {
+  vector<int> factors;
+  for (int i = 2; i * i <= n; i++) {
+    while (n % i == 0) {
+      factors.push_back(i);
+      n /= i;
+    }
+  }
+  if (n > 1)
+    factors.push_back(n);
+  return factors;
+}
+
+// Factores primos únicos (sin repetir)
+vector<int> uniquePrimeFactors(int n) {
+  vector<int> factors;
+  for (int i = 2; i * i <= n; i++) {
+    if (n % i == 0) {
+      factors.push_back(i);
+      while (n % i == 0)
+        n /= i;
+    }
+  }
+  if (n > 1)
+    factors.push_back(n);
+  return factors;
+}
+
+// factorial normal (n)!
+ll factorial(int n) {
+  ll res = 1;
+  for (int i = 1; i <= n; ++i) {
+    res *= i;
+  }
+  return res;
+}
+
+ll modpow(ll a, ll b, ll m = MOD) {
+  ll res = 1;
+  a %= m;
+  while (b > 0) {
+    if (b & 1)
+      res = res * a % m;
+    a = a * a % m;
+    b >>= 1;
+  }
+  return res;
+}
+
+ll binpow(ll a, ll b) {
+  ll res = 1;
+  while (b > 0) {
+    if (b & 1)
+      res = res * a;
+    a = a * a;
+    b >>= 1;
+  }
+  return res;
+}
+
+// factoriales modulares
+const int MAXN = 2e5 + 5;
+ll fact[MAXN], invfact[MAXN];
+
+ll modinv(ll a, ll m = MOD) { return modpow(a, m - 2, m); }
+void init_factorials(int n = MAXN) {
+  fact[0] = 1;
+  for (int i = 1; i < n; i++)
+    fact[i] = fact[i - 1] * i % MOD;
+  invfact[n - 1] = modinv(fact[n - 1]);
+  for (int i = n - 2; i >= 0; i--)
+    invfact[i] = invfact[i + 1] * (i + 1) % MOD;
+}
+ll nCr(int n, int r) {
+  if (r < 0 || r > n)
+    return 0;
+  return fact[n] * invfact[r] % MOD * invfact[n - r] % MOD;
+}
+
+// Criba de Eratóstenes
+vector<int> primes;
+vector<bool> isPrime;
+void sieve(int n) {
+  isPrime.assign(n + 1, true);
+  isPrime[0] = isPrime[1] = false;
+  for (int i = 2; i <= n; i++) {
+    if (isPrime[i]) {
+      primes.push_back(i);
+      for (ll j = 1LL * i * i; j <= n; j += i)
+        isPrime[j] = false;
+    }
+  }
+}
+
+// ================================
+// Grafos
+// ================================
+vector<vi> adj;                      // lista de adyacencia (sin peso)
+vector<vector<pair<int, ll>>> adj_w; // lista de adyacencia (con peso)
+vi visited;                          // vector de visitados
+vi parent;                           // padres para reconstruir caminos
+
+/**
+ * @brief Recorrido en profundidad (DFS) desde un nodo.
+ * @param u Nodo actual desde donde se inicia/continua el recorrido.
+ * @note Marca los nodos visitados en el vector global `visited`.
+ */
+void dfs(int u) {
+  visited[u] = 1;
+  for (int v : adj[u]) {
+    if (!visited[v])
+      dfs(v);
+  }
+}
+
+/**
+ * @brief Recorrido en anchura (BFS) desde un nodo origen.
+ * @param s Nodo origen (source) donde comienza el BFS.
+ * @note Marca los nodos visitados en el vector global `visited`.
+ */
+void bfs(int s) {
+  queue<int> q;
+  q.push(s);
+  visited[s] = 1;
+  while (!q.empty()) {
+    int u = q.front();
+    q.pop();
+    for (int v : adj[u]) {
+      if (!visited[v]) {
+        visited[v] = 1;
+        q.push(v);
+      }
+    }
+  }
+}
+
+/**
+ * @brief BFS que reconstruye el camino mas corto entre dos nodos.
+ * @param s Nodo origen (source).
+ * @param t Nodo destino (target).
+ * @return Vector con el camino de s a t (incluye ambos extremos).
+ *         Si no hay camino, devuelve un vector vacio.
+ * @note Requiere que `visited` y `parent` esten correctamente dimensionados.
+ */
+vector<int> bfs(int s, int t) {
+  queue<int> q;
+  q.push(s);
+  visited[s] = 1;
+  parent[s] = -1;
+  while (!q.empty()) {
+    int u = q.front();
+    q.pop();
+    if (u == t)
+      break;
+    for (int v : adj[u]) {
+      if (!visited[v]) {
+        visited[v] = 1;
+        parent[v] = u;
+        q.push(v);
+      }
+    }
+  }
+  vector<int> path;
+  if (!visited[t])
+    return path;
+  for (int v = t; v != -1; v = parent[v])
+    path.push_back(v);
+  reverse(all(path));
+  return path;
+}
+
+/**
+ * @brief Algoritmo de Dijkstra para caminos minimos.
+ * @param n Cantidad de nodos del grafo (1-indexed).
+ * @param src Nodo origen.
+ * @return Vector de distancias minimas desde `src`. `dist[i]` es la distancia
+ * al nodo i.
+ * @note Usa `adj_w` que guarda pares {destino, peso}.
+ */
+vector<ll> dijkstra(int n, int src) {
+  vector<ll> dist(n + 1, LINF);
+  priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<>> pq;
+  dist[src] = 0;
+  pq.push({0, src});
+  while (!pq.empty()) {
+    auto [d, u] = pq.top();
+    pq.pop();
+    if (d > dist[u])
+      continue;
+    for (auto edge : adj_w[u]) {
+      int v = edge.first;
+      ll peso = edge.second;
+      if (dist[v] > d + peso) {
+        dist[v] = d + peso;
+        pq.push({dist[v], v});
+      }
+    }
+  }
+  return dist;
+}
+
+/**
+ * @brief Algoritmo de Dijkstra para obtener el CAMINO minimo.
+ * @param n Cantidad de nodos.
+ * @param s Nodo origen.
+ * @param t Nodo destino.
+ * @return Vector con la secuencia de nodos del camino más corto. Vacío si no
+ * hay camino.
+ */
+vector<int> dijkstra_path(int n, int s, int t) {
+  vector<ll> dist(n + 1, LINF);
+  parent.assign(n + 1, -1);
+  priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<>> pq;
+  dist[s] = 0;
+  pq.push({0, s});
+
+  while (!pq.empty()) {
+    auto [d, u] = pq.top();
+    pq.pop();
+    if (d > dist[u])
+      continue;
+    if (u == t)
+      break;
+    for (auto edge : adj_w[u]) {
+      int v = edge.first;
+      ll peso = edge.second;
+      if (dist[v] > d + peso) {
+        dist[v] = d + peso;
+        parent[v] = u;
+        pq.push({dist[v], v});
+      }
+    }
+  }
+  vector<int> path;
+  if (dist[t] == LINF)
+    return path;
+  for (int v = t; v != -1; v = parent[v]) {
+    path.push_back(v);
+  }
+  reverse(all(path));
+  return path;
+}
+
+/**
+ * @brief Algoritmo de Floyd-Warshall (Caminos minimos entre TODOS los nodos).
+ * @param n Cantidad de nodos.
+ * @param dist Matriz de adyacencia de (n+1)x(n+1).
+ *             Debe inicializarse con LINF, y dist[i][i] = 0.
+ *             Despues de ejecutarse, guardara las distancias minimas.
+ */
+void floyd_warshall(int n, vector<vector<ll>> &dist) {
+  for (int k = 1; k <= n; k++) {
+    for (int i = 1; i <= n; i++) {
+      for (int j = 1; j <= n; j++) {
+        if (dist[i][k] != LINF && dist[k][j] != LINF) {
+          dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * @brief Algoritmo de Bellman-Ford para caminos minimos con pesos negativos.
+ * @param n Cantidad de nodos.
+ * @param src Nodo origen.
+ * @param dist Referencia al vector de distancias que sera poblado.
+ * @return `true` si NO hay ciclos negativos, `false` si se detecta al menos un
+ * ciclo negativo.
+ * @note Usa `adj_w`. Complejidad: O(V * E).
+ */
+bool bellman_ford(int n, int src, vector<ll> &dist) {
+  dist.assign(n + 1, LINF);
+  dist[src] = 0;
+  bool any_update = false;
+
+  // Relajar V - 1 veces
+  for (int i = 1; i <= n - 1; i++) {
+    any_update = false;
+    for (int u = 1; u <= n; u++) {
+      if (dist[u] == LINF)
+        continue;
+      for (auto edge : adj_w[u]) {
+        int v = edge.first;
+        ll peso = edge.second;
+        if (dist[u] + peso < dist[v]) {
+          dist[v] = dist[u] + peso;
+          any_update = true;
+        }
+      }
+    }
+    if (!any_update)
+      break; // Optimizacion: terminar temprano si ya no hay cambios
+  }
+
+  // Pasada N para detectar ciclos negativos
+  for (int u = 1; u <= n; u++) {
+    if (dist[u] == LINF)
+      continue;
+    for (auto edge : adj_w[u]) {
+      int v = edge.first;
+      ll peso = edge.second;
+      if (dist[u] + peso < dist[v]) {
+        return false; // Ciclo negativo encontrado
+      }
+    }
+  }
+  return true;
+}
+
+/**
+ * @brief Estructura Union-Find (Disjoint Set Union).
+ * @note Permite unir conjuntos, consultar conectividad y recuperar sus nodos.
+ */
+struct DSU {
+  vi p, sz;
+  vector<vi> members;
+  int num_components;
+
+  /**
+   * @brief Constructor.
+   * @param n Cantidad de elementos (0-indexed).
+   */
+  DSU(int n) : p(n), sz(n, 1), members(n), num_components(n) {
+    iota(all(p), 0);
+    for (int i = 0; i < n; i++)
+      members[i].push_back(i);
+  }
+
+  /**
+   * @brief Encuentra el representante del conjunto de x.
+   * @param x Elemento a consultar.
+   * @return Representante del conjunto (con compresion de caminos).
+   */
+  int find(int x) { return p[x] == x ? x : p[x] = find(p[x]); }
+  /**
+   * @brief Une los conjuntos de a y b.
+   * @param a Primer elemento.
+   * @param b Segundo elemento.
+   * @return `true` si se realizo la union, `false` si ya estaban en el mismo
+   * conjunto.
+   */
+  bool unite(int a, int b) {
+    a = find(a);
+    b = find(b);
+    if (a == b)
+      return false;
+    if (sz[a] < sz[b])
+      swap(a, b);
+    p[b] = a;
+    sz[a] += sz[b];
+    members[a].reserve(members[a].size() + members[b].size());
+    members[a].insert(members[a].end(), members[b].begin(), members[b].end());
+    vi().swap(members[b]);
+    num_components--;
+    return true;
+  }
+
+  /**
+   * @brief Devuelve los nodos de la componente que contiene a x.
+   * @param x Nodo cuya componente se quiere consultar.
+   * @return Referencia constante al vector de nodos de la componente.
+   */
+  const vi &get_component_nodes(int x) { return members[find(x)]; }
+
+  /**
+   * @brief Devuelve todas las componentes conexas actuales.
+   * @param first_node Usa 1 para ignorar el nodo 0 dummy en DSU(n+1).
+   * @return Vector con los nodos agrupados por componente.
+   */
+  vector<vi> get_components(int first_node = 0) const {
+    vector<vi> result;
+    for (int root = first_node; root < (int)p.size(); root++) {
+      if (p[root] == root && !members[root].empty()) {
+        result.push_back(members[root]);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * @brief Devuelve el tamaño de la componente que contiene a x.
+   */
+  int component_size(int x) { return sz[find(x)]; }
+
+  /**
+   * @brief Devuelve la cantidad de componentes actuales.
+   * @param first_node Usa 1 para ignorar el nodo 0 dummy en DSU(n+1).
+   */
+  int component_count(int first_node = 0) const {
+    if (first_node == 0)
+      return num_components;
+    int count = 0;
+    for (int root = first_node; root < (int)p.size(); root++) {
+      if (p[root] == root && !members[root].empty())
+        count++;
+    }
+    return count;
+  }
+};
+
+// ================================
+// Grafos en grilla (Grid)
+// ================================
+int nGrid, mGrid;    // dimensiones de la grilla
+vector<string> grid; // grilla leida como cadenas
+vector<vi> visGrid;  // matriz de visitados
+
+// 4 direcciones: arriba, abajo, izquierda, derecha
+int dx[] = {-1, 1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+
+/**
+ * @brief Verifica si una celda es valida para moverse.
+ * @param r Fila de la celda.
+ * @param c Columna de la celda.
+ * @return `true` si esta dentro de la grilla, no fue visitada y no es pared
+ * ('#').
+ * @note Cambiar la condicion del caracter segun el problema.
+ */
+bool isValidGrid(int r, int c) {
+  return (r >= 0 && r < nGrid && c >= 0 && c < mGrid && !visGrid[r][c] &&
+          grid[r][c] != '#');
+}
+
+/**
+ * @brief DFS sobre grilla desde una celda.
+ * @param r Fila actual.
+ * @param c Columna actual.
+ * @note Marca las celdas visitadas en `visGrid`.
+ */
+void dfsGrid(int r, int c) {
+  visGrid[r][c] = 1;
+  for (int i = 0; i < 4; ++i) {
+    int nx = r + dx[i];
+    int ny = c + dy[i];
+    if (isValidGrid(nx, ny))
+      dfsGrid(nx, ny);
+  }
+}
+
+/**
+ * @brief BFS sobre grilla desde una celda origen.
+ * @param sr Fila origen (source row).
+ * @param sc Columna origen (source column).
+ * @note Marca las celdas visitadas en `visGrid`.
+ */
+void bfsGrid(int sr, int sc) {
+  queue<pii> q;
+  q.push({sr, sc});
+  visGrid[sr][sc] = 1;
+  while (!q.empty()) {
+    auto [r, c] = q.front();
+    q.pop();
+    for (int i = 0; i < 4; ++i) {
+      int nx = r + dx[i];
+      int ny = c + dy[i];
+      if (isValidGrid(nx, ny)) {
+        visGrid[nx][ny] = 1;
+        q.push({nx, ny});
+      }
+    }
+  }
+}
+
+// Ejemplo de lectura de grilla:
+// cin >> nGrid >> mGrid;
+// grid.resize(nGrid);
+// for(int i = 0; i < nGrid; ++i) cin >> grid[i];
+// visGrid.assign(nGrid, vi(mGrid, 0));
+
+// ================================
+// Estructuras de rango
+// ================================
+
+// Fenwick Tree (Binary Indexed Tree)
+struct Fenwick {
+  int n;
+  vll bit;
+  /**
+   * @brief Constructor.
+   * @param n Tamano del arreglo (1-indexed internamente).
+   */
+  Fenwick(int n) : n(n), bit(n + 1, 0) {}
+  /**
+   * @brief Suma `val` en la posicion `idx`.
+   * @param idx Indice (1-indexed).
+   * @param val Valor a sumar.
+   */
+  void add(int idx, ll val) {
+    for (; idx <= n; idx += idx & -idx)
+      bit[idx] += val;
+  }
+  /**
+   * @brief Suma prefija desde 1 hasta `idx`.
+   * @param idx Indice final (1-indexed).
+   * @return Suma acumulada.
+   */
+  ll sum(int idx) {
+    ll r = 0;
+    for (; idx > 0; idx -= idx & -idx)
+      r += bit[idx];
+    return r;
+  }
+  /**
+   * @brief Suma en el rango [l, r].
+   * @param l Indice inicial (1-indexed).
+   * @param r Indice final (1-indexed).
+   * @return Suma del rango.
+   */
+  ll range(int l, int r) { return sum(r) - sum(l - 1); }
+};
+
+// Segment Tree (suma)
+struct SegTree {
+  int n;
+  vll st;
+  /**
+   * @brief Constructor.
+   * @param n Tamano del arreglo.
+   */
+  SegTree(int n) : n(n), st(4 * n, 0) {}
+  /**
+   * @brief Actualiza el valor en la posicion `pos`.
+   * @param idx Indice del nodo actual en el arreglo del segment tree.
+   * @param l Limite izquierdo del rango del nodo actual.
+   * @param r Limite derecho del rango del nodo actual.
+   * @param pos Posicion a actualizar.
+   * @param val Nuevo valor.
+   */
+  void update(int idx, int l, int r, int pos, ll val) {
+    if (l == r) {
+      st[idx] = val;
+      return;
+    }
+    int mid = (l + r) / 2;
+    if (pos <= mid)
+      update(2 * idx, l, mid, pos, val);
+    else
+      update(2 * idx + 1, mid + 1, r, pos, val);
+    st[idx] = st[2 * idx] + st[2 * idx + 1];
+  }
+  /**
+   * @brief Consulta la suma en el rango [ql, qr].
+   * @param idx Indice del nodo actual.
+   * @param l Limite izquierdo del rango del nodo actual.
+   * @param r Limite derecho del rango del nodo actual.
+   * @param ql Limite izquierdo de la consulta.
+   * @param qr Limite derecho de la consulta.
+   * @return Suma en el rango consultado.
+   */
+  ll query(int idx, int l, int r, int ql, int qr) {
+    if (r < ql || qr < l)
+      return 0;
+    if (ql <= l && r <= qr)
+      return st[idx];
+    int mid = (l + r) / 2;
+    return query(2 * idx, l, mid, ql, qr) +
+           query(2 * idx + 1, mid + 1, r, ql, qr);
+  }
+};
+
+// ================================
+// Strings
+// ================================
+
+/**
+ * @brief Calcula la funcion prefijo (pi) de KMP.
+ * @param s Cadena de entrada.
+ * @return Vector `pi` donde pi[i] es el largo del prefijo propio mas largo que
+ * tambien es sufijo de s[0..i].
+ */
+vector<int> prefix_function(string s) {
+  int n = s.size();
+  vector<int> pi(n);
+  for (int i = 1; i < n; i++) {
+    int j = pi[i - 1];
+    while (j > 0 && s[i] != s[j])
+      j = pi[j - 1];
+    if (s[i] == s[j])
+      j++;
+    pi[i] = j;
+  }
+  return pi;
+}
+
+/**
+ * @brief Calcula el arreglo Z de una cadena.
+ * @param s Cadena de entrada.
+ * @return Vector `z` donde z[i] es el largo del prefijo de s que coincide con
+ * s[i..].
+ */
+vector<int> z_function(string s) {
+  int n = s.size(), l = 0, r = 0;
+  vector<int> z(n);
+  for (int i = 1; i < n; i++) {
+    if (i <= r)
+      z[i] = min(r - i + 1, z[i - l]);
+    while (i + z[i] < n && s[z[i]] == s[i + z[i]])
+      z[i]++;
+    if (i + z[i] - 1 > r) {
+      l = i;
+      r = i + z[i] - 1;
+    }
+  }
+  return z;
+}
+
+/**
+ * @brief Busqueda binaria en un arreglo ordenado.
+ * @param a Arreglo ordenado de enteros.
+ * @param x Valor a buscar.
+ * @return Indice de `x` si se encuentra, -1 en caso contrario.
+ */
+int binary_search(const vi &a, int x) {
+  int l = 0, r = a.size() - 1;
+  while (l <= r) {
+    int mid = (l + r) / 2;
+    if (a[mid] == x)
+      return mid;
+    else if (a[mid] < x)
+      l = mid + 1;
+    else
+      r = mid - 1;
+  }
+  return -1; // no encontrado
+}
+
+// Sparse table
+
+const int MAX_N = 200'005;
+const int LOG = 17;
+int a[MAX_N];
+int m[MAX_N][LOG]; // m[i][j] is minimum among a[i..i+2^j-1]
+int bin_log[MAX_N];
+
+/**
+ * @brief Consulta el minimo en el rango [L, R] usando Sparse Table.
+ * @param L Indice izquierdo del rango.
+ * @param R Indice derecho del rango.
+ * @return Valor minimo en el rango [L, R].
+ * @note Requiere preprocesamiento previo de `bin_log` y `m`.
+ */
+int query(int L, int R) { // O(1)
+  int length = R - L + 1;
+  int k = bin_log[length];
+  return min(m[L][k], m[R - (1 << k) + 1][k]);
+}
+
+// ================================
+// MAIN
+// ================================
+int main() {
+  fastio;
+  int t = 1;
+  // cin >> t; // descomentar si hay multiples casos
+  while (t--) {
+    // ---------------------------
+    // Aquí resuelves el problema
+    // ---------------------------
+
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++)
+      cin >> a[i];
+
+    // ejemplo: suma
+    ll sum = accumulate(all(a), 0LL);
+    cout << sum << "\n";
+  }
+  return 0;
+}

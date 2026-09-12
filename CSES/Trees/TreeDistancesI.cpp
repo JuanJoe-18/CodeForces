@@ -927,22 +927,14 @@ struct RerootingDP {
 };
 
 int main() {
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
   int n;
   cin >> n;
-  Tree<ll> t(n);
-
-  for (int v = 2; v <= n; v++) {
-    int u;
-    cin >> u;
-    t.add_directed_edge(u, v);
+  tree<ll> t(n);
+  while (n--) {
+    int u, v;
+    cin >> u >> v;
+    t.add_edge(u, v);
   }
-
-  t.dfs_init(1);
-  for (int i = 1; i <= n; i++) {
-    cout << t.sz[i] - 1 << " ";
-  }
-
-  return 0;
+  t.root = 1;
+  t.get_dist_array() return 0;
 }

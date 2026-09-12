@@ -1,3 +1,17 @@
+/**
+ * @file GeometryTemplateICPC.cpp
+ * @brief Plantilla de tecnicas geometricas y sweep line.
+ * @details Incluye eventos 1D y el esqueleto para union de rectangulos 2D.
+ * @note Completa el Segment Tree antes de usar la version 2D.
+ */
+//   ____ ___  ____  _____   ____  _   _
+//  / ___/ _ \|  _ \| ____| / ___|| | | |
+// | |  | | | | | | |  _|   \___ \| | | |
+// | |__| |_| | |_| | |___   ___) | |_| |
+//  \____\___/|____/|_____| |____/ \___/
+//
+//                  GEOMETRY TEMPLATE
+
 #include <bits/stdc++.h>
 using namespace std;
 

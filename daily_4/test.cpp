@@ -1,17 +1,3 @@
-/**
- * @file TreeTemplateICPC.cpp
- * @brief Plantilla de algoritmos para arboles y consultas sobre caminos.
- * @details Incluye LCA, Euler Tour, HLD, centroides, hashing y rerooting DP.
- * @note Revisa la indexacion y los limites antes de usar cada estructura.
- */
-//   ____ ___  ____  _____   ____  _   _
-//  / ___/ _ \|  _ \| ____| / ___|| | | |
-// | |  | | | | | | |  _|   \___ \| | | |
-// | |__| |_| | |_| | |___   ___) | |_| |
-//  \____\___/|____/|_____| |____/ \___/
-//
-//                     TREE TEMPLATE
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -20,7 +6,7 @@ const ll LINF = 1e18;
 const int INF = 1e9 + 7;
 
 // ====================================================================
-// ESTRUCTURA MAESTRA DE ARBOLES (ICPC TEMPLATE)
+//  ESTRUCTURA MAESTRA DE ÁRBOLES (ICPC TEMPLATE)
 // ====================================================================
 // Contenido:
 // 1. Base Tree (1-indexed, pesos, diámetros, centros, distancias)
@@ -927,21 +913,12 @@ struct RerootingDP {
 };
 
 int main() {
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
+
   int n;
   cin >> n;
-  Tree<ll> t(n);
 
-  for (int v = 2; v <= n; v++) {
-    int u;
-    cin >> u;
-    t.add_directed_edge(u, v);
-  }
-
-  t.dfs_init(1);
-  for (int i = 1; i <= n; i++) {
-    cout << t.sz[i] - 1 << " ";
+  for (size_t i = 0; i < n; i++) {
+    cout << 2 * i << endl;
   }
 
   return 0;

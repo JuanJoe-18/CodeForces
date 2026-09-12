@@ -1,3 +1,17 @@
+/**
+ * @file PlantillaGoat.cpp
+ * @brief Plantilla general para problemas de programacion competitiva.
+ * @details Utilidades de E/S, matematicas, grafos, rangos y strings.
+ * @note Elimina las secciones que no necesites antes de enviar la solucion.
+ */
+//   ____ ___  ____  _____   ____  _   _
+//  / ___/ _ \|  _ \| ____| / ___|| | | |
+// | |  | | | | | | |  _|   \___ \| | | |
+// | |__| |_| | |_| | |___   ___) | |_| |
+//  \____\___/|____/|_____| |____/ \___/
+//
+//              COMPETITIVE PROGRAMMING TEMPLATE
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -318,15 +332,22 @@ bool bellman_ford(int n, int src, vector<ll>& dist) {
 
 /**
  * @brief Estructura Union-Find (Disjoint Set Union).
- * @note Permite unir conjuntos y consultar si dos elementos estan conectados.
+ * @note Permite unir conjuntos, consultar conectividad y recuperar sus nodos.
  */
 struct DSU {
     vi p,sz;
+    vector<vi> members;
+    int num_components;
+
     /**
      * @brief Constructor.
      * @param n Cantidad de elementos (0-indexed).
      */
-    DSU(int n){ p.resize(n); sz.assign(n,1); iota(all(p),0); }
+    DSU(int n) : p(n), sz(n, 1), members(n), num_components(n) {
+        iota(all(p), 0);
+        for (int i = 0; i < n; i++) members[i].push_back(i);
+    }
+
     /**
      * @brief Encuentra el representante del conjunto de x.
      * @param x Elemento a consultar.
@@ -344,7 +365,51 @@ struct DSU {
         if(a==b) return false;
         if(sz[a]<sz[b]) swap(a,b);
         p[b]=a; sz[a]+=sz[b];
+        members[a].reserve(members[a].size() + members[b].size());
+        members[a].insert(members[a].end(), members[b].begin(), members[b].end());
+        vi().swap(members[b]);
+        num_components--;
         return true;
+    }
+
+    /**
+     * @brief Devuelve los nodos de la componente que contiene a x.
+     * @param x Nodo cuya componente se quiere consultar.
+     * @return Referencia constante al vector de nodos de la componente.
+     */
+    const vi& get_component_nodes(int x){ return members[find(x)]; }
+
+    /**
+     * @brief Devuelve todas las componentes conexas actuales.
+     * @param first_node Usa 1 para ignorar el nodo 0 dummy en DSU(n+1).
+     * @return Vector con los nodos agrupados por componente.
+     */
+    vector<vi> get_components(int first_node = 0) const {
+        vector<vi> result;
+        for (int root = first_node; root < (int)p.size(); root++) {
+            if (p[root] == root && !members[root].empty()) {
+                result.push_back(members[root]);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @brief Devuelve el tamaño de la componente que contiene a x.
+     */
+    int component_size(int x){ return sz[find(x)]; }
+
+    /**
+     * @brief Devuelve la cantidad de componentes actuales.
+     * @param first_node Usa 1 para ignorar el nodo 0 dummy en DSU(n+1).
+     */
+    int component_count(int first_node = 0) const {
+        if (first_node == 0) return num_components;
+        int count = 0;
+        for (int root = first_node; root < (int)p.size(); root++) {
+            if (p[root] == root && !members[root].empty()) count++;
+        }
+        return count;
     }
 };
 

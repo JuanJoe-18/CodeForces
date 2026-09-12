@@ -1,3 +1,17 @@
+/**
+ * @file Template Para Grafos.cpp
+ * @brief Esqueleto minimo para representar un grafo no dirigido.
+ * @details Lee aristas y muestra el grado y los vecinos de un nodo.
+ * @note Usa este archivo como punto de partida para problemas de grafos.
+ */
+//   ____ ___  ____  _____   ____  _   _
+//  / ___/ _ \|  _ \| ____| / ___|| | | |
+// | |  | | | | | | |  _|   \___ \| | | |
+// | |__| |_| | |_| | |___   ___) | |_| |
+//  \____\___/|____/|_____| |____/ \___/
+//
+//                 BASIC GRAPH TEMPLATE
+
 #include <bits/stdc++.h>
 using namespace std;
 // Template de CP Grafos
