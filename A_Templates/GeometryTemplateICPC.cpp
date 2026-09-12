@@ -1,8 +1,10 @@
 /**
  * @file GeometryTemplateICPC.cpp
- * @brief Plantilla de tecnicas geometricas y sweep line.
- * @details Incluye eventos 1D y el esqueleto para union de rectangulos 2D.
- * @note Completa el Segment Tree antes de usar la version 2D.
+ * @brief Plantilla Integral de Geometría Computacional (ICPC / CSES)
+ * @details Soporta operaciones con enteros (evita problemas de precisión), 
+ * Intersección de Segmentos, Área de Polígonos, Point in Polygon, 
+ * Puntos del Retículo (Pick's Theorem), Convex Hull, Distancia Mínima (Closest Pair),
+ * y estructuras para Sweep Line 1D y 2D.
  */
 //   ____ ___  ____  _____   ____  _   _
 //  / ___/ _ \|  _ \| ____| / ___|| | | |
@@ -10,168 +12,219 @@
 // | |__| |_| | |_| | |___   ___) | |_| |
 //  \____\___/|____/|_____| |____/ \___/
 //
-//                  GEOMETRY TEMPLATE
+//                  GEOMETRY TEMPLATE (CSES Supported)
 
 #include <bits/stdc++.h>
 using namespace std;
 #define fastio ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-typedef long long ll;
-typedef long double ld;
-
-const ld EPS = 1e-9;
-
-int sgn(ld x) {
-    if (fabsl(x) < EPS) return 0;
-    return x < 0 ? -1 : 1;
-}
-
+// ====================================================================
+// 1. ESTRUCTURAS BÁSICAS (Point)
+// ====================================================================
+template<typename T>
 struct Point {
-    ll x, y;
-    bool operator<(const Point& other) const {
-        if (y != other.y) return y < other.y;
-        return x < other.x;
+    T x, y;
+    Point() : x(0), y(0) {}
+    Point(T x, T y) : x(x), y(y) {}
+    
+    Point operator+(const Point& p) const { return Point(x + p.x, y + p.y); }
+    Point operator-(const Point& p) const { return Point(x - p.x, y - p.y); }
+    Point operator*(T c) const { return Point(x * c, y * c); }
+    Point operator/(T c) const { return Point(x / c, y / c); }
+    
+    bool operator==(const Point& p) const { return x == p.x && y == p.y; }
+    bool operator!=(const Point& p) const { return !(*this == p); }
+    // Ordenamiento lexicográfico (Sweep Line, Convex Hull)
+    bool operator<(const Point& p) const { return x < p.x || (x == p.x && y < p.y); }
+};
+
+template<typename T>
+T dot(Point<T> a, Point<T> b) { return a.x * b.x + a.y * b.y; }
+
+template<typename T>
+T cross(Point<T> a, Point<T> b) { return a.x * b.y - a.y * b.x; }
+
+// Producto cruz entre vectores AP y BP. 
+// >0 antihorario (izquierda), <0 horario (derecha), 0 colineales.
+template<typename T>
+T cross(Point<T> p, Point<T> a, Point<T> b) { return cross(a - p, b - p); }
+
+template<typename T>
+T norm2(Point<T> p) { return dot(p, p); }
+
+template<typename T>
+long double norm(Point<T> p) { return sqrtl(norm2(p)); }
+
+template<typename T>
+int sgn(T val) { return (T(0) < val) - (val < T(0)); }
+
+// ====================================================================
+// 2. INTERSECCIÓN DE SEGMENTOS Y PUNTO-SEGMENTO
+// ====================================================================
+template<typename T>
+int orient(Point<T> a, Point<T> b, Point<T> c) { return sgn(cross(a, b, c)); }
+
+template<typename T>
+bool on_segment(Point<T> p, Point<T> a, Point<T> b) {
+    return orient(a, b, p) == 0 && 
+           min(a.x, b.x) <= p.x && p.x <= max(a.x, b.x) && 
+           min(a.y, b.y) <= p.y && p.y <= max(a.y, b.y);
+}
+
+// Verifica si los segmentos AB y CD se intersectan (incluyendo colinealidad)
+template<typename T>
+bool segment_intersect(Point<T> a, Point<T> b, Point<T> c, Point<T> d) {
+    int o1 = orient(a, b, c), o2 = orient(a, b, d);
+    int o3 = orient(c, d, a), o4 = orient(c, d, b);
+    
+    // Intersección propia
+    if (o1 != o2 && o3 != o4) return true;
+    
+    // Casos colineales y extremos
+    if (o1 == 0 && on_segment(c, a, b)) return true;
+    if (o2 == 0 && on_segment(d, a, b)) return true;
+    if (o3 == 0 && on_segment(a, c, d)) return true;
+    if (o4 == 0 && on_segment(b, c, d)) return true;
+    
+    return false;
+}
+
+// ====================================================================
+// 3. POLÍGONOS (Área, Puntos en el Retículo, Punto dentro de Polígono)
+// ====================================================================
+// Retorna el DOBLE del área (Shoelace formula). Útil para evitar float.
+template<typename T>
+T polygon_area_2(const vector<Point<T>>& p) {
+    T area = 0;
+    int n = p.size();
+    for (int i = 0; i < n; i++) {
+        area += cross(p[i], p[(i + 1) % n]);
     }
-    bool operator==(const Point& other) const {
-        return x == other.x && y == other.y;
+    return abs(area);
+}
+
+// Pick's Theorem: Área = Interiores + Borde/2 - 1
+// -> 2*Área = 2*Interiores + Borde - 2
+// Esta función calcula los puntos del límite (borde)
+long long boundary_points(const vector<Point<long long>>& poly) {
+    long long b = 0;
+    int n = poly.size();
+    for (int i = 0; i < n; i++) {
+        Point<long long> p1 = poly[i], p2 = poly[(i + 1) % n];
+        b += std::gcd(abs(p1.x - p2.x), abs(p1.y - p2.y));
+    }
+    return b;
+}
+
+// Verifica si el punto p está dentro de un polígono.
+// Retorna: 0 = afuera, 1 = en el borde, 2 = adentro.
+template<typename T>
+int point_in_polygon(const vector<Point<T>>& poly, Point<T> p) {
+    int n = poly.size();
+    int hits = 0;
+    for (int i = 0; i < n; i++) {
+        Point<T> a = poly[i], b = poly[(i + 1) % n];
+        if (on_segment(p, a, b)) return 1;
+        if (a.y > b.y) swap(a, b);
+        if (p.y >= a.y && p.y < b.y && cross(p, a, b) > 0) hits++;
+    }
+    return (hits % 2 != 0) ? 2 : 0;
+}
+
+// ====================================================================
+// 4. CONVEX HULL (Monotone Chain)
+// ====================================================================
+// Retorna la envoltura convexa del conjunto de puntos (en orden antihorario)
+template<typename T>
+vector<Point<T>> convex_hull(vector<Point<T>> pts) {
+    int n = pts.size(), k = 0;
+    if (n <= 2) return pts;
+    
+    vector<Point<T>> h(2 * n);
+    sort(pts.begin(), pts.end());
+    
+    // Mitad inferior
+    for (int i = 0; i < n; i++) {
+        // Cambiar <= a < si se quieren incluir los puntos colineales en el borde
+        while (k >= 2 && cross(h[k - 2], h[k - 1], pts[i]) <= 0) k--;
+        h[k++] = pts[i];
+    }
+    // Mitad superior
+    for (int i = n - 2, t = k + 1; i >= 0; i--) {
+        while (k >= t && cross(h[k - 2], h[k - 1], pts[i]) <= 0) k--;
+        h[k++] = pts[i];
+    }
+    
+    h.resize(k - 1);
+    return h;
+}
+
+// ====================================================================
+// 5. DISTANCIA MÍNIMA (CLOSEST PAIR) - O(N log N)
+// ====================================================================
+// Retorna la distancia euclidiana AL CUADRADO entre los 2 puntos más cercanos.
+long long closest_pair(vector<Point<long long>> pts) {
+    int n = pts.size();
+    if (n < 2) return 8e18; // Evitar RTE
+    
+    sort(pts.begin(), pts.end());
+    set<pair<long long, long long>> active; // {y, x}
+    long long best_dist2 = 8e18; // Infinito seguro
+    int left = 0;
+    
+    for (int i = 0; i < n; i++) {
+        long long d = ceil(sqrt(best_dist2));
+        while (left < i && pts[i].x - pts[left].x >= d) {
+            active.erase({pts[left].y, pts[left].x});
+            left++;
+        }
+        auto it1 = active.lower_bound({pts[i].y - d, -8e18});
+        auto it2 = active.upper_bound({pts[i].y + d, 8e18});
+        for (auto it = it1; it != it2; ++it) {
+            long long dy = pts[i].y - it->first;
+            long long dx = pts[i].x - it->second;
+            best_dist2 = min(best_dist2, dx * dx + dy * dy);
+        }
+        active.insert({pts[i].y, pts[i].x});
+    }
+    return best_dist2;
+}
+
+// ====================================================================
+// 6. ESTRUCTURAS SWEEP LINE (1D y 2D)
+// ====================================================================
+struct Event1D {
+    long long x;
+    int type; // +1 Inicio, -1 Fin
+    int id;
+    
+    bool operator<(const Event1D& o) const {
+        if (x != o.x) return x < o.x;
+        return type > o.type; // Ajustar (type > o.type) = procesa Entradas primero
     }
 };
 
-struct PointD {
-    ld x, y;
-    PointD() : x(0), y(0) {}
-    PointD(ld _x, ld _y) : x(_x), y(_y) {}
-    PointD operator + (const PointD& other) const { return PointD(x + other.x, y + other.y); }
-    PointD operator - (const PointD& other) const { return PointD(x - other.x, y - other.y); }
-    PointD operator * (ld k) const { return PointD(x * k, y * k); }
+struct Event2D {
+    long long x;
+    int type; // +1 Borde Izquierdo, -1 Borde Derecho
+    long long y1, y2;
+    
+    bool operator<(const Event2D& o) const {
+        if (x != o.x) return x < o.x;
+        return type > o.type; 
+    }
 };
+// Nota para Union de Rectángulos / Area: requiere un Segment Tree
+// que maneje Range Sum (Active Length) con la compresión de coordenadas Y.
 
-ld dot(PointD a, PointD b) { return a.x * b.x + a.y * b.y; }
-ld cross(PointD a, PointD b) { return a.x * b.y - a.y * b.x; }
-ld norm2(PointD a) { return dot(a, a); }
-ld dist2(PointD a, PointD b) { return norm2(a - b); }
-
-struct Line {
-    ld a, b, c;
-    Line() : a(0), b(0), c(0) {}
-    Line(PointD p, PointD q) {w
-        a = p.y - q.y;
-        b = q.x - p.x;
-        c = -(a * p.x + b * p.y);
-    }
-    ld eval(PointD p) const { return a * p.x + b * p.y + c; }
-};
-
-ld orient(PointD a, PointD b, PointD c) {
-    return cross(b - a, c - a);
-}
-
-bool on_segment(PointD a, PointD b, PointD p) {
-    if (sgn(orient(a, b, p)) != 0) return false;
-    return min(a.x, b.x) - EPS <= p.x && p.x <= max(a.x, b.x) + EPS &&
-           min(a.y, b.y) - EPS <= p.y && p.y <= max(a.y, b.y) + EPS;
-}
-
-PointD reflect_point_vertical(PointD p, ld x0) {
-    return PointD(2.0L * x0 - p.x, p.y);
-}
-
-bool same_x_sum_for_pairs(vector<Point>& a, vector<Point>& b) {
-    if (a.size() != b.size()) return false;
-    sort(a.begin(), a.end());
-    sort(b.begin(), b.end());
-    for (int i = 0; i < (int)a.size(); ++i) {
-        if (a[i].y != b[i].y) return false;
-    }
-    ll sum = a[0].x + b[0].x;
-    for (int i = 1; i < (int)a.size(); ++i) {
-        if (a[i].x + b[i].x != sum) return false;
-    }
-    return true;
-}
-
-/*leer n
-
-leer los n puntos de Mia
-leer los n puntos de Mark
-
-crear un mapa MiaPorY   // y -> lista de x
-crear un mapa MarkPorY  // y -> lista de x
-
-para cada punto (x, y) de Mia:
-    agregar x a MiaPorY[y]
-
-para cada punto (x, y) de Mark:
-    agregar x a MarkPorY[y]
-
-si las llaves de MiaPorY y MarkPorY no son iguales:
-    imprimir "impossible"
-    terminar
-
-mirrorSum = "no definido"
-
-para cada y en las llaves:
-    ordenar MiaPorY[y] de menor a mayor
-    ordenar MarkPorY[y] de menor a mayor
-
-    si tamaño de MiaPorY[y] != tamaño de MarkPorY[y]:
-        imprimir "impossible"
-        terminar
-
-    m = tamaño de MiaPorY[y]
-
-    para i desde 0 hasta m-1:
-        currentSum = MiaPorY[y][i] + MarkPorY[y][m-1-i]
-
-        si mirrorSum no está definido:
-            mirrorSum = currentSum
-        si currentSum != mirrorSum:
-            imprimir "impossible"
-            terminar
-
-imprimir "possible"*/
-
+// ====================================================================
 int main() {
     fastio
-    int n; cin >> n;
-    vector<Point> Mia(n), Mark(n);
-    map<int, vector<int>> MiaPorY, MarkPorY;
-
-    for (int i = 0; i < n; i++) {
-        cin >> Mia[i].x >> Mia[i].y;
-        MiaPorY[Mia[i].y].push_back(Mia[i].x);
-    }
-
-    for (int i = 0; i < n; i++) {
-        cin >> Mark[i].x >> Mark[i].y;
-        MarkPorY[Mark[i].y].push_back(Mark[i].x);
-    }
-
-    if (MiaPorY.keys() != MarkPorY.keys()) {
-        cout << "impossible" << endl;
-    }
-
-     bool mirrorSum = 0;
-
-    for (auto& [y, MiaX]: MiaPorY) {
-        sort(MiaX.begin(), MiaX.end());
-        sort(MarkPorY[y].begin(), MarkPorY[y].end());
-
-        if (MiaX.size() != MarkPorY[y].size()) {
-            cout << "impossible" << endl;
-        }
-
-        for (int i = 0; i < MiaX.size(); i++) {
-            int currentSum = MiaX[i] + MarkPorY[y][MarkPorY[y].size() - 1 - i];
-            if (!mirrorSum) {
-                mirrorSum = currentSum;
-            } else if (currentSum != mirrorSum) {
-                cout << "impossible" << endl;
-            }
-        }
-    }
-
-
-
+    
+    // PRUEBAS BÁSICAS CSES: 
+    // int n; cin >> n; ...
+    // cout << polygon_area_2(pts) << "\n";
+    // cout << closest_pair(pts) << "\n";
+    
     return 0;
 }
