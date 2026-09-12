@@ -107,16 +107,42 @@
             "id": "6f81e8dc7548f061",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "excalidraw",
               "state": {
-                "file": "Pasted Image 20260425192159_443.png"
+                "file": "CockForces/CockForces/Contests/Nationals.md"
               },
-              "icon": "lucide-image",
-              "title": "Pasted Image 20260425192159_443"
+              "icon": "excalidraw-icon",
+              "title": "Nationals"
+            }
+          },
+          {
+            "id": "e70f436c4cc3b747",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "2026-08-21.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-08-21"
+            }
+          },
+          {
+            "id": "50b93bce5d04d01b",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "CockForces/CockForces/Contests/Drawing 2026-08-21 23.44.07.excalidraw.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "Drawing 2026-08-21 23.44.07.excalidraw"
             }
           }
         ],
-        "currentTab": 8
+        "currentTab": 10
       }
     ],
     "direction": "vertical"
@@ -293,12 +319,18 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "6f81e8dc7548f061",
+  "active": "50b93bce5d04d01b",
   "lastOpenFiles": [
+    "CockForces/CockForces/Contests/Drawing 2026-08-21 23.44.07.excalidraw.md",
+    "CockForces/CockForces/Sorting.md",
+    "Excalidraw/Drawing 2026-08-21 23.50.26.excalidraw.md",
+    "2026-08-21.md",
+    "Excalidraw",
+    "CockForces/CockForces/Contests/Nationals.md",
+    "Pasted Image 20260425192159_443.png",
     "goog.jpeg",
     "CockForces/CockForces/Beauty permutation.md",
     "CockForces/CockForces/Cses/E.md",
-    "CockForces/CockForces/Sorting.md",
     "CockForces/CockForces/S2.md",
     "CockForces/CockForces/Cses/Drawing 2026-05-11 08.55.41.excalidraw.md",
     "CockForces/CockForces/Cses/Range Queries.md",
@@ -316,7 +348,6 @@
     "Pasted Image 20260217203127_841.png",
     "Pasted Image 20260504233623_139.png",
     "Pasted Image 20260425195141_640.png",
-    "Pasted Image 20260425192159_443.png",
     "Pasted Image 20260514205845_688.png",
     "Pasted Image 20260621011808_333.png",
     "Pasted Image 20260621004642_759.png",
@@ -325,11 +356,8 @@
     "CockForces/CockForces/Usaco/Silver.md",
     "CockForces/CockForces/Cses/Trees.md",
     "CockForces/CockForces/Daily/DailyD.md",
-    "CockForces/CockForces/Daily/Retos-Día.md",
-    "CockForces/CockForces/Drawing 2026-03-03 20.38.41.excalidraw.md",
     "CockForces/Pasted Image 20251126231059_952.png",
     "CockForces/Pasted Image 20251006150418_947.png",
-    "CockForces/Operaciones.md",
     "Untitled.canvas",
     "CockForces/Untitled 4.base",
     "CockForces/University/S5/Electiva",
@@ -339,7 +367,6 @@
     "CockForces/Untitled.base",
     "CockForces/University/S5/Arquitectura",
     "CockForces/University/S5",
-    "CockForces/University/S4",
-    "CockForces/Untitled 9.base"
+    "CockForces/University/S4"
   ]
 }

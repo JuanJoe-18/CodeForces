@@ -26,5 +26,8 @@ foreach(CPP_FILE ${CPP_FILES})
             CSES/Trees/Party_Temp.cpp
             daily_4/Reptide.cpp
             daily_4/Evanescent.cpp
+            Contests/Neerc/2526/B.cpp
+            Contests/Neerc/2526/C.cpp
+            Contests/rpc8/Itinerary.cpp
     )
 endforeach()

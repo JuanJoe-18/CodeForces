@@ -14,113 +14,164 @@
 
 #include <bits/stdc++.h>
 using namespace std;
+#define fastio ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
 typedef long long ll;
-const ll LINF = 1e18;
+typedef long double ld;
 
-// ====================================================================
-// SWEEP LINE 1D (Intervalos, Horarios, Coberturas)
-// ====================================================================
-struct Event1D {
-    ll x;       // Coordenada (tiempo, posición, etc.)
-    int type;   // +1 para Inicio, -1 para Fin
-    int id;     // Identificador del intervalo (opcional)
+const ld EPS = 1e-9;
 
-    // Ordenamiento clave para Sweep Line
-    bool operator<(const Event1D& other) const {
-        if (x != other.x) 
-            return x < other.x; // Barrido de izquierda a derecha (o de menor a mayor tiempo)
-        
-        // ¡IMPORTANTE! Manejo de empates en la misma coordenada:
-        // Si tocarse (ej: [1, 5] y [5, 10]) NO cuenta como intersección:
-        // Primero procesa las salidas (-1) y luego las entradas (1)
-        // return type < other.type; 
-        
-        // Si tocarse SÍ cuenta como intersección (max concurrencia simultánea):
-        // Primero procesa las entradas (1) y luego las salidas (-1)
-        return type > other.type;
+int sgn(ld x) {
+    if (fabsl(x) < EPS) return 0;
+    return x < 0 ? -1 : 1;
+}
+
+struct Point {
+    ll x, y;
+    bool operator<(const Point& other) const {
+        if (y != other.y) return y < other.y;
+        return x < other.x;
+    }
+    bool operator==(const Point& other) const {
+        return x == other.x && y == other.y;
     }
 };
 
-/**
- * Ejemplo clásico 1D: Máximo número de clientes simultáneos.
- * Dados N intervalos [L, R], encontrar el punto con máxima intersección.
- */
-int max_concurrent_intervals(vector<pair<ll, ll>>& intervals) {
-    vector<Event1D> events;
-    for (int i = 0; i < intervals.size(); i++) {
-        events.push_back({intervals[i].first, 1, i});
-        events.push_back({intervals[i].second, -1, i});
-    }
-    
-    sort(events.begin(), events.end());
-    
-    int current_active = 0, max_active = 0;
-    for (auto& ev : events) {
-        current_active += ev.type;
-        max_active = max(max_active, current_active);
-    }
-    return max_active;
-}
-
-
-// ====================================================================
-// SWEEP LINE 2D (Geometría, Unión de Rectángulos)
-// ====================================================================
-struct Event2D {
-    ll x;          // Coordenada donde ocurre el evento (eje de barrido X)
-    int type;      // +1 para Borde Izquierdo (entrada), -1 para Borde Derecho (salida)
-    ll y_bottom;   // Límite inferior del segmento en el eje Y
-    ll y_top;      // Límite superior del segmento en el eje Y
-
-    bool operator<(const Event2D& other) const {
-        if (x != other.x) 
-            return x < other.x;
-        return type > other.type; // Si chocan, primero meter bordes nuevos
-    }
+struct PointD {
+    ld x, y;
+    PointD() : x(0), y(0) {}
+    PointD(ld _x, ld _y) : x(_x), y(_y) {}
+    PointD operator + (const PointD& other) const { return PointD(x + other.x, y + other.y); }
+    PointD operator - (const PointD& other) const { return PointD(x - other.x, y - other.y); }
+    PointD operator * (ld k) const { return PointD(x * k, y * k); }
 };
 
-/**
- * ESQUELETO 2D: Área de Unión de Rectángulos
- * Requiere un Segment Tree dinámico o con compresión de coordenadas en el eje Y.
- */
-ll rectangle_union_area(vector<tuple<ll, ll, ll, ll>>& rects) {
-    // rects = {x1, y1, x2, y2} donde (x1, y1) es inf-izq y (x2, y2) es sup-der
-    vector<Event2D> events;
-    for (auto [x1, y1, x2, y2] : rects) {
-        events.push_back({x1, 1, y1, y2});
-        events.push_back({x2, -1, y1, y2});
-    }
-    
-    sort(events.begin(), events.end());
-    
-    ll total_area = 0;
-    ll last_x = events[0].x;
-    
-    // Aquí inicializarías tu Segment Tree (st) que maneje el eje Y
-    // st.build(rango_y);
+ld dot(PointD a, PointD b) { return a.x * b.x + a.y * b.y; }
+ld cross(PointD a, PointD b) { return a.x * b.y - a.y * b.x; }
+ld norm2(PointD a) { return dot(a, a); }
+ld dist2(PointD a, PointD b) { return norm2(a - b); }
 
-    for (auto& ev : events) {
-        ll current_x = ev.x;
-        ll dx = current_x - last_x;
-        
-        // Sumar al área total el ancho (dx) multiplicado por la altura activa actual
-        // total_area += dx * st.get_active_length();
-        
-        // Actualizar el Segment Tree: 
-        // Si es borde izquierdo (+1), sumamos 1 a la cobertura en el rango [y_bottom, y_top]
-        // Si es borde derecho (-1), restamos 1 a la cobertura en el rango [y_bottom, y_top]
-        // st.update(ev.y_bottom, ev.y_top, ev.type);
-        
-        last_x = current_x;
+struct Line {
+    ld a, b, c;
+    Line() : a(0), b(0), c(0) {}
+    Line(PointD p, PointD q) {w
+        a = p.y - q.y;
+        b = q.x - p.x;
+        c = -(a * p.x + b * p.y);
     }
-    
-    return total_area;
+    ld eval(PointD p) const { return a * p.x + b * p.y + c; }
+};
+
+ld orient(PointD a, PointD b, PointD c) {
+    return cross(b - a, c - a);
 }
+
+bool on_segment(PointD a, PointD b, PointD p) {
+    if (sgn(orient(a, b, p)) != 0) return false;
+    return min(a.x, b.x) - EPS <= p.x && p.x <= max(a.x, b.x) + EPS &&
+           min(a.y, b.y) - EPS <= p.y && p.y <= max(a.y, b.y) + EPS;
+}
+
+PointD reflect_point_vertical(PointD p, ld x0) {
+    return PointD(2.0L * x0 - p.x, p.y);
+}
+
+bool same_x_sum_for_pairs(vector<Point>& a, vector<Point>& b) {
+    if (a.size() != b.size()) return false;
+    sort(a.begin(), a.end());
+    sort(b.begin(), b.end());
+    for (int i = 0; i < (int)a.size(); ++i) {
+        if (a[i].y != b[i].y) return false;
+    }
+    ll sum = a[0].x + b[0].x;
+    for (int i = 1; i < (int)a.size(); ++i) {
+        if (a[i].x + b[i].x != sum) return false;
+    }
+    return true;
+}
+
+/*leer n
+
+leer los n puntos de Mia
+leer los n puntos de Mark
+
+crear un mapa MiaPorY   // y -> lista de x
+crear un mapa MarkPorY  // y -> lista de x
+
+para cada punto (x, y) de Mia:
+    agregar x a MiaPorY[y]
+
+para cada punto (x, y) de Mark:
+    agregar x a MarkPorY[y]
+
+si las llaves de MiaPorY y MarkPorY no son iguales:
+    imprimir "impossible"
+    terminar
+
+mirrorSum = "no definido"
+
+para cada y en las llaves:
+    ordenar MiaPorY[y] de menor a mayor
+    ordenar MarkPorY[y] de menor a mayor
+
+    si tamaño de MiaPorY[y] != tamaño de MarkPorY[y]:
+        imprimir "impossible"
+        terminar
+
+    m = tamaño de MiaPorY[y]
+
+    para i desde 0 hasta m-1:
+        currentSum = MiaPorY[y][i] + MarkPorY[y][m-1-i]
+
+        si mirrorSum no está definido:
+            mirrorSum = currentSum
+        si currentSum != mirrorSum:
+            imprimir "impossible"
+            terminar
+
+imprimir "possible"*/
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    
+    fastio
+    int n; cin >> n;
+    vector<Point> Mia(n), Mark(n);
+    map<int, vector<int>> MiaPorY, MarkPorY;
+
+    for (int i = 0; i < n; i++) {
+        cin >> Mia[i].x >> Mia[i].y;
+        MiaPorY[Mia[i].y].push_back(Mia[i].x);
+    }
+
+    for (int i = 0; i < n; i++) {
+        cin >> Mark[i].x >> Mark[i].y;
+        MarkPorY[Mark[i].y].push_back(Mark[i].x);
+    }
+
+    if (MiaPorY.keys() != MarkPorY.keys()) {
+        cout << "impossible" << endl;
+    }
+
+     bool mirrorSum = 0;
+
+    for (auto& [y, MiaX]: MiaPorY) {
+        sort(MiaX.begin(), MiaX.end());
+        sort(MarkPorY[y].begin(), MarkPorY[y].end());
+
+        if (MiaX.size() != MarkPorY[y].size()) {
+            cout << "impossible" << endl;
+        }
+
+        for (int i = 0; i < MiaX.size(); i++) {
+            int currentSum = MiaX[i] + MarkPorY[y][MarkPorY[y].size() - 1 - i];
+            if (!mirrorSum) {
+                mirrorSum = currentSum;
+            } else if (currentSum != mirrorSum) {
+                cout << "impossible" << endl;
+            }
+        }
+    }
+
+
+
     return 0;
 }

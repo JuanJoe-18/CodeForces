@@ -1,3 +1,5 @@
 {
-  "cssTheme": "Aurora Glass"
+  "cssTheme": "",
+  "accentColor": "#a3f014",
+  "theme": "obsidian"
 }
