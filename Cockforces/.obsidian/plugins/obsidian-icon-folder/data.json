@@ -6,11 +6,11 @@
     "emojiStyle": "native",
     "iconColor": null,
     "recentlyUsedIcons": [
-      "LiPencil",
-      "LiMove",
-      "LiSortAsc",
-      "LiCalculator",
-      "LiGitGraph"
+      "LiGitGraph",
+      "LiUniversity",
+      "LiDice4",
+      "LiDice5",
+      "LiDice6"
     ],
     "recentlyUsedIconsSize": 5,
     "rules": [],
@@ -38,5 +38,10 @@
   "CockForces/CockForces/Math Category.md": "LiCalculator",
   "CockForces/CockForces/Sorting.md": "LiSortAsc",
   "CockForces/CockForces/DP.md": "LiMove",
-  "CockForces/CockForces/Ladder 17 Progress/Dibujos.md": "LiPencil"
+  "CockForces/CockForces/Ladder 17 Progress/Dibujos.md": "LiPencil",
+  "CockForces/University/S6": "LiDice6",
+  "CockForces/University/S5": "LiDice5",
+  "CockForces/University/S4": "LiDice4",
+  "CockForces/University": "LiUniversity",
+  "CockForces/University/S6/Discretas III.md": "LiGitGraph"
 }

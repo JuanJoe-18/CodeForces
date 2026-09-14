@@ -216,15 +216,65 @@ struct Event2D {
 };
 // Nota para Union de Rectángulos / Area: requiere un Segment Tree
 // que maneje Range Sum (Active Length) con la compresión de coordenadas Y.
-
 // ====================================================================
+// ====================================================================
+// 7. GEOMETRÍA CIRCULAR (Área de Intersección Círculo-Polígono)
+// ====================================================================
+// Área dirigida de la intersección entre el círculo x^2+y^2=r^2 y el triángulo (0,0)-a-b
+double circle_triangle_area(Point<double> a, Point<double> b, double r) {
+    auto cross = [](Point<double> p1, Point<double> p2) { return p1.x * p2.y - p1.y * p2.x; };
+    auto dot = [](Point<double> p1, Point<double> p2) { return p1.x * p2.x + p1.y * p2.y; };
+    auto norm2 = [&](Point<double> p) { return dot(p, p); };
+    double d = cross(a, b);
+    if (abs(d) < 1e-9) return 0.0;
+    Point<double> dV(b.x - a.x, b.y - a.y);
+    double A = norm2(dV);
+    double B = 2.0 * dot(a, dV);
+    double C = norm2(a) - r * r;
+    double delta = B * B - 4.0 * A * C;
+    vector<double> t;
+    if (delta >= 0) {
+        double sq = sqrt(delta);
+        double t1 = (-B - sq) / (2.0 * A);
+        double t2 = (-B + sq) / (2.0 * A);
+        if (t1 > 1e-9 && t1 < 1.0 - 1e-9) t.push_back(t1);
+        if (t2 > 1e-9 && t2 < 1.0 - 1e-9) t.push_back(t2);
+    }
+    if (t.empty()) {
+        if (norm2(a) <= r * r + 1e-9 && norm2(b) <= r * r + 1e-9) {
+            return d / 2.0;
+        }
+        double angle = atan2(cross(a, b), dot(a, b));
+        return r * r * angle / 2.0;
+    }
+
+    t.push_back(0.0);
+    t.push_back(1.0);
+    sort(t.begin(), t.end());
+
+    double ans = 0;
+    for (size_t i = 0; i < t.size() - 1; i++) {
+        Point<double> p1(a.x + dV.x * t[i], a.y + dV.y * t[i]);
+        Point<double> p2(a.x + dV.x * t[i+1], a.y + dV.y * t[i+1]);
+        ans += circle_triangle_area(p1, p2, r);
+    }
+    return ans;
+}
+
+double circle_polygon_area(const vector<Point<double>>& poly, Point<double> c, double r) {
+    double ans = 0;
+    int n = poly.size();
+    for (int i = 0; i < n; i++) {
+        Point<double> a = poly[i] - c;
+        Point<double> b = poly[(i + 1) % n] - c;
+        ans += circle_triangle_area(a, b, r);
+    }
+    return abs(ans);
+}
+
 int main() {
     fastio
     
-    // PRUEBAS BÁSICAS CSES: 
-    // int n; cin >> n; ...
-    // cout << polygon_area_2(pts) << "\n";
-    // cout << closest_pair(pts) << "\n";
     
     return 0;
 }
