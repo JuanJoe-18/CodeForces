@@ -1,28 +1,15 @@
-/**
- * @file GeometryTemplateICPC.cpp
- * @brief Plantilla Integral de Geometría Computacional (ICPC / CSES)
- * @details Soporta operaciones con enteros (evita problemas de precisión),
- * Intersección de Segmentos, Área de Polígonos, Point in Polygon,
- * Puntos del Retículo (Pick's Theorem), Convex Hull, Distancia Mínima (Closest
- * Pair), y estructuras para Sweep Line 1D y 2D.
- */
-//   ____ ___  ____  _____   ____  _   _
-//  / ___/ _ \|  _ \| ____| / ___|| | | |
-// | |  | | | | | | |  _|   \___ \| | | |
-// | |__| |_| | |_| | |___   ___) | |_| |
-//  \____\___/|____/|_____| |____/ \___/
-//
-//                  GEOMETRY TEMPLATE (CSES Supported)
+
 
 #include <bits/stdc++.h>
+#include <vector>
 using namespace std;
 #define fastio                                                                 \
   ios::sync_with_stdio(0);                                                     \
   cin.tie(0);                                                                  \
   cout.tie(0);
-
+#define endl "\n"
 // ====================================================================
-// 1. ESTRUCTURAS BÁSICAS (Point)
+// 1. ESTRUCTURAS B├üSICAS (Point)
 // ====================================================================
 template <typename T> struct Point {
   T x, y;
@@ -36,7 +23,7 @@ template <typename T> struct Point {
 
   bool operator==(const Point &p) const { return x == p.x && y == p.y; }
   bool operator!=(const Point &p) const { return !(*this == p); }
-  // Ordenamiento lexicográfico (Sweep Line, Convex Hull)
+  // Ordenamiento lexicogr├ífico (Sweep Line, Convex Hull)
   bool operator<(const Point &p) const {
     return x < p.x || (x == p.x && y < p.y);
   }
@@ -63,7 +50,7 @@ template <typename T> long double norm(Point<T> p) { return sqrtl(norm2(p)); }
 template <typename T> int sgn(T val) { return (T(0) < val) - (val < T(0)); }
 
 // ====================================================================
-// 2. INTERSECCIÓN DE SEGMENTOS Y PUNTO-SEGMENTO
+// 2. INTERSECCI├ôN DE SEGMENTOS Y PUNTO-SEGMENTO
 // ====================================================================
 template <typename T> int orient(Point<T> a, Point<T> b, Point<T> c) {
   return sgn(cross(a, b, c));
@@ -80,7 +67,7 @@ bool segment_intersect(Point<T> a, Point<T> b, Point<T> c, Point<T> d) {
   int o1 = orient(a, b, c), o2 = orient(a, b, d);
   int o3 = orient(c, d, a), o4 = orient(c, d, b);
 
-  // Intersección propia
+  // Intersecci├│n propia
   if (o1 != o2 && o3 != o4)
     return true;
 
@@ -98,9 +85,9 @@ bool segment_intersect(Point<T> a, Point<T> b, Point<T> c, Point<T> d) {
 }
 
 // ====================================================================
-// 3. POLÍGONOS (Área, Puntos en el Retículo, Punto dentro de Polígono)
+// 3. POL├ìGONOS (├ürea, Puntos en el Ret├¡culo, Punto dentro de Pol├¡gono)
 // ====================================================================
-// Retorna el DOBLE del área (Shoelace formula). Útil para evitar float.
+// Retorna el DOBLE del ├írea (Shoelace formula). ├Ütil para evitar float.
 template <typename T> T polygon_area_2(const vector<Point<T>> &p) {
   T area = 0;
   int n = p.size();
@@ -110,9 +97,9 @@ template <typename T> T polygon_area_2(const vector<Point<T>> &p) {
   return abs(area);
 }
 
-// Pick's Theorem: Área = Interiores + Borde/2 - 1
-// -> 2*Área = 2*Interiores + Borde - 2
-// Esta función calcula los puntos del límite (borde)
+// Pick's Theorem: ├ürea = Interiores + Borde/2 - 1
+// -> 2*├ürea = 2*Interiores + Borde - 2
+// Esta funci├│n calcula los puntos del l├¡mite (borde)
 long long boundary_points(const vector<Point<long long>> &poly) {
   long long b = 0;
   int n = poly.size();
@@ -123,7 +110,7 @@ long long boundary_points(const vector<Point<long long>> &poly) {
   return b;
 }
 
-// Verifica si el punto p está dentro de un polígono.
+// Verifica si el punto p est├í dentro de un pol├¡gono.
 // Retorna: 0 = afuera, 1 = en el borde, 2 = adentro.
 template <typename T>
 int point_in_polygon(const vector<Point<T>> &poly, Point<T> p) {
@@ -172,9 +159,9 @@ template <typename T> vector<Point<T>> convex_hull(vector<Point<T>> pts) {
 }
 
 // ====================================================================
-// 5. DISTANCIA MÍNIMA (CLOSEST PAIR) - O(N log N)
+// 5. DISTANCIA M├ìNIMA (CLOSEST PAIR) - O(N log N)
 // ====================================================================
-// Retorna la distancia euclidiana AL CUADRADO entre los 2 puntos más cercanos.
+// Retorna la distancia euclidiana AL CUADRADO entre los 2 puntos m├ís cercanos.
 long long closest_pair(vector<Point<long long>> pts) {
   int n = pts.size();
   if (n < 2)
@@ -203,9 +190,6 @@ long long closest_pair(vector<Point<long long>> pts) {
   return best_dist2;
 }
 
-// ====================================================================
-// 6. ESTRUCTURAS SWEEP LINE (1D y 2D)
-// ====================================================================
 struct Event1D {
   long long x;
   int type; // +1 Inicio, -1 Fin
@@ -229,14 +213,7 @@ struct Event2D {
     return type > o.type;
   }
 };
-// Nota para Union de Rectángulos / Area: requiere un Segment Tree
-// que maneje Range Sum (Active Length) con la compresión de coordenadas Y.
-// ====================================================================
-// ====================================================================
-// 7. GEOMETRÍA CIRCULAR (Área de Intersección Círculo-Polígono)
-// ====================================================================
-// Área dirigida de la intersección entre el círculo x^2+y^2=r^2 y el triángulo
-// (0,0)-a-b
+
 double circle_triangle_area(Point<double> a, Point<double> b, double r) {
   auto cross = [](Point<double> p1, Point<double> p2) {
     return p1.x * p2.y - p1.y * p2.x;
@@ -297,7 +274,24 @@ double circle_polygon_area(const vector<Point<double>> &poly, Point<double> c,
 }
 
 int main() {
-  fastio
+  fastio int n;
+  double w, h, r;
+  cin >> n >> r >> w >> h;
+  vector<Point<double>> garden = {Point<double>(0.0, 0.0),
+                                  Point<double>(w, 0.0), Point<double>(w, h),
+                                  Point<double>(0.0, h)};
 
-      return 0;
+  double a_t = w * h;
+  double e_t = 0.0;
+
+  for (int i = 0; i < n; i++) {
+    double x, y, v;
+    cin >> x >> y >> v;
+    Point<double> centro(x, y);
+    double a_interseccion = circle_polygon_area(garden, centro, r);
+    double prob = a_interseccion / a_t;
+    e_t += prob * v;
+  }
+  cout << fixed << setprecision(15) << e_t << endl;
+  return 0;
 }

@@ -53,6 +53,21 @@ struct DSU {
         sz[a] += sz[b];
         return true;
     }
+
+    vector<vector<int>> get_components(int first = 0) {
+        vector<vector<int>> components;
+        vector<int> component_id(p.size(), -1);
+
+        for (int i = first; i < (int)p.size(); i++) {
+            int root = find(i);
+            if (component_id[root] == -1) {
+                component_id[root] = components.size();
+                components.push_back({});
+            }
+            components[component_id[root]].push_back(i);
+        }
+        return components;
+    }
 };
 
 template <typename T = ll>
