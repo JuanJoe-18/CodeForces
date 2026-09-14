@@ -11,12 +11,29 @@ int main (){
     if(a.size() <= 10){
         cout << a << endl;
     } else {
-      cout << a[0] <<a.size()-2 << a[a.size()-1]<< endl;
+      cout << a[0] << a.size()-2 << a[a.size()-1] << endl;
     }
     
     }
  return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 string eliminarEspacios(const string& str) {
     string temp = str;

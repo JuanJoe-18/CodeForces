@@ -207,7 +207,7 @@ vector<ll> dijkstra(int n,int src){
         for(auto edge:adj_w[u]){
             int v = edge.first;
             ll peso = edge.second;
-            if(dist[v]>d+peso){ 
+            if(dist[v]>d+peso){
                 dist[v]=d+peso;
                 pq.push({dist[v],v});
             }
@@ -225,19 +225,19 @@ vector<ll> dijkstra(int n,int src){
  */
 vector<int> dijkstra_path(int n, int s, int t){
     vector<ll> dist(n+1, LINF);
-    parent.assign(n+1, -1); 
+    parent.assign(n+1, -1);
     priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<>> pq;
-    dist[s] = 0; 
+    dist[s] = 0;
     pq.push({0, s});
-    
+
     while(!pq.empty()){
         auto [d, u] = pq.top(); pq.pop();
         if(d > dist[u]) continue;
-        if(u == t) break; 
+        if(u == t) break;
         for(auto edge : adj_w[u]){
             int v = edge.first;
             ll peso = edge.second;
-            if(dist[v] > d + peso){ 
+            if(dist[v] > d + peso){
                 dist[v] = d + peso;
                 parent[v] = u;
                 pq.push({dist[v], v});
@@ -245,7 +245,7 @@ vector<int> dijkstra_path(int n, int s, int t){
         }
     }
     vector<int> path;
-    if(dist[t] == LINF) return path; 
+    if(dist[t] == LINF) return path;
     for(int v = t; v != -1; v = parent[v]){
         path.push_back(v);
     }
@@ -256,7 +256,7 @@ vector<int> dijkstra_path(int n, int s, int t){
 /**
  * @brief Algoritmo de Floyd-Warshall (Caminos minimos entre TODOS los nodos).
  * @param n Cantidad de nodos.
- * @param dist Matriz de adyacencia de (n+1)x(n+1). 
+ * @param dist Matriz de adyacencia de (n+1)x(n+1).
  *             Debe inicializarse con LINF, y dist[i][i] = 0.
  *             Despues de ejecutarse, guardara las distancias minimas.
  */

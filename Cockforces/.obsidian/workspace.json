@@ -15,8 +15,8 @@
               "state": {
                 "file": "CockForces/CockForces/Daily/Drawing 2026-02-28 00.37.46.excalidraw.md"
               },
-              "icon": "excalidraw-icon",
-              "title": "Drawing 2026-02-28 00.37.46.excalidraw"
+              "icon": "lucide-ghost",
+              "title": "excalidraw"
             }
           },
           {
@@ -27,8 +27,8 @@
               "state": {
                 "file": "CockForces/CockForces/Graphs.md"
               },
-              "icon": "excalidraw-icon",
-              "title": "Graphs"
+              "icon": "lucide-ghost",
+              "title": "excalidraw"
             }
           },
           {
@@ -51,8 +51,8 @@
               "state": {
                 "file": "CockForces/CockForces/Cses/Trees.md"
               },
-              "icon": "excalidraw-icon",
-              "title": "Trees"
+              "icon": "lucide-ghost",
+              "title": "excalidraw"
             }
           },
           {
@@ -63,8 +63,8 @@
               "state": {
                 "file": "CockForces/University/S5/Arquitectura/Sistemas de Numeracion.md"
               },
-              "icon": "excalidraw-icon",
-              "title": "Sistemas de Numeracion"
+              "icon": "lucide-ghost",
+              "title": "excalidraw"
             }
           },
           {
@@ -75,8 +75,8 @@
               "state": {
                 "file": "CockForces/CockForces/Cses/Trees.md"
               },
-              "icon": "excalidraw-icon",
-              "title": "Trees"
+              "icon": "lucide-ghost",
+              "title": "excalidraw"
             }
           },
           {
@@ -87,8 +87,8 @@
               "state": {
                 "file": "CockForces/CockForces/Cses/Graphs.md"
               },
-              "icon": "excalidraw-icon",
-              "title": "Graphs"
+              "icon": "lucide-ghost",
+              "title": "excalidraw"
             }
           },
           {
@@ -99,8 +99,8 @@
               "state": {
                 "file": "CockForces/CockForces/Usaco/Silver.md"
               },
-              "icon": "excalidraw-icon",
-              "title": "Silver"
+              "icon": "lucide-ghost",
+              "title": "excalidraw"
             }
           },
           {
@@ -109,14 +109,54 @@
             "state": {
               "type": "excalidraw",
               "state": {
-                "file": "CockForces/CockForces/Cses/Drawing 2026-05-11 08.55.41.excalidraw.md"
+                "file": "CockForces/CockForces/Contests/Nationals.md"
+              },
+              "icon": "lucide-ghost",
+              "title": "excalidraw"
+            }
+          },
+          {
+            "id": "e70f436c4cc3b747",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "2026-08-21.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-08-21"
+            }
+          },
+          {
+            "id": "50b93bce5d04d01b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "2026-08-21.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-08-21"
+            }
+          },
+          {
+            "id": "284dc93761a0cd07",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "CockForces/University/S6/Discretas III.md"
               },
               "icon": "excalidraw-icon",
-              "title": "Drawing 2026-05-11 08.55.41.excalidraw"
+              "title": "Discretas III"
             }
           }
         ],
-        "currentTab": 8
+        "currentTab": 11
       }
     ],
     "direction": "vertical"
@@ -136,7 +176,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "Explorador de archivos"
@@ -266,8 +308,8 @@
             "state": {
               "type": "git-view",
               "state": {},
-              "icon": "git-pull-request",
-              "title": "Source Control"
+              "icon": "lucide-ghost",
+              "title": "git-view"
             }
           }
         ],
@@ -291,53 +333,54 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "6f81e8dc7548f061",
+  "active": "284dc93761a0cd07",
   "lastOpenFiles": [
-    "CockForces/CockForces/Cses/Math.md",
-    "CockForces/CockForces/Cses/Graphs.md",
-    "CockForces/CockForces/Cses/Drawing 2026-05-11 08.55.41.excalidraw.md",
-    "Pasted Image 20260621011808_333.png",
-    "Pasted Image 20260621004642_759.png",
-    "CockForces/CockForces/Usaco/Gold.md",
-    "CockForces/CockForces/Usaco/Bronze.md",
-    "CockForces/CockForces/Usaco/Silver.md",
-    "CockForces/CockForces/Cses/Trees.md",
-    "CockForces/CockForces/Daily/DailyD.md",
-    "CockForces/CockForces/Daily/Retos-Día.md",
-    "CockForces/University/S5/Arquitectura/Lecturas.md",
-    "Pasted Image 20260514205845_688.png",
-    "CockForces/University/S5/Arquitectura/Sistemas de Numeracion.md",
-    "CockForces/University/S5/Arquitectura/Drawing 2026-04-25 19.20.35.excalidraw.md",
-    "CockForces/CockForces/Drawing 2026-03-03 20.38.41.excalidraw.md",
-    "CockForces/Pasted Image 20251126231059_952.png",
-    "CockForces/Pasted Image 20251006150418_947.png",
+    "Pasted Image 20260913172557_984.png",
+    "Pasted Image 20260913170432_901.png",
     "CockForces/Operaciones.md",
-    "Pasted Image 20260511091611_877.png",
-    "goog.jpeg",
+    "CockForces/University/S6/Discretas III.md",
+    "2026-08-21.md",
+    "CockForces/University/S6",
+    "Pasted Image 20260621004642_759.png",
+    "Pasted Image 20260514205845_688.png",
     "Pasted Image 20260504233623_139.png",
-    "CockForces/CockForces/Cses/Range Queries.md",
     "Pasted Image 20260425195141_640.png",
     "Pasted Image 20260425192159_443.png",
-    "Untitled.canvas",
-    "CockForces/CockForces/Math Category.md",
-    "CockForces/CockForces/Graphs.md",
-    "CockForces/CockForces/Cses/Drawing 2026-04-02 22.36.15.excalidraw.md",
-    "CockForces/CockForces/Sin título.md",
+    "Pasted Image 20260219220943_571.png",
+    "Pasted Image 20260217203127_841.png",
+    "CockForces/CockForces/Contests/Drawing 2026-08-21 23.44.07.excalidraw.md",
+    "CockForces/CockForces/Sorting.md",
+    "Excalidraw/Drawing 2026-08-21 23.50.26.excalidraw.md",
+    "Excalidraw",
     "CockForces/CockForces/Contests/Nationals.md",
-    "CockForces/CockForces/DP.md",
+    "goog.jpeg",
+    "CockForces/CockForces/Beauty permutation.md",
+    "CockForces/CockForces/Cses/E.md",
+    "CockForces/CockForces/S2.md",
+    "CockForces/CockForces/Cses/Drawing 2026-05-11 08.55.41.excalidraw.md",
+    "CockForces/CockForces/Cses/Range Queries.md",
+    "CockForces/CockForces/Cses/Math.md",
+    "CockForces/CockForces/Cses/Graphs.md",
+    "CockForces/University/S4/SID/ER Diagramas.md",
+    "CockForces/University/S4/Ingesoft III/Dibujos.md",
+    "CockForces/University/S4/English/Ted Talk.md",
+    "CockForces/University/S4/Discrete Math/Drawing 2025-09-14 18.25.54.excalidraw.md",
+    "CockForces/University/S4/Aplicadas/Mas....md",
+    "CockForces/University/S4/Aplicadas/Dibujos.md",
+    "CockForces/University/S5/Arquitectura/Sistemas de Numeracion.md",
+    "CockForces/University/S5/Arquitectura/Lecturas.md",
+    "CockForces/University/S5/Arquitectura/Drawing 2026-04-25 19.20.35.excalidraw.md",
+    "Pasted Image 20260621011808_333.png",
+    "CockForces/CockForces/Usaco/Gold.md",
+    "CockForces/CockForces/Usaco/Bronze.md",
+    "Untitled.canvas",
     "CockForces/Untitled 4.base",
-    "CockForces/University/S5/Electiva/Semana 3.md",
     "CockForces/University/S5/Electiva",
     "CockForces/Untitled 3.base",
     "CockForces/Untitled 2.base",
     "CockForces/Untitled 1.base",
     "CockForces/Untitled.base",
-    "CockForces/2025-10-10.md",
-    "CockForces/CockForces/Halim/Estructuras de datos.md",
     "CockForces/University/S5/Arquitectura",
-    "CockForces/University/S5",
-    "CockForces/University/S4",
-    "CockForces/Untitled 9.base",
-    "CockForces/CockForces/Ladder 17 Progress/Dibujos.md"
+    "CockForces/University/S5"
   ]
 }

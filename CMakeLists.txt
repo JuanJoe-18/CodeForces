@@ -16,5 +16,18 @@ foreach(CPP_FILE ${CPP_FILES})
             CSES/DP/LCS.cpp
             CSES/DP/ReectangleCut.cpp
             CSES/DP/CoinSums.cpp
-            CSES/DP/RemovalGame.cpp)
+            CSES/DP/RemovalGame.cpp
+            daily_4/BalancedBaloon.cpp
+            CSES/Trees/Subordinates.cpp
+            CSES/Trees/TreeMatching.cpp
+            CSES/Trees/Diameter.cpp
+            CSES/Trees/Party.cpp
+            CSES/Trees/Party_Implicito.cpp
+            CSES/Trees/Party_Temp.cpp
+            daily_4/Reptide.cpp
+            daily_4/Evanescent.cpp
+            Contests/Neerc/2526/B.cpp
+            Contests/Neerc/2526/C.cpp
+            Contests/rpc8/Itinerary.cpp
+    )
 endforeach()
