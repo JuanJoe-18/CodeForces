@@ -29,5 +29,9 @@ foreach(CPP_FILE ${CPP_FILES})
             Contests/Neerc/2526/B.cpp
             Contests/Neerc/2526/C.cpp
             Contests/rpc8/Itinerary.cpp
+            CSES/Geometry/Lattice.cpp
+            CSES/Geometry/MinimEuclideanDistance.cpp
+            CSES/Geometry/CH.cpp
+            CSES/Geometry/CH.h
     )
 endforeach()
