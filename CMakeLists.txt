@@ -33,5 +33,6 @@ foreach(CPP_FILE ${CPP_FILES})
             CSES/Geometry/MinimEuclideanDistance.cpp
             CSES/Geometry/CH.cpp
             CSES/Geometry/CH.h
+            Contests/Moscow24/M.cpp
     )
 endforeach()

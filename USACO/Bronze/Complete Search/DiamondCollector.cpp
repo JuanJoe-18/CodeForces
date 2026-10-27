@@ -13,7 +13,7 @@ int main() {
         cin >> a[i];
     }
     sort(a.begin(),a.end());
- 
+
 
     int l=0 , r= 0;
     int ans = 0;
@@ -25,13 +25,6 @@ int main() {
         ans = max( ans, (r - l ));
         l++;
     }
-
     cout << ans << endl;
-    
-
-
-
-
-
     return 0;
 }
